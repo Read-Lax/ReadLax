@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "503202328160",
+    "project_id": "readlex-app-5d379",
+    "storage_bucket": "readlex-app-5d379.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:503202328160:android:5d04878986eadaa5aedd05",
+        "android_client_info": {
+          "package_name": "com.ramsy.readlax"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "503202328160-rv28sm94u1s7e4a2b29gsq785gosp5hl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ramsy.readlax",
+            "certificate_hash": "193d682562e93e304f6001feb99aaff02e0a17c6"
+          }
+        },
+        {
+          "client_id": "503202328160-mr259b579do07l05jum4qj8374lvpqgc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDb6D7Ro1p3ph-LHFXfHJZ4T6HHziBp994"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "503202328160-mr259b579do07l05jum4qj8374lvpqgc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
