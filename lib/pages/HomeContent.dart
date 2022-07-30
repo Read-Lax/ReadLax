@@ -152,6 +152,7 @@ class _HomePageContentState extends State<HomePageContent> {
       "المغرب",
       "العشاء"
     ];
+    // upcomming prayer time
     if (prayerTime.currentPrayer().name == "fajr") {
       currentPrayerName =
           // ignore: prefer_interpolation_to_compose_strings
@@ -178,11 +179,12 @@ class _HomePageContentState extends State<HomePageContent> {
           "${prayerTime.currentPrayer().name}/" + prayersNamesInArabic[4];
     }
     if (prayerTime.currentPrayer().name == "isha") {
-      currentPrayerName =
-          // ignore: prefer_interpolation_to_compose_strings
-          "${prayerTime.currentPrayer().name}/" + prayersNamesInArabic[5];
+      currentPrayerName = "isha/" + prayersNamesInArabic[5];
     }
-    // jhhjh
+    if (prayerTime.nextPrayer().name == "fajr") {
+      currentPrayerName = "isha/" + prayersNamesInArabic[5];
+    }
+    // current prayer time
     if (prayerTime.nextPrayer().name == "fajr") {
       upComingPrayer =
           // ignore: prefer_interpolation_to_compose_strings
@@ -212,6 +214,9 @@ class _HomePageContentState extends State<HomePageContent> {
       upComingPrayer =
           // ignore: prefer_interpolation_to_compose_strings
           "${prayerTime.nextPrayer().name}/" + prayersNamesInArabic[5];
+    }
+    if (prayerTime.currentPrayer().name == "isha") {
+      upComingPrayer = "fajr/ " + prayersNamesInArabic[0];
     }
     return Column(
       children: [
