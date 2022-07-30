@@ -9,7 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:readlex/main.dart';
 import 'dart:io';
 import 'package:readlex/fireStoreHandeler/handeler.dart';
-import 'package:readlex/shared/loadingScreen.dart';
+import 'package:readlex/shared/mostUsedFunctions.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -32,21 +32,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
   TextEditingController userEnterdPassword = TextEditingController();
   TextEditingController userDescription = TextEditingController();
   var oldUserDesc;
-  // TextEditingController newUserNmae = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    // userImage = currentUser!.photoURL ??
-    //     "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F13%2F2015%2F04%2F05%2Ffeatured.jpg&q=60";
-    // userName = currentUser!.displayName;
-    // userGmail = currentUser!.email;
-    // userPhoneNumber = currentUser!.phoneNumber ?? "";
-    // // assigning new values to the TextFeilds controllers
-    // newUserName.text = userName!;
-    // newUserEmail.text = userGmail!;
-    // newUserPhoneNumber.text = userPhoneNumber!;
-  }
 
   final Stream<QuerySnapshot> firestoreUserData =
       FirebaseFirestore.instance.collection("users").snapshots();
@@ -80,7 +65,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               elevation: 0,
               backgroundColor: Colors.transparent,
               title: const Text(
-                "Profile",
+                "Account Settings",
                 style: TextStyle(
                   fontFamily: "VareLaRound",
                   fontWeight: FontWeight.bold,
