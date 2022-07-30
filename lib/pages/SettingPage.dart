@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:readlex/pages/UserProfilePage.dart';
+import 'package:readlex/pages/aboutPage.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -9,18 +11,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool isDarkMode = Get.isDarkMode ? true : false;
-  late Color backButtonColor;
-  // setBackButtonColor() {
-  //   setState(() {
-  //     if (Get.isDarkMode) {
-  //       backButtonColor = Colors.white;
-  //     } else {
-  //       Colors.black;
-  //     }
-  //   });
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -32,14 +22,6 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        // leading: IconButton(
-        //     icon: Icon(
-        //       Icons.arrow_back_sharp,
-        //       color: backButtonColor,
-        //     ),
-        //     onPressed: () {
-        //       Navigator.pop(context);
-        //     }),
         title: const Text(
           "Settings",
           style: TextStyle(
@@ -53,54 +35,79 @@ class _SettingsPageState extends State<SettingsPage> {
       body: Column(
         children: [
           Card(
-            child: Column(
-              children: [
-                const Text(
-                  "Appearance",
-                  style: TextStyle(
-                    textBaseline: TextBaseline.ideographic,
-                    fontFamily: "VareLaRound",
-                    // fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    letterSpacing: 2,
-                  ),
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(17.0))),
+            child: ListTile(
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserProfilePage()));
+              },
+              leading: Icon(Icons.account_box_sharp),
+              title: Text(
+                "Account Settings",
+                style: TextStyle(
+                    fontFamily: "VareLaRound", fontWeight: FontWeight.bold),
+              ),
+              trailing: Icon(Icons.arrow_forward_ios_rounded),
+              subtitle: Text(
+                "Change username, email, profile photo...",
+                style: TextStyle(
+                  fontFamily: "VareLaRound",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 11,
                 ),
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Dark More",
-                      style: TextStyle(
-                          fontFamily: "VareLaRound",
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 2),
-                    ),
-                    const SizedBox(
-                      width: 150,
-                    ),
-                    Switch(
-                        value: isDarkMode,
-                        autofocus: true,
-                        focusColor: Colors.green[50],
-                        hoverColor: Colors.greenAccent,
-                        activeColor: Colors.greenAccent,
-                        inactiveThumbColor: Colors.black,
-                        inactiveTrackColor: Colors.green[100],
-                        onChanged: (bool darkMode) {
-                          setState(() {
-                            isDarkMode ? isDarkMode = false : isDarkMode = true;
-                          });
-                          isDarkMode
-                              ? Get.changeTheme(ThemeData.dark())
-                              : Get.changeTheme(ThemeData.light());
-                        })
-                  ],
-                ),
-              ],
+              ),
             ),
-          )
+          ),
+          Card(
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(17.0))),
+            child: ListTile(
+              leading: Icon(Icons.tips_and_updates_outlined),
+              title: Text(
+                "Appearance",
+                style: TextStyle(
+                    fontFamily: "VareLaRound", fontWeight: FontWeight.bold),
+              ),
+              trailing: Icon(Icons.arrow_forward_ios_rounded),
+              subtitle: Text(
+                "Dark Mode...",
+                style: TextStyle(
+                  fontFamily: "VareLaRound",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 11,
+                ),
+              ),
+            ),
+          ),
+          Card(
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(17.0))),
+            child: ListTile(
+              onTap: () {
+                Navigator.push((context),
+                    MaterialPageRoute(builder: (context) => AboutPage()));
+              },
+              leading: Icon(Icons.more_outlined),
+              title: Text(
+                "About",
+                style: TextStyle(
+                    fontFamily: "VareLaRound", fontWeight: FontWeight.bold),
+              ),
+              trailing: Icon(Icons.arrow_forward_ios_rounded),
+              subtitle: Text(
+                "the story behind this app",
+                style: TextStyle(
+                  fontFamily: "VareLaRound",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 11,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
