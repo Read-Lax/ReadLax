@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:readlex/login-signUp/loginPage.dart';
 import 'package:readlex/main.dart';
 import 'package:readlex/fireStoreHandeler/handeler.dart';
-import 'package:readlex/shared/loadingScreen.dart';
+import 'package:readlex/shared/mostUsedFunctions.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
