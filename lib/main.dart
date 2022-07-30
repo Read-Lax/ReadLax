@@ -13,9 +13,10 @@ import 'pages/ReadQuranPage.dart';
 import 'login-signUp/loginPage.dart';
 import 'package:readlex/pages/SettingPage.dart';
 import 'package:readlex/pages/UserProfilePage.dart';
-import 'package:readlex/shared/loadingScreen.dart';
+import 'package:readlex/shared/mostUsedFunctions.dart';
 // import 'package:readlex/pages/FavoritePostsPage.dart';
 import 'package:readlex/fireStoreHandeler/handeler.dart';
+import 'package:readlex/pages/ExplorePage.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -216,7 +217,8 @@ class HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const UserProfilePage()));
+                                builder: (context) =>
+                                    usersProfile(user!.uid, context)));
                       },
                     ),
                   ),
