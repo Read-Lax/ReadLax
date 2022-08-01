@@ -141,25 +141,29 @@ class _ExplorePageState extends State<ExplorePage> {
                     controller: userPost,
                     cursorColor: Colors.black,
                     keyboardType: TextInputType.multiline,
-                    maxLines: 10,
+                    maxLines: null,
                     decoration: const InputDecoration(
                       hoverColor: Colors.greenAccent,
                       fillColor: Colors.black,
-                      border: OutlineInputBorder(
+                      border: UnderlineInputBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(10.0))),
+                      // OutlineInputBorder(
+                      // borderRadius:
+                      // BorderRadius.all(Radius.circular(10.0))
                       label: Text(
-                        "post",
+                        "Share what you think...",
                         style: TextStyle(
-                            fontFamily: "VareLaRound",
-                            fontWeight: FontWeight.bold,
-                            color: Colors.teal
-                            // color: Colors.black45,
-                            ),
+                          fontFamily: "VareLaRound",
+                          fontWeight: FontWeight.bold,
+                          // color: Colors.teal,
+                          fontSize: 15,
+                          // color: Colors.black45,
+                        ),
                       ),
                     ),
                   ),
-                  returnImageOrText
+                  Container(child: returnImageOrText)
                 ],
               ),
             ),
@@ -236,6 +240,10 @@ class _ExplorePageState extends State<ExplorePage> {
                                         // maxWidth: 513,
                                         imageQuality: 100,
                                       );
+                                      setState(() {
+                                        returnImageOrText =
+                                            Image.file(File(imagePicker!.path));
+                                      });
                                       Reference ref = FirebaseStorage.instance
                                           .ref("posts")
                                           .child("images")
