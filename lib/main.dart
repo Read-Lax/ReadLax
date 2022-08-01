@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:readlex/pages/FavoritePostsPage.dart';
 
 // imporintg pages contents
 import 'pages/ExplorePage.dart';
@@ -108,7 +109,6 @@ class HomePageState extends State<HomePage> {
             }
             k += 1;
           }
-
           String? userName = data.docs[userIndex]["userName"];
           String? userProfileUrl = data.docs[userIndex]["photoUrl"];
           return Scaffold(
@@ -238,10 +238,11 @@ class HomePageState extends State<HomePage> {
                             // color: Colors.black
                           )),
                       onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const SavedPosts()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SavedPost().savedPosrPage(data.docs[userIndex]["savedPost"])));
                       },
                     ),
                   ),
