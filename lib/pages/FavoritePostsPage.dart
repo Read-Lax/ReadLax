@@ -24,7 +24,8 @@ class SavedPost {
           List savedPost = usersSnapshot;
           int k = 0;
           List? cardToDisplay = [];
-          // get the index of the posts nad saved in side a list 
+          bool isThereAnySavedPost;
+          // get the index of the posts nad saved in side a list
           // so we can make a ListVeiw.builder that has itemCount : cardToDiplay.length
           for (var i in savedPost) {
             if (i == dataOfPosts.docs[k].reference.id) {
@@ -32,7 +33,12 @@ class SavedPost {
             }
             k += 1;
           }
-          
+          if (cardToDisplay.isNotEmpty == true) {
+            isThereAnySavedPost = true;
+          } else {
+            isThereAnySavedPost = false;
+          }
+
           return Scaffold(
               appBar: AppBar(
                 title: Text(
@@ -46,12 +52,27 @@ class SavedPost {
                 elevation: 0,
                 backgroundColor: Colors.transparent,
               ),
-              body: ListView.builder(
-                itemCount: cardToDisplay.length,
-                itemBuilder: ((context, index) {
-                  return cardToDisplay[index];
-                }),
-              ));
+              body: isThereAnySavedPost
+                  ? ListView.builder(
+                      itemCount: cardToDisplay.length,
+                      itemBuilder: ((context, index) {
+                        return cardToDisplay[index];
+                      }),
+                    )
+                  : Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                            child: Text(
+                          "It seems like you don't have any saved posts yet",
+                          style: TextStyle(
+                            fontFamily: "VareLaRound",
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),),
+                      ],
+                    ),);
         });
   }
 }
