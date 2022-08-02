@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:numeral/numeral.dart';
+import 'package:readlex/pages/FavoritePostsPage.dart';
 import 'package:readmore/readmore.dart';
 
 class Loading extends StatelessWidget {
@@ -472,33 +474,33 @@ usersProfile(userUid, context) {
   );
 }
 
-addPostToFavorite(postId, bool isAlreadySaved) async {
+addPostToFavorite(postId, List postUsersThatSaveThePost) async {
   DocumentSnapshot ref =
       await FirebaseFirestore.instance.collection("users").doc(user!.uid).get();
   List savedPost = [];
-  // boolisAlreadySaved;
-  // bool isAlreadySaved;
+
   String? operationEndMsg;
   // List data;
   List isALreadySaveds;
   savedPost = ref.get("savedPost"); // new way to get data from firestore
-  if (savedPost.contains(postId)) {
-    isAlreadySaved = true;
+  if (postUsersThatSaveThePost.contains(user!.uid)) {
     savedPost.remove(postId);
+    postUsersThatSaveThePost.remove(user!.uid);
     operationEndMsg = "Post have been removed from saved post";
   } else {
-    isAlreadySaved = false;
+    // isAlreadySaved = false;
     savedPost.add(postId);
+    postUsersThatSaveThePost.add(user!.uid);
     operationEndMsg = "Post have been saved";
   }
-  // ref.get().then((value) {
-  //   savedPost = value["savedPost"];
-  //
-  // });
 
   FirebaseFirestore.instance.collection("users").doc(user!.uid).update({
     "savedPost": savedPost,
   });
+  FirebaseFirestore.instance
+      .collection("posts")
+      .doc(postId)
+      .update({"savedBy": postUsersThatSaveThePost});
   Fluttertoast.showToast(msg: operationEndMsg);
 }
 
@@ -508,14 +510,15 @@ showPost(snapshotData, context) {
   String? postUsersUid = snapshotData["userUID"];
   String? postContent = snapshotData["content"];
   String? postPhotoURL = snapshotData["photoUrl"];
-  List postUsersThatLikedIt = snapshotData['likedBy'];
+  String? postUID = snapshotData!.id;
+  List postUsersThatLikedIt = snapshotData["likedBy"];
+  List postUsersThatSavedIt = snapshotData["savedBy"];
   int? postLikes = snapshotData["likes"];
   List savedPost = [];
   int postHour = snapshotData['hour'];
   int postYear = snapshotData["year"];
   int postMonth = snapshotData["month"];
   int postDay = snapshotData["day"];
-
   String postTime = Jiffy({
     "year": postYear,
     "day": postDay,
@@ -524,7 +527,7 @@ showPost(snapshotData, context) {
   }).fromNow();
   Widget postHeartWidget;
   bool isPostAlreadySaved = false;
-
+  bool isDeleteButtonEnabled;
   DocumentReference ref =
       FirebaseFirestore.instance.collection("users").doc(user!.uid);
   // checking wether the post is saved by the current user
@@ -540,6 +543,11 @@ showPost(snapshotData, context) {
       }
     }
   });
+  if (user!.uid == postUsersUid) {
+    isDeleteButtonEnabled = true;
+  } else {
+    isDeleteButtonEnabled = false;
+  }
   // checking wether the post is liked by the current user
   // or not
   if (postUsersThatLikedIt.contains(user!.uid)) {
@@ -613,13 +621,41 @@ showPost(snapshotData, context) {
                                           )),
                                       onTap: () {
                                         addPostToFavorite(snapshotData.id,
-                                            isPostAlreadySaved);
+                                            postUsersThatSavedIt);
                                         Navigator.pop(context);
-                                        Fluttertoast.showToast(
-                                            msg:
-                                                "Post have been saved successfully");
+                                        // Fluttertoast.showToast(
+                                        //     msg:
+                                        //         "Post have been saved successfully");
                                       }),
                                 ),
+                                isDeleteButtonEnabled
+                                    ? Card(
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(20))),
+                                        elevation: 0,
+                                        child: ListTile(
+                                            leading: Icon(
+                                              Icons.delete_outline_outlined,
+                                              color: Colors.redAccent,
+                                            ),
+                                            title: const Text("Delete",
+                                                style: TextStyle(
+                                                    fontFamily: "VareLaRound",
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.redAccent
+                                                    // color: Colors.black
+                                                    )),
+                                            onTap: () {
+                                              deleteAPost(postUID,
+                                                  postUsersThatSavedIt,);
+                                              Navigator.pop(context);
+                                              // Fluttertoast.showToast(
+                                              //     msg:
+                                              //         "Post have been saved successfully");
+                                            }),
+                                      )
+                                    : Text("")
                               ],
                             ),
                           ));
@@ -734,4 +770,21 @@ showPost(snapshotData, context) {
       ),
     ),
   );
+}
+
+deleteAPost(postID, List postUsersThatSavedIt) async {
+  DocumentReference ref =
+      FirebaseFirestore.instance.collection("posts").doc(postID);
+  if (postUsersThatSavedIt.contains(user!.uid)) {
+    DocumentReference userRef =
+        FirebaseFirestore.instance.collection("users").doc(user!.uid);
+    List userSavedPost = [];
+    userRef.get().then((value) => userSavedPost = value["savedPost"]);
+    userSavedPost.remove(postID);
+    userRef.update({"savedPost": userSavedPost});
+  }
+  await ref.delete();
+
+  ref.update({});
+  Fluttertoast.showToast(msg: "Post have been deleted successfully");
 }
