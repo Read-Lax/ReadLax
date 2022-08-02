@@ -44,51 +44,19 @@ class _ExplorePageState extends State<ExplorePage> {
                 QueryDocumentSnapshot<Object?> currentDocs =
                     dataOfPosts.docs[index];
 
-                String? postUsersPhotoURL = currentDocs["userProfilePicUrl"];
-                String? postUserDisplayName = currentDocs["userName"];
-                String? postUsersUid = currentDocs["userUID"];
-                String? postContent = currentDocs["content"];
-                String? postPhotoURL = currentDocs["photoUrl"];
-                List postUsersThatLikedIt = currentDocs['likedBy'];
-                int? postLikes = currentDocs["likes"];
-                List savedPost = [];
-                int postHour = currentDocs['hour'];
-                int postYear = currentDocs["year"];
-                int postMonth = currentDocs["month"];
-                int postDay = currentDocs["day"];
-                TextEditingController creatComment = TextEditingController();
-                // String postTime =
-                //     Jiffy(DateTime(postYear, postMonth, postDay)).fromNow();
-                String postTime = Jiffy({
-                  "year": postYear,
-                  "day": postDay,
-                  "month": postMonth,
-                  "hour": postHour
-                }).fromNow();
-                Widget postHeartWidget;
-                bool isPostAlreadySaved = false;
-                ref.get().then((value) {
-                  for (var i in value["savedPost"]) {
-                    savedPost.add(i);
-                    if (currentDocs.id == i) {
-                      isPostAlreadySaved = true;
-                    } else {
-                      isPostAlreadySaved = false;
-                    }
-                  }
-                });
-                if (postUsersThatLikedIt.contains(user!.uid)) {
-                  postHeartWidget = const Icon(
-                    Icons.favorite,
-                    color: Colors.redAccent,
-                    size: 35,
-                  );
-                } else {
-                  postHeartWidget = const Icon(
-                    Icons.favorite_border_sharp,
-                    size: 35,
-                  );
-                }
+                // String? postUsersPhotoURL = currentDocs["userProfilePicUrl"];
+                // String? postUserDisplayName = currentDocs["userName"];
+                // String? postUsersUid = currentDocs["userUID"];
+                // String? postContent = currentDocs["content"];
+                // String? postPhotoURL = currentDocs["photoUrl"];
+                // List postUsersThatLikedIt = currentDocs['likedBy'];
+                // int? postLikes = currentDocs["likes"];
+                // List savedPost = [];
+                // int postHour = currentDocs['hour'];
+                // int postYear = currentDocs["year"];
+                // int postMonth = currentDocs["month"];
+                // int postDay = currentDocs["day"];
+
                 return showPost(dataOfPosts.docs[index], context);
               },
               itemCount: snapshot.data!.size,
@@ -321,6 +289,7 @@ class _ExplorePageState extends State<ExplorePage> {
       "userProfilePicUrl": user!.photoURL,
       "likes": 0,
       "likedBy": [],
+      "savedBy": [],
     });
     DocumentReference<Map<String, dynamic>> userRef =
         FirebaseFirestore.instance.collection("users").doc(user!.uid);
