@@ -140,7 +140,7 @@ class _HomePageContentState extends State<HomePageContent> {
   getAdhanTime(lat, long) {
     final coordinates = Coordinates(lat, long);
     final params = CalculationMethod.muslim_world_league.getParameters();
-    params.madhab = Madhab.hanafi;
+    params.madhab = Madhab.shafi;
     final prayerTime = PrayerTimes.today(coordinates, params);
     String currentPrayerName = "";
     String upComingPrayer = "";
