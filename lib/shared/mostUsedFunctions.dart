@@ -531,6 +531,8 @@ showPost(snapshotData, context) {
   bool isDeleteButtonEnabled;
   DocumentReference ref =
       FirebaseFirestore.instance.collection("users").doc(user!.uid);
+  double alertDialogHeight;
+
   // checking wether the post is saved by the current user
   // or not
 
@@ -563,6 +565,11 @@ showPost(snapshotData, context) {
       size: 35,
     );
   }
+  if (isDeleteButtonEnabled) {
+    alertDialogHeight = 130;
+  } else {
+    alertDialogHeight = 70;
+  }
   return Container(
     child: Card(
       elevation: 7,
@@ -590,78 +597,88 @@ showPost(snapshotData, context) {
                 onPressed: () {
                   showDialog(
                       context: context,
-                      builder: (_) => AlertDialog(
-                            shape: const RoundedRectangleBorder(
-                                side: BorderSide.none,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            content: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Card(
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(20))),
-                                  elevation: 0,
-                                  child: ListTile(
-                                      trailing: isPostAlreadySaved
-                                          ? const Icon(
-                                              Icons.done,
-                                              color: Colors.green,
-                                              size: 20,
-                                            )
-                                          : const Text(""),
-                                      leading: const Icon(
-                                        Icons.add_to_photos,
-                                        size: 25,
-                                      ),
-                                      title: const Text("Save",
-                                          style: TextStyle(
-                                            fontFamily: "VareLaRound",
-                                            fontWeight: FontWeight.bold,
-                                            // color: Colors.black
-                                          )),
-                                      onTap: () {
-                                        addPostToFavorite(snapshotData.id,
-                                            postUsersThatSavedIt);
-                                        Navigator.pop(context);
-                                        // Fluttertoast.showToast(
-                                        //     msg:
-                                        //         "Post have been saved successfully");
-                                      }),
+                      builder: (_) => Container(
+                            height: alertDialogHeight,
+                            width: double.infinity,
+                            child: AlertDialog(
+                              shape: const RoundedRectangleBorder(
+                                  side: BorderSide.none,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20))),
+                              content: Container(
+                                height: alertDialogHeight,
+                                width: double.infinity,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Card(
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20))),
+                                      elevation: 0,
+                                      child: ListTile(
+                                          trailing: isPostAlreadySaved
+                                              ? const Icon(
+                                                  Icons.done,
+                                                  color: Colors.green,
+                                                  size: 20,
+                                                )
+                                              : const Text(""),
+                                          leading: const Icon(
+                                            Icons.add_to_photos,
+                                            size: 25,
+                                          ),
+                                          title: const Text("Save",
+                                              style: TextStyle(
+                                                fontFamily: "VareLaRound",
+                                                fontWeight: FontWeight.bold,
+                                                // color: Colors.black
+                                              )),
+                                          onTap: () {
+                                            addPostToFavorite(snapshotData.id,
+                                                postUsersThatSavedIt);
+                                            Navigator.pop(context);
+                                            // Fluttertoast.showToast(
+                                            //     msg:
+                                            //         "Post have been saved successfully");
+                                          }),
+                                    ),
+                                    isDeleteButtonEnabled
+                                        ? Card(
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(20))),
+                                            elevation: 0,
+                                            child: ListTile(
+                                                leading: Icon(
+                                                  Icons.delete_outline_outlined,
+                                                  color: Colors.redAccent,
+                                                ),
+                                                title: const Text("Delete",
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            "VareLaRound",
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.redAccent
+                                                        // color: Colors.black
+                                                        )),
+                                                onTap: () {
+                                                  deleteAPost(
+                                                      postUID,
+                                                      postUsersThatSavedIt,
+                                                      postUsersUid,
+                                                      postImageNameInTheStorage);
+                                                  Navigator.pop(context);
+                                                  // Fluttertoast.showToast(
+                                                  //     msg:
+                                                  //         "Post have been saved successfully");
+                                                }),
+                                          )
+                                        : Text("")
+                                  ],
                                 ),
-                                isDeleteButtonEnabled
-                                    ? Card(
-                                        shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(20))),
-                                        elevation: 0,
-                                        child: ListTile(
-                                            leading: Icon(
-                                              Icons.delete_outline_outlined,
-                                              color: Colors.redAccent,
-                                            ),
-                                            title: const Text("Delete",
-                                                style: TextStyle(
-                                                    fontFamily: "VareLaRound",
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.redAccent
-                                                    // color: Colors.black
-                                                    )),
-                                            onTap: () {
-                                              deleteAPost(
-                                                  postUID,
-                                                  postUsersThatSavedIt,
-                                                  postUsersUid,
-                                                  postImageNameInTheStorage);
-                                              Navigator.pop(context);
-                                              // Fluttertoast.showToast(
-                                              //     msg:
-                                              //         "Post have been saved successfully");
-                                            }),
-                                      )
-                                    : Text("")
-                              ],
+                              ),
                             ),
                           ));
                 },
@@ -761,11 +778,28 @@ showPost(snapshotData, context) {
                       },
                       icon: postHeartWidget,
                     ),
-                    Text(Numeral(postLikes!).toString(),
-                        style: const TextStyle(
-                          fontFamily: "VareLaRound",
-                          fontWeight: FontWeight.bold,
-                        )),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(Numeral(postLikes!).toString(),
+                            style: const TextStyle(
+                              fontFamily: "VareLaRound",
+                              fontWeight: FontWeight.bold,
+                            )),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        Text(
+                          "likes",
+                          style: TextStyle(
+                            fontFamily: "VareLaRound",
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ],
+                    ),
                   ],
                 )
               ],
