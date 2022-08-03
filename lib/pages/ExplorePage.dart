@@ -250,7 +250,8 @@ class _ExplorePageState extends State<ExplorePage> {
                     //       msg: "Text is requiered",
                     //       timeInSecForIosWeb: 5,);
                     // }
-                    postTheInfo(userPost.text.trim(), selectedPhotoUrl);
+                    postTheInfo(
+                        userPost.text.trim(), selectedPhotoUrl, imageName);
                     Navigator.pop(context);
                   },
                   icon: const Icon(
@@ -272,7 +273,7 @@ class _ExplorePageState extends State<ExplorePage> {
     }
   }
 
-  postTheInfo(String text, String photoUrl) async {
+  postTheInfo(String text, String photoUrl, String imageName) async {
     DocumentReference<Map<String, dynamic>> ref =
         FirebaseFirestore.instance.collection("posts").doc();
     await ref.set({
@@ -290,6 +291,7 @@ class _ExplorePageState extends State<ExplorePage> {
       "likes": 0,
       "likedBy": [],
       "savedBy": [],
+      "imageName": imageName
     });
     DocumentReference<Map<String, dynamic>> userRef =
         FirebaseFirestore.instance.collection("users").doc(user!.uid);
