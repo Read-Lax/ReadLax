@@ -511,6 +511,7 @@ showPost(snapshotData, context) {
   String? postContent = snapshotData["content"];
   String? postPhotoURL = snapshotData["photoUrl"];
   String? postUID = snapshotData!.id;
+  String? postImageNameInTheStorage = snapshotData["imageName"];
   List postUsersThatLikedIt = snapshotData["likedBy"];
   List postUsersThatSavedIt = snapshotData["savedBy"];
   int? postLikes = snapshotData["likes"];
@@ -595,6 +596,7 @@ showPost(snapshotData, context) {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20))),
                             content: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Card(
                                   shape: const RoundedRectangleBorder(
@@ -647,8 +649,11 @@ showPost(snapshotData, context) {
                                                     // color: Colors.black
                                                     )),
                                             onTap: () {
-                                              deleteAPost(postUID,
-                                                  postUsersThatSavedIt,);
+                                              deleteAPost(
+                                                  postUID,
+                                                  postUsersThatSavedIt,
+                                                  postUsersUid,
+                                                  postImageNameInTheStorage);
                                               Navigator.pop(context);
                                               // Fluttertoast.showToast(
                                               //     msg:
@@ -772,19 +777,40 @@ showPost(snapshotData, context) {
   );
 }
 
-deleteAPost(postID, List postUsersThatSavedIt) async {
+deleteAPost(postID, List postUsersThatSavedIt, String? userWhoCreatedThePost,
+    String? postImageName) async {
   DocumentReference ref =
       FirebaseFirestore.instance.collection("posts").doc(postID);
-  if (postUsersThatSavedIt.contains(user!.uid)) {
+
+  List usersWhoSavedThePost = [];
+  postUsersThatSavedIt.forEach((element) {
+    usersWhoSavedThePost.add(element);
+  });
+
+  for (var users in usersWhoSavedThePost) {
     DocumentReference userRef =
-        FirebaseFirestore.instance.collection("users").doc(user!.uid);
+        FirebaseFirestore.instance.collection("users").doc(users);
+
     List userSavedPost = [];
     userRef.get().then((value) => userSavedPost = value["savedPost"]);
     userSavedPost.remove(postID);
-    userRef.update({"savedPost": userSavedPost});
+    postUsersThatSavedIt.remove(users);
+    await userRef.update({"savedPost": userSavedPost});
   }
+  // removing the post from the created Posts
+  List currentUserCreaterPost = [];
+  DocumentReference userRef =
+      FirebaseFirestore.instance.collection("users").doc(userWhoCreatedThePost);
+  userRef.get().then((data) => currentUserCreaterPost = data["createdPost"]);
+  currentUserCreaterPost.remove(postID);
+  await userRef.update({"createdPost": currentUserCreaterPost});
+  // removing the post from the posts collection
   await ref.delete();
-
-  ref.update({});
+  // deleting the post image from the storage
+  await FirebaseStorage.instance
+      .ref("posts")
+      .child("images")
+      .child(postImageName!)
+      .delete();
   Fluttertoast.showToast(msg: "Post have been deleted successfully");
 }
