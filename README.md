@@ -3,6 +3,11 @@
 </p>
 <h1 align="center">Readlax</h1>
 
+[![GitHub stars](https://img.shields.io/github/stars/0RaMsY0/ReadLax?color=blue&style=plastic)](https://github.com/0RaMsY0/ReadLax/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/0RaMsY0/ReadLax?style=plastic)](https://github.com/0RaMsY0/ReadLax/issues)
+[![Status](https://img.shields.io/badge/status-devlopment-yellow)]()
+[![GitHub forks](https://img.shields.io/github/forks/0RaMsY0/ReadLax?style=plastic)](https://github.com/0RaMsY0/ReadLax/network)
+
 # What is Readlax?
 
 ***
