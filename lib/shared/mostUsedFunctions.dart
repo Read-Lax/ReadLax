@@ -46,12 +46,12 @@ usersProfile(userUid, context) {
               child: Loading(),
             );
           }
-          String? userName = "";
-          String? userPhotoUrl = "";
-          String? userDescription = "";
-          List usersFollowers;
-          List usersFollwings;
-          List userCreatedPost;
+          // String? userName = "";
+          // String? userPhotoUrl = "";
+          // String? userDescription = "";
+          // List usersFollowers;
+          // List usersFollwings;
+          // List userCreatedPost;
           String? followButtonText = "Follow";
           IconData? followButtonIcon = Icons.person_add_alt;
           bool isFollowButtonEnabled = true;
@@ -105,12 +105,12 @@ usersProfile(userUid, context) {
 
           updateFollowButton();
 
-          userName = userData.docs[userIndex]["userName"];
-          userDescription = userData.docs[userIndex]["description"];
-          userPhotoUrl = userData.docs[userIndex]["photoUrl"];
-          userCreatedPost = userData.docs[userIndex]["createdPost"];
-          usersFollowers = userData.docs[userIndex]["followers"];
-          usersFollwings = userData.docs[userIndex]["followings"];
+          String? userName = userData.docs[userIndex]["userName"];
+          String? userDescription = userData.docs[userIndex]["description"];
+          String? userPhotoUrl = userData.docs[userIndex]["photoUrl"];
+          List userCreatedPost = userData.docs[userIndex]["createdPost"];
+          List usersFollowers = userData.docs[userIndex]["followers"];
+          List usersFollwings = userData.docs[userIndex]["followings"];
 
           Future<void> follow(userToFollow) async {
             // print(currentUserFollowing);
@@ -147,10 +147,17 @@ usersProfile(userUid, context) {
           // FollowersFollowings Function
           AlertDialog FollowersFollowings(String typeToShow, snapshots) {
             List data;
+            String? ifDataIsEmptyMsg;
             if (typeToShow == "Followers") {
               data = usersFollowers;
+              ifDataIsEmptyMsg = userName == user!.displayName
+                  ? "You don't have any followers"
+                  : "$userName doesn't have any followers";
             } else {
               data = usersFollwings;
+              ifDataIsEmptyMsg = userName == user!.displayName
+                  ? "You don't seem to be following any one"
+                  : "$userName doesn't seems to be following any one";
             }
 
             return AlertDialog(
@@ -160,76 +167,96 @@ usersProfile(userUid, context) {
                 width: MediaQuery.of(context).size.width * 0.45,
                 child: SingleChildScrollView(
                   child: Container(
-                    width: 350,
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemBuilder: ((context, index) {
-                        String? photoUrl;
-                        String? userName;
-                        // String? userUid;
-                        String? userDescription;
-                        String? thisUserUid;
-                        final userData = snapshot.requireData;
-                        String? followButtonText;
-                        IconData followButtonIcon;
-                        int indexOfTheUser = 0;
-                        int k = 0;
+                      width: 350,
+                      child: data.isNotEmpty
+                          ? ListView.builder(
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemBuilder: ((context, index) {
+                                String? photoUrl;
+                                String? userName;
+                                // String? userUid;
+                                // String? userDescription;
+                                String? thisUserUid;
+                                final userData = snapshot.requireData;
+                                String? followButtonText;
+                                IconData followButtonIcon;
+                                int indexOfTheUser = 0;
+                                int k = 0;
 
-                        for (var i in userData.docs) {
-                          if (data[index] == userData.docs[k].reference.id) {
-                            indexOfTheUser = k;
-                          }
-                          k += 1;
-                        }
-                        if (currentUserFollowing.contains(data[index]) ==
-                            true) {
-                          followButtonText = "Unfollow";
-                          followButtonIcon = Icons.person_add_disabled_outlined;
-                        } else {
-                          followButtonText = "Follow";
-                          followButtonIcon = Icons.person_add_alt;
-                        }
-                        photoUrl = userData.docs[indexOfTheUser]["photoUrl"];
-                        userName = userData.docs[indexOfTheUser]["userName"];
-                        userDescription =
-                            userData.docs[indexOfTheUser]["description"];
-                        thisUserUid = userData.docs[indexOfTheUser].id;
+                                for (var i in userData.docs) {
+                                  if (data[index] ==
+                                      userData.docs[k].reference.id) {
+                                    indexOfTheUser = k;
+                                  }
+                                  k += 1;
+                                }
+                                if (currentUserFollowing
+                                        .contains(data[index]) ==
+                                    true) {
+                                  followButtonText = "Unfollow";
+                                  followButtonIcon =
+                                      Icons.person_add_disabled_outlined;
+                                } else {
+                                  followButtonText = "Follow";
+                                  followButtonIcon = Icons.person_add_alt;
+                                }
+                                photoUrl =
+                                    userData.docs[indexOfTheUser]["photoUrl"];
+                                userName =
+                                    userData.docs[indexOfTheUser]["userName"];
+                                userDescription = userData.docs[indexOfTheUser]
+                                    ["description"];
+                                thisUserUid = userData.docs[indexOfTheUser].id;
 
-                        return Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Container(
-                              // width: 400,
-                              // height: 90,
-                              child: ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => usersProfile(
-                                              thisUserUid, context)));
-                                },
-                                minVerticalPadding: 0,
-                                title: Text(
-                                  userName!,
-                                  style: TextStyle(
-                                      fontFamily: "VareLaRound",
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                leading: CircleAvatar(
-                                  backgroundImage:
-                                      Image.network(photoUrl!).image,
-                                  radius: 20.0,
-                                ),
-                              ),
+                                return Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Container(
+                                        // width: 400,
+                                        // height: 90,
+                                        child: ListTile(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    usersProfile(
+                                                        thisUserUid, context)));
+                                      },
+                                      minVerticalPadding: 0,
+                                      title: Text(
+                                        userName!,
+                                        style: TextStyle(
+                                            fontFamily: "VareLaRound",
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      leading: CircleAvatar(
+                                        backgroundImage:
+                                            Image.network(photoUrl!).image,
+                                        radius: 20.0,
+                                      ),
+                                    )),
+                                  ],
+                                );
+                              }),
+                              itemCount: data.length,
                             )
-                          ],
-                        );
-                      }),
-                      itemCount: data.length,
-                    ),
-                  ),
+                          : Padding(
+                              padding: const EdgeInsets.all(11.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    ifDataIsEmptyMsg,
+                                    style: TextStyle(
+                                      fontFamily: "VareLaRound",
+                                      fontWeight: FontWeight.bold,
+                                      // fontSize: 17,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )),
                 ),
               ),
             );
@@ -332,140 +359,167 @@ usersProfile(userUid, context) {
               elevation: 0,
               backgroundColor: Colors.transparent,
             ),
-            body: Container(
-              width: double.infinity,
-              child: SingleChildScrollView(
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: CircleAvatar(
-                        backgroundColor: Colors.green,
-                        backgroundImage: Image.network(userPhotoUrl!).image,
-                        radius: 50.0,
+            body: SingleChildScrollView(
+              child: Container(
+                width: double.infinity,
+                child: SingleChildScrollView(
+                  child: Column(
+                    // mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: CircleAvatar(
+                          backgroundColor: Colors.green,
+                          backgroundImage: Image.network(userPhotoUrl!).image,
+                          radius: 50.0,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          userName!,
-                          style: TextStyle(
-                              fontFamily: "VareLaRound",
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        isFollowButtonEnabled
-                            ? ElevatedButton(
-                                autofocus: true,
-                                clipBehavior: Clip.antiAlias,
-                                onPressed: () {
-                                  follow(userData.docs[userIndex].id);
-                                },
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      followButtonText!,
-                                      style: TextStyle(
-                                        fontFamily: "VareLaRound",
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            userName!,
+                            style: TextStyle(
+                                fontFamily: "VareLaRound",
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          isFollowButtonEnabled
+                              ? ElevatedButton(
+                                  autofocus: true,
+                                  clipBehavior: Clip.antiAlias,
+                                  onPressed: () {
+                                    follow(userData.docs[userIndex].id);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        followButtonText!,
+                                        style: TextStyle(
+                                          fontFamily: "VareLaRound",
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      width: 3,
-                                    ),
-                                    Icon(followButtonIcon),
-                                  ],
-                                ),
-                              )
-                            : SizedBox()
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: [
-                            TextButton(
-                              child: Text(
-                                "• Followers: ",
-                                style: TextStyle(
-                                    fontFamily: "VareLaRound",
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (_) => FollowersFollowings(
-                                        "Followers", snapshot));
-                              },
-                            ),
-                            Text(
-                              Numeral(usersFollowers.length).format(),
-                              style: TextStyle(
-                                fontFamily: "VareLaRound",
-                                fontSize: 17,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            TextButton(
-                              style: ButtonStyle(),
-                              child: Text(
-                                "• Followings: ",
-                                style: TextStyle(
-                                    fontFamily: "VareLaRound",
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (_) => FollowersFollowings(
-                                        "Followings", snapshot));
-                              },
-                            ),
-                            Text(
-                              Numeral(usersFollwings.length).format(),
-                              style: TextStyle(
-                                fontFamily: "VareLaRound",
-                                fontSize: 17,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    ReadMoreText(
-                      userDescription!,
-                      style: TextStyle(
-                          leadingDistribution: TextLeadingDistribution.even,
-                          fontFamily: "VareLaRound",
-                          fontWeight: FontWeight.w300),
-                    ),
-                    Divider(),
-                    Text(
-                      "Created Posts",
-                      style: TextStyle(
-                        fontFamily: "VareLaRound",
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17,
-                        color: Colors.teal,
+                                      const SizedBox(
+                                        width: 3,
+                                      ),
+                                      Icon(followButtonIcon),
+                                    ],
+                                  ),
+                                )
+                              : SizedBox()
+                        ],
                       ),
-                    ),
-                    SizedBox(
-                      height: 7,
-                    ),
-                    usersCreatedPosts(userCreatedPost)
-                  ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              TextButton(
+                                child: Text(
+                                  "• Followers: ",
+                                  style: TextStyle(
+                                      fontFamily: "VareLaRound",
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => FollowersFollowings(
+                                          "Followers", snapshot));
+                                },
+                              ),
+                              Text(
+                                Numeral(usersFollowers.length).format(),
+                                style: TextStyle(
+                                  fontFamily: "VareLaRound",
+                                  fontSize: 17,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              TextButton(
+                                style: ButtonStyle(),
+                                child: Text(
+                                  "• Followings: ",
+                                  style: TextStyle(
+                                      fontFamily: "VareLaRound",
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => FollowersFollowings(
+                                          "Followings", snapshot));
+                                },
+                              ),
+                              Text(
+                                Numeral(usersFollwings.length).format(),
+                                style: TextStyle(
+                                  fontFamily: "VareLaRound",
+                                  fontSize: 17,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      ReadMoreText(
+                        userDescription!,
+                        style: TextStyle(
+                            leadingDistribution: TextLeadingDistribution.even,
+                            fontFamily: "VareLaRound",
+                            fontWeight: FontWeight.w300),
+                      ),
+                      Divider(),
+                      Text(
+                        "Created Posts",
+                        style: TextStyle(
+                          fontFamily: "VareLaRound",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                          color: Colors.teal,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 7,
+                      ),
+                      Container(
+                          child: userCreatedPost.isNotEmpty
+                              ? usersCreatedPosts(userCreatedPost)
+                              : Center(
+                                  child: Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          height: 35,
+                                        ),
+                                        Text(
+                                          userName == user!.displayName
+                                              ? "You have not created any posts yet"
+                                              : "$userName has not created any posts yet",
+                                          style: TextStyle(
+                                            fontFamily: "VareLaRound",
+                                            fontWeight: FontWeight.bold,
+                                            // fontSize: 17,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ))
+                    ],
+                  ),
                 ),
               ),
             ),
