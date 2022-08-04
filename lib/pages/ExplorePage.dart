@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -43,20 +44,7 @@ class _ExplorePageState extends State<ExplorePage> {
               itemBuilder: (BuildContext context, index) {
                 QueryDocumentSnapshot<Object?> currentDocs =
                     dataOfPosts.docs[index];
-
-                // String? postUsersPhotoURL = currentDocs["userProfilePicUrl"];
-                // String? postUserDisplayName = currentDocs["userName"];
-                // String? postUsersUid = currentDocs["userUID"];
-                // String? postContent = currentDocs["content"];
-                // String? postPhotoURL = currentDocs["photoUrl"];
-                // List postUsersThatLikedIt = currentDocs['likedBy'];
-                // int? postLikes = currentDocs["likes"];
-                // List savedPost = [];
-                // int postHour = currentDocs['hour'];
-                // int postYear = currentDocs["year"];
-                // int postMonth = currentDocs["month"];
-                // int postDay = currentDocs["day"];
-
+                
                 return showPost(dataOfPosts.docs[index], context);
               },
               itemCount: snapshot.data!.size,
@@ -152,37 +140,16 @@ class _ExplorePageState extends State<ExplorePage> {
                               children: [
                                 IconButton(
                                     onPressed: () async {
-                                      if (isImageSelected) {
-                                        Reference ref = FirebaseStorage.instance
-                                            .ref("posts")
-                                            .child("images")
-                                            .child(imageName);
-                                        await ref.delete();
-                                        setState(() {
-                                          isImageSelected = false;
-                                        });
-                                      }
                                       final imagePicker =
                                           await ImagePicker().pickImage(
                                         source: ImageSource.camera,
-                                        maxHeight: 513,
-                                        maxWidth: 513,
+                                        // maxHeight: 513,
+                                        // maxWidth: 513,
                                         imageQuality: 100,
                                       );
-                                      Reference ref = FirebaseStorage.instance
-                                          .ref("posts")
-                                          .child("images")
-                                          .child(imagePicker!.name);
-                                      await ref.putFile(File(imagePicker.path));
-                                      await ref.getDownloadURL().then((value) {
-                                        setState(() {
-                                          selectedPhotoUrl = value;
-                                          isImageSelected = true;
-                                          imageName = ref.name;
-                                        });
-                                        print(imageName);
-                                        Navigator.pop(context);
-                                      });
+                                      pickedImageToPost =
+                                          File(imagePicker!.path);
+                                      Navigator.pop(context);
                                     },
                                     icon:
                                         const Icon(Icons.add_a_photo_outlined)),
@@ -191,16 +158,6 @@ class _ExplorePageState extends State<ExplorePage> {
                                 ),
                                 IconButton(
                                     onPressed: () async {
-                                      if (isImageSelected) {
-                                        Reference ref = FirebaseStorage.instance
-                                            .ref("posts")
-                                            .child("images")
-                                            .child(imageName);
-                                        await ref.delete();
-                                        setState(() {
-                                          isImageSelected = false;
-                                        });
-                                      }
                                       final imagePicker =
                                           await ImagePicker().pickImage(
                                         source: ImageSource.gallery,
@@ -208,29 +165,9 @@ class _ExplorePageState extends State<ExplorePage> {
                                         // maxWidth: 513,
                                         imageQuality: 100,
                                       );
-                                      setState(() {
-                                        returnImageOrText =
-                                            Image.file(File(imagePicker!.path));
-                                      });
-                                      Reference ref = FirebaseStorage.instance
-                                          .ref("posts")
-                                          .child("images")
-                                          .child(imagePicker!.name);
-                                      await ref.putFile(File(imagePicker.path));
-                                      await ref.getDownloadURL().then((value) {
-                                        setState(() {
-                                          selectedPhotoUrl = value.toString();
-                                          isImageSelected = true;
-                                          imageName = ref.name;
-                                          returnImageOrText =
-                                              const Text("Hello");
-
-                                          // Image.network(selectedPhotoUrl);
-                                        });
-                                        print(imageName);
-                                        print(selectedPhotoUrl);
-                                        Navigator.pop(context);
-                                      });
+                                      pickedImageToPost =
+                                          File(imagePicker!.path);
+                                      Navigator.pop(context);
                                     },
                                     icon: const Icon(
                                         Icons.photo_library_rounded)),
@@ -251,7 +188,7 @@ class _ExplorePageState extends State<ExplorePage> {
                     //       timeInSecForIosWeb: 5,);
                     // }
                     postTheInfo(
-                        userPost.text.trim(), selectedPhotoUrl, imageName);
+                        userPost.text.trim(), pickedImageToPost, imageName);
                     Navigator.pop(context);
                   },
                   icon: const Icon(
@@ -273,9 +210,19 @@ class _ExplorePageState extends State<ExplorePage> {
     }
   }
 
-  postTheInfo(String text, String photoUrl, String imageName) async {
+  postTheInfo(String text, var photoData, String imageName) async {
+    String? photoUrl;
     DocumentReference<Map<String, dynamic>> ref =
         FirebaseFirestore.instance.collection("posts").doc();
+
+    Reference storageRef =
+        FirebaseStorage.instance.ref("posts").child("images").child(imageName);
+
+    Fluttertoast.showToast(msg: "Uploading your post...");
+    await storageRef.putFile(photoData);
+    await storageRef
+        .getDownloadURL()
+        .then((storageData) => photoUrl = storageData.toString());
     await ref.set({
       "userName": user!.displayName,
       "userUID": user!.uid,
@@ -295,14 +242,14 @@ class _ExplorePageState extends State<ExplorePage> {
     });
     DocumentReference<Map<String, dynamic>> userRef =
         FirebaseFirestore.instance.collection("users").doc(user!.uid);
-    userRef.get().then((userPost) {
+    await userRef.get().then((userPost) {
       List allTheCurrentUserPosts = userPost['createdPost'];
       allTheCurrentUserPosts.add(ref.id);
       userRef.update(
           {'createdPost': FieldValue.arrayUnion(allTheCurrentUserPosts)});
     });
 
-    Fluttertoast.showToast(msg: "");
+    Fluttertoast.showToast(msg: "Post successfully uploaded");
   }
 
   addPostToFavorite(postId, isAlreadySaved) async {
