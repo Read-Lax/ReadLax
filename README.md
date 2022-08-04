@@ -20,6 +20,20 @@ with Readlax you can creat khatma and let your friends contribute to it so you c
 | Follow your friends, familly...                 | ✅ |
 | Create khatma and allow others to contribute to it| ❌ |
 
+# 📥 Installation (pre-release)
+
+<h2>Android ✅ </h2>
+
+
+You can install the latest apk release for Android from [here](https://github.com/0RaMsY0/ReadLax/releases/tag/0.0-beta.1)
+***
+
+<h2>IOS ❌</h3>
+
+The app is currently unavailable for IOS but it will in the future.
+
+***
+
 # Feedback
 
 If you have any feadback or suggestions feel free to email the developer at 0ramsy0@gmail.com
