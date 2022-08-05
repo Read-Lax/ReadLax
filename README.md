@@ -23,6 +23,8 @@ with Readlax you can creat khatma and let your friends contribute to it so you c
 | Post ad3iya as texts or photos.                 | ✅ |
 | like others posts.                              | ✅ |
 | Follow your friends, familly...                 | ✅ |
+| Delete your posts |✅ |
+
 | Create khatma and allow others to contribute to it| ❌ |
 
 # 📥 Installation (pre-release)
