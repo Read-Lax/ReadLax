@@ -765,22 +765,13 @@ showPost(snapshotData, context) {
             ),
             Container(
               decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: const Offset(0, 3), // changes position of shadow
-                  ),
-                ],
                 borderRadius: const BorderRadius.all(
                   Radius.circular(30),
                 ),
               ),
-              // child: Image.network(postPhotoURL!)
               child: Image.network(
                 postPhotoURL!,
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
                 loadingBuilder: (BuildContext context, Widget child,
                     ImageChunkEvent? loadingProgress) {
                   if (loadingProgress == null) {
