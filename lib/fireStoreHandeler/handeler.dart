@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:readlex/shared/mostUsedFunctions.dart';
 
 Future<void> writeNewUserData(String userName, String userEmail,
     String userPhotoUrl, String userUID) async {
@@ -14,7 +15,8 @@ Future<void> writeNewUserData(String userName, String userEmail,
       "createdPost": [],
       "description": "",
       "followers": [],
-      "followings": []
+      "followings": [],
+      "comentedComent": []
     },
     SetOptions(merge: true),
   );
@@ -40,12 +42,26 @@ class MakeInfoChangesIntoUser {
   }
 }
 
-class CurrentUserData {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  getUserName(String? userUID) {
-    CollectionReference usersColl = firestore.collection("users");
-    Object? userName = usersColl.doc(userUID).get();
-    // print(userName["userName"]); // return userName;
-    return "UserName";
+class GetUserData {
+  CollectionReference<Map<String, dynamic>> firestore =
+      FirebaseFirestore.instance.collection("users");
+  Future<String?> getUserName(String? userUID) async {
+    DocumentReference ref =
+        FirebaseFirestore.instance.collection("users").doc(userUID);
+    String? userName;
+    await ref.get().then((value) {
+      userName = value["userName"];
+    });
+    return userName;
+  }
+
+  getUserPhotoUrl(String? userUID) {
+    DocumentReference ref =
+        FirebaseFirestore.instance.collection("users").doc(userUID);
+    String? userPhotoUrl;
+    ref.get().then((value) {
+      userPhotoUrl = value["photoUrl"];
+    });
+    return userPhotoUrl;
   }
 }
