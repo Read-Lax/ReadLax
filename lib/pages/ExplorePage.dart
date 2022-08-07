@@ -31,10 +31,17 @@ class _ExplorePageState extends State<ExplorePage> {
         stream: firestoreStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return const Center(child: Loading());
+            return Center(
+                child: SpinKitCircle(
+              color: Colors.greenAccent,
+            ));
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: Loading());
+            return Center(
+              child: SpinKitCircle(
+                color: Colors.greenAccent,
+              ),
+            );
           }
           final dataOfPosts = snapshot.requireData;
           DocumentReference ref =
@@ -44,7 +51,7 @@ class _ExplorePageState extends State<ExplorePage> {
               itemBuilder: (BuildContext context, index) {
                 QueryDocumentSnapshot<Object?> currentDocs =
                     dataOfPosts.docs[index];
-                
+
                 return showPost(dataOfPosts.docs[index], context);
               },
               itemCount: snapshot.data!.size,
