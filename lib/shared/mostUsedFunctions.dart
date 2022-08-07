@@ -8,6 +8,7 @@ import 'package:jiffy/jiffy.dart';
 import 'package:numeral/numeral.dart';
 import 'package:readlex/pages/FavoritePostsPage.dart';
 import 'package:readmore/readmore.dart';
+import 'package:readlex/pages/comentsPage.dart';
 
 class Loading extends StatelessWidget {
   const Loading({Key? key}) : super(key: key);
@@ -46,12 +47,6 @@ usersProfile(userUid, context) {
               child: Loading(),
             );
           }
-          // String? userName = "";
-          // String? userPhotoUrl = "";
-          // String? userDescription = "";
-          // List usersFollowers;
-          // List usersFollwings;
-          // List userCreatedPost;
           String? followButtonText = "Follow";
           IconData? followButtonIcon = Icons.person_add_alt;
           bool isFollowButtonEnabled = true;
@@ -846,9 +841,26 @@ showPost(snapshotData, context) {
                       ],
                     ),
                   ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => ComentsPage(
+                                        postId: postUID,
+                                      ))));
+                        },
+                        icon: Icon(
+                          Icons.mode_comment_outlined,
+                          size: 37,
+                        )),
+                  ],
                 )
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -892,4 +904,47 @@ deleteAPost(postID, List postUsersThatSavedIt, String? userWhoCreatedThePost,
       .child(postImageName!)
       .delete();
   Fluttertoast.showToast(msg: "Post have been deleted successfully");
+}
+/* 
+  Coments functions
+*/
+// upload or publish a coment
+uploadAComent(String? postUID, String? commentContent, String? userUID) async {
+  CollectionReference<Map<String, dynamic>> postComentRef = FirebaseFirestore
+      .instance
+      .collection("posts")
+      .doc(postUID)
+      .collection("coments");
+  // Fluttertoast.showToast(msg: postUID!);
+  String? commentUID;
+  await postComentRef.add({
+    "comentContent": commentContent,
+    "comentUserUID": userUID,
+    "comentTime": DateTime.now(),
+    "userPhotoUrl": user!.photoURL,
+    "userName": user!.displayName
+  }).then((value) => commentUID = value.id);
+  await FirebaseFirestore.instance.collection("users").doc(userUID!).update({
+    "comentedComents": FieldValue.arrayUnion([commentUID])
+  });
+  Fluttertoast.showToast(msg: "coment got published successfully");
+}
+
+// delete a coment
+deleteAComent(String? comentUID, String? postUID,
+    String? userUIDwhoCreatedTheComent) async {
+  DocumentReference comentRef = FirebaseFirestore.instance
+      .collection("posts")
+      .doc(postUID)
+      .collection("coments")
+      .doc(comentUID);
+
+  await comentRef.delete();
+  await FirebaseFirestore.instance
+      .collection("users")
+      .doc(userUIDwhoCreatedTheComent)
+      .update({
+    "comentedComents": FieldValue.arrayRemove([comentUID])
+  });
+  Fluttertoast.showToast(msg: "coment deleted successfully");
 }
