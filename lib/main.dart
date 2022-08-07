@@ -74,7 +74,6 @@ class HomePageState extends State<HomePage> {
     "Read Quran",
     "Explore",
   ];
-  CurrentUserData currentUserData = CurrentUserData();
   final List _scaffoldBodyContent = [
     const HomePageContent(),
     const ReadQuranPage(),
