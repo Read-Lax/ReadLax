@@ -9,6 +9,7 @@ import 'package:numeral/numeral.dart';
 import 'package:readlex/pages/FavoritePostsPage.dart';
 import 'package:readmore/readmore.dart';
 import 'package:readlex/pages/comentsPage.dart';
+import 'package:intl/intl.dart' as intl;
 
 class Loading extends StatelessWidget {
   const Loading({Key? key}) : super(key: key);
@@ -167,6 +168,7 @@ usersProfile(userUid, context) {
                           ? ListView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
+                              // physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: ((context, index) {
                                 String? photoUrl;
                                 String? userName;
@@ -279,6 +281,7 @@ usersProfile(userUid, context) {
                 return ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: createdPosts.length,
                   itemBuilder: ((context, int currentPost) {
                     //   QueryDocumentSnapshot<Object?> currentDocs =
@@ -406,7 +409,7 @@ usersProfile(userUid, context) {
                                     ],
                                   ),
                                 )
-                              : SizedBox()
+                              : Text(""),
                         ],
                       ),
                       Row(
@@ -619,6 +622,10 @@ showPost(snapshotData, context) {
   } else {
     alertDialogHeight = 70;
   }
+  bool isRTL(String text) {
+    return intl.Bidi.detectRtlDirectionality(text);
+  }
+
   return Container(
     child: Card(
       elevation: 7,
@@ -736,17 +743,19 @@ showPost(snapshotData, context) {
               title: Text(
                 "$postUserDisplayName\n • $postTime",
                 style: const TextStyle(
-                    fontFamily: "VareLaRound",
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15),
+                  fontFamily: "VareLaRound",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
               ),
             ),
             const Divider(),
             Container(
               child: Directionality(
-                textDirection: TextDirection.rtl,
+                textDirection:
+                    isRTL(postContent!) ? TextDirection.rtl : TextDirection.ltr,
                 child: ReadMoreText(
-                  postContent!,
+                  postContent,
                   textDirection: TextDirection.rtl,
                   style: const TextStyle(
                       fontSize: 17,
@@ -905,6 +914,7 @@ deleteAPost(postID, List postUsersThatSavedIt, String? userWhoCreatedThePost,
       .delete();
   Fluttertoast.showToast(msg: "Post have been deleted successfully");
 }
+
 /* 
   Coments functions
 */
@@ -922,12 +932,18 @@ uploadAComent(String? postUID, String? commentContent, String? userUID) async {
     "comentUserUID": userUID,
     "comentTime": DateTime.now(),
     "userPhotoUrl": user!.photoURL,
-    "userName": user!.displayName
+    "userName": user!.displayName,
+    "hour": DateTime.now().hour,
+    "day": DateTime.now().day,
+    "year": DateTime.now().year,
+    "month": DateTime.now().month,
+    "likedBy": [],
   }).then((value) => commentUID = value.id);
+  Fluttertoast.showToast(msg: "coment got published successfully");
   await FirebaseFirestore.instance.collection("users").doc(userUID!).update({
     "comentedComents": FieldValue.arrayUnion([commentUID])
   });
-  Fluttertoast.showToast(msg: "coment got published successfully");
+  // Fluttertoast.showToast(msg: "coment got published successfully");
 }
 
 // delete a coment
@@ -940,11 +956,12 @@ deleteAComent(String? comentUID, String? postUID,
       .doc(comentUID);
 
   await comentRef.delete();
+  Fluttertoast.showToast(msg: "coment deleted successfully");
   await FirebaseFirestore.instance
       .collection("users")
       .doc(userUIDwhoCreatedTheComent)
       .update({
     "comentedComents": FieldValue.arrayRemove([comentUID])
   });
-  Fluttertoast.showToast(msg: "coment deleted successfully");
+  // Fluttertoast.showToast(msg: "coment deleted successfully");
 }
