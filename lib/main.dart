@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:readlex/pages/FavoritePostsPage.dart';
@@ -15,6 +16,7 @@ import 'login-signUp/loginPage.dart';
 import 'package:readlex/pages/SettingPage.dart';
 import 'package:readlex/pages/UserProfilePage.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
+import 'package:readlex/splashScreen.dart';
 // import 'package:readlex/pages/FavoritePostsPage.dart';
 import 'package:readlex/fireStoreHandeler/handeler.dart';
 import 'package:readlex/pages/ExplorePage.dart';
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
       ),
-      home: const ShowPage(),
+      home: SplashScreen(),
     );
   }
 }
@@ -90,14 +92,37 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Widget scaffoldBody = _scaffoldBodyContent[_appBarTitleIndex];
+    bool stillLoading = false;
     return StreamBuilder<QuerySnapshot>(
         stream: firestoreUserData,
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return const Loading();
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SpinKitCircle(
+                      color: Colors.greenAccent,
+                    )
+                  ],
+                ),
+              ),
+            );
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Loading();
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SpinKitCircle(
+                      color: Colors.greenAccent,
+                    )
+                  ],
+                ),
+              ),
+            );
           }
           final data = snapshot.requireData;
           int userIndex = 0;
@@ -240,8 +265,8 @@ class HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    SavedPost().savedPosrPage(data.docs[userIndex]["savedPost"])));
+                                builder: (context) => SavedPost().savedPosrPage(
+                                    data.docs[userIndex]["savedPost"])));
                       },
                     ),
                   ),
