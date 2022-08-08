@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
@@ -41,10 +42,32 @@ class _UserProfilePageState extends State<UserProfilePage> {
         stream: firestoreUserData,
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return const Loading();
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SpinKitCircle(
+                      color: Colors.greenAccent,
+                    )
+                  ],
+                ),
+              ),
+            );
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Loading();
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SpinKitCircle(
+                      color: Colors.greenAccent,
+                    )
+                  ],
+                ),
+              ),
+            );
           }
           final data = snapshot.requireData;
           int userIndex = 0;
@@ -84,8 +107,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   //   height: 40,
                   // ),
                   Card(
-                    // color: Colors.transparent,
-                    elevation: 5,
+                    color: Colors.transparent,
+                    elevation: 0,
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(30))),
                     child: Padding(
@@ -100,7 +123,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                             textDirection: TextDirection.ltr,
                             style: TextStyle(
                               fontFamily: "VareLaRound",
-                              fontSize: 15,
+                              fontSize: 17,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
