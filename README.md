@@ -25,6 +25,7 @@ with Readlax you can creat khatma and let your friends contribute to it so you c
 | Follow your friends, familly...                 | ✅ |
 | Delete your posts |✅ |
 | Coment on your favorite posts to share your thought or correct an information| ✅ |
+| Dark Mode (of course)| ✅ |
 | Create khatma and allow others to contribute to it| ❌ |
 
 # 📥 Installation (pre-release)
