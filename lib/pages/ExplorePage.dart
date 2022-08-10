@@ -68,7 +68,8 @@ class _ExplorePageState extends State<ExplorePage> {
     bool isImageSelected = false;
     String selectedPhotoUrl = "";
     String imageName = "";
-    var pickedImageToPost;
+    var imagePath;
+    var pickedImageToPost= File("");
     late Widget returnImageOrText = const Text("No Image Selected");
     TextEditingController userPost = TextEditingController();
     return StreamBuilder<Object>(
@@ -120,7 +121,10 @@ class _ExplorePageState extends State<ExplorePage> {
                       ),
                     ),
                   ),
-                  Container(child: returnImageOrText)
+                  // Container(
+                  //     child: pickedImageToPost != null
+                  //         ? Image(image: FileImage(pickedImageToPost))
+                  //         : Text("No Image"))
                 ],
               ),
             ),
@@ -152,6 +156,7 @@ class _ExplorePageState extends State<ExplorePage> {
                                           File(imagePicker!.path);
                                       Navigator.pop(context);
                                       imageName = imagePicker.name;
+                                      imagePath = imagePicker.path;
                                     },
                                     icon:
                                         const Icon(Icons.add_a_photo_outlined)),
@@ -200,15 +205,15 @@ class _ExplorePageState extends State<ExplorePage> {
         });
   }
 
-  returnImageInTheDialoque(isImageSelected, photoUrl) {
-    if (isImageSelected) {
-      setState(() {});
-    } else {
-      return const Center(
-        child: Text("No Image Selected"),
-      );
-    }
-  }
+  // returnImageInTheDialoque(isImageSelected, photoUrl) {
+  //   if (isImageSelected) {
+  //     setState(() {});
+  //   } else {
+  //     return const Center(
+  //       child: Text("No Image Selected"),
+  //     );
+  //   }
+  // }
 
   postTheInfo(String text, var photoData, String imageName) async {
     String? photoUrl;
