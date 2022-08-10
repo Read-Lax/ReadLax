@@ -69,7 +69,7 @@ class _ExplorePageState extends State<ExplorePage> {
     String selectedPhotoUrl = "";
     String imageName = "";
     var imagePath;
-    var pickedImageToPost= File("");
+    var pickedImageToPost = File("");
     late Widget returnImageOrText = const Text("No Image Selected");
     TextEditingController userPost = TextEditingController();
     return StreamBuilder<Object>(
@@ -182,7 +182,7 @@ class _ExplorePageState extends State<ExplorePage> {
                 },
                 icon: Icon(
                   Icons.add_photo_alternate_outlined,
-                  color: Colors.green[50],
+                  color: Theme.of(context).primaryColor,
                 ),
               ),
               IconButton(
