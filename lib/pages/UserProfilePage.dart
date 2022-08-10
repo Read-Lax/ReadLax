@@ -5,12 +5,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/state_manager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:readlex/main.dart';
 import 'dart:io';
 import 'package:readlex/fireStoreHandeler/handeler.dart';
-import 'package:readlex/shared/mostUsedFunctions.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -87,6 +85,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
+              leading: IconButton(
+                color: Theme.of(context).primaryColor,
+                icon: Icon(Icons.arrow_back_ios_new_outlined),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
               title: const Text(
                 "Account Settings",
                 style: TextStyle(

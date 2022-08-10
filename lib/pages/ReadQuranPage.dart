@@ -243,9 +243,9 @@ class _ReadQuranState extends State<ReadQuran> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_sharp,
-            // color: Colors.black54,
+          icon: Icon(
+            Icons.arrow_back_ios_new_outlined,
+            color: Theme.of(context).primaryColor,
           ),
           onPressed: () {
             Navigator.pop(context);

@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:readlex/shared/mostUsedFunctions.dart';
 
 Future<void> writeNewUserData(String userName, String userEmail,
     String userPhotoUrl, String userUID) async {

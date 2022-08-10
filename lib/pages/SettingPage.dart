@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:readlex/pages/AppearanceSetting.dart';
 import 'package:readlex/pages/UserProfilePage.dart';
 import 'package:readlex/pages/aboutPage.dart';
 
@@ -20,6 +20,13 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          color: Theme.of(context).primaryColor,
+          icon: Icon(Icons.arrow_back_ios_new_outlined),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
@@ -80,6 +87,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   fontSize: 11,
                 ),
               ),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AppearancePage()));
+              },
             ),
           ),
           Card(

@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:readlex/pages/FavoritePostsPage.dart';
 
 // imporintg pages contents
@@ -14,11 +15,10 @@ import 'pages/HomeContent.dart';
 import 'pages/ReadQuranPage.dart';
 import 'login-signUp/loginPage.dart';
 import 'package:readlex/pages/SettingPage.dart';
-import 'package:readlex/pages/UserProfilePage.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
 import 'package:readlex/splashScreen.dart';
+import 'package:readlex/provider/themeProvider.dart';
 // import 'package:readlex/pages/FavoritePostsPage.dart';
-import 'package:readlex/fireStoreHandeler/handeler.dart';
 import 'package:readlex/pages/ExplorePage.dart';
 
 Future main() async {
@@ -33,13 +33,21 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Hello Mom',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-      ),
-      home: SplashScreen(),
-    );
+    return ChangeNotifierProvider(
+        create: (context) => ThemeProvider(),
+        builder: (context, _) {
+          final themeProvider = Provider.of<ThemeProvider>(context);
+          return MaterialApp(
+            title: 'Readlax',
+            themeMode: themeProvider.themeMode,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            // theme: ThemeData(
+            //   brightness: Brightness.dark,
+            // ),
+            home: SplashScreen(),
+          );
+        });
   }
 }
 
@@ -139,6 +147,7 @@ class HomePageState extends State<HomePage> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
+              iconTheme:  Theme.of(context).primaryIconTheme,
               title: Text(
                 _appBarTitle[_appBarTitleIndex],
                 style: const TextStyle(

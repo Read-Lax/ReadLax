@@ -1,18 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:readlex/fireStoreHandeler/handeler.dart';
-import 'package:readmore/readmore.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
-import 'package:numeral/numeral.dart';
-import 'package:jiffy/jiffy.dart';
 import 'dart:io';
-import 'package:readlex/shared/mostUsedFunctions.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
@@ -151,12 +145,13 @@ class _ExplorePageState extends State<ExplorePage> {
                                           await ImagePicker().pickImage(
                                         source: ImageSource.camera,
                                         // maxHeight: 513,
-                                        // maxWidth: 513,
-                                        imageQuality: 100,
+                                        // // maxWidth: 513,
+                                        // imageQuality: 100,
                                       );
                                       pickedImageToPost =
                                           File(imagePicker!.path);
                                       Navigator.pop(context);
+                                      imageName = imagePicker.name;
                                     },
                                     icon:
                                         const Icon(Icons.add_a_photo_outlined)),
@@ -168,12 +163,10 @@ class _ExplorePageState extends State<ExplorePage> {
                                       final imagePicker =
                                           await ImagePicker().pickImage(
                                         source: ImageSource.gallery,
-                                        // maxHeight: 513,
-                                        // maxWidth: 513,
-                                        imageQuality: 100,
                                       );
                                       pickedImageToPost =
                                           File(imagePicker!.path);
+                                      imageName = imagePicker.name;
                                       Navigator.pop(context);
                                     },
                                     icon: const Icon(
@@ -225,8 +218,10 @@ class _ExplorePageState extends State<ExplorePage> {
     Reference storageRef =
         FirebaseStorage.instance.ref("posts").child("images").child(imageName);
 
-    Fluttertoast.showToast(msg: "Uploading your post...");
+    Fluttertoast.showToast(
+        msg: "Publishing your post... this may take some minutes.");
     await storageRef.putFile(photoData);
+    // Fluttertoast.showToast(msg: "Done file upload");
     await storageRef
         .getDownloadURL()
         .then((storageData) => photoUrl = storageData.toString());

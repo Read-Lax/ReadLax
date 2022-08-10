@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:numeral/numeral.dart';
-import 'package:readlex/pages/FavoritePostsPage.dart';
+import 'package:quiver/collection.dart';
 import 'package:readmore/readmore.dart';
 import 'package:readlex/pages/comentsPage.dart';
 import 'package:intl/intl.dart' as intl;
@@ -35,6 +35,15 @@ usersProfile(userUid, context) {
   var userData;
 
   return Scaffold(
+    appBar: AppBar(
+      leading: IconButton(
+        color: Theme.of(context).primaryColor,
+        icon: Icon(Icons.arrow_back_ios_new_outlined),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+    ),
     body: StreamBuilder<QuerySnapshot>(
         stream: userRef,
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -353,10 +362,6 @@ usersProfile(userUid, context) {
           }
 
           return Scaffold(
-            appBar: AppBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-            ),
             body: SingleChildScrollView(
               child: Container(
                 width: double.infinity,
@@ -584,7 +589,7 @@ showPost(snapshotData, context) {
   DocumentReference ref =
       FirebaseFirestore.instance.collection("users").doc(user!.uid);
   double alertDialogHeight;
-
+  Report report = Report();
   // checking wether the post is saved by the current user
   // or not
 
@@ -618,7 +623,7 @@ showPost(snapshotData, context) {
     );
   }
   if (isDeleteButtonEnabled) {
-    alertDialogHeight = 130;
+    alertDialogHeight = 190;
   } else {
     alertDialogHeight = 70;
   }
@@ -628,14 +633,14 @@ showPost(snapshotData, context) {
 
   return Container(
     child: Card(
-      elevation: 7,
+      elevation: 3,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       child: Padding(
         padding: EdgeInsets.all(7.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ListTile(
               onTap: () {
@@ -699,6 +704,25 @@ showPost(snapshotData, context) {
                                             //         "Post have been saved successfully");
                                           }),
                                     ),
+                                    ListTile(
+                                      leading: Icon(
+                                          Icons.report_gmailerrorred_outlined),
+                                      title: Text(
+                                        "Report",
+                                        style: TextStyle(
+                                          fontFamily: "VareLaRound",
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        report.reportPost(
+                                            postUsersUid, postUID);
+                                        Navigator.pop(context);
+                                        Fluttertoast.showToast(
+                                            msg:
+                                                "Thank you for your FeedBack.");
+                                      },
+                                    ),
                                     isDeleteButtonEnabled
                                         ? Card(
                                             shape: const RoundedRectangleBorder(
@@ -731,7 +755,7 @@ showPost(snapshotData, context) {
                                                   //         "Post have been saved successfully");
                                                 }),
                                           )
-                                        : Text("")
+                                        : Text(""),
                                   ],
                                 ),
                               ),
@@ -851,7 +875,7 @@ showPost(snapshotData, context) {
                     ),
                   ],
                 ),
-                Row(
+                Column(
                   children: [
                     IconButton(
                         onPressed: () {
@@ -864,10 +888,12 @@ showPost(snapshotData, context) {
                         },
                         icon: Icon(
                           Icons.mode_comment_outlined,
+                          // color: Colors.teal,
                           size: 37,
                         )),
+                    Text("")
                   ],
-                )
+                ),
               ],
             ),
           ],
@@ -912,6 +938,7 @@ deleteAPost(postID, List postUsersThatSavedIt, String? userWhoCreatedThePost,
       .child("images")
       .child(postImageName!)
       .delete();
+
   Fluttertoast.showToast(msg: "Post have been deleted successfully");
 }
 
@@ -964,4 +991,35 @@ deleteAComent(String? comentUID, String? postUID,
     "comentedComents": FieldValue.arrayRemove([comentUID])
   });
   // Fluttertoast.showToast(msg: "coment deleted successfully");
+}
+
+// report Class
+// for reporting Indecent Coments, posts, khatmat
+class Report {
+  // this class contains functions that made for reporting In-app content
+  // like [Coments, post, khatma]
+  // and the way it works is by uploading data about the reported content and the user who created it to a collection
+  // in firebase firestore and then it will be veiwed by the devloper and get deleted if it againsed the terms and conditions
+
+  void reportComents(String? commentUserUID, String? comentUID) async {
+    await FirebaseFirestore.instance
+        .collection("reports")
+        .doc("b347WbgYL9au4kAFSrzI")
+        .update({
+      "coments": FieldValue.arrayUnion([
+        {"comentUID": comentUID, "comentUserUID": commentUserUID}
+      ])
+    });
+  }
+
+  void reportPost(String? postUserUID, String? postUID) async {
+    await FirebaseFirestore.instance
+        .collection("reports")
+        .doc("b347WbgYL9au4kAFSrzI")
+        .update({
+      "posts": FieldValue.arrayUnion([
+        {"comentUID": postUID, "comentUserUID": postUserUID}
+      ])
+    });
+  }
 }

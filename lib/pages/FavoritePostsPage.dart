@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
 
@@ -40,39 +39,48 @@ class SavedPost {
           }
 
           return Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  "Saved Posts",
-                  style: TextStyle(
-                      fontFamily: "VareLaRound",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                      color: Colors.greenAccent),
-                ),
-                elevation: 0,
-                backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              leading: IconButton(
+                color: Theme.of(context).primaryColor,
+                icon: Icon(Icons.arrow_back_ios_new_outlined),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
-              body: isThereAnySavedPost
-                  ? ListView.builder(
-                      itemCount: cardToDisplay.length,
-                      itemBuilder: ((context, index) {
-                        return cardToDisplay[index];
-                      }),
-                    )
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                            child: Text(
+              title: Text(
+                "Saved Posts",
+                style: TextStyle(
+                    fontFamily: "VareLaRound",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: Colors.greenAccent),
+              ),
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+            ),
+            body: isThereAnySavedPost
+                ? ListView.builder(
+                    itemCount: cardToDisplay.length,
+                    itemBuilder: ((context, index) {
+                      return cardToDisplay[index];
+                    }),
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Text(
                           "It seems like you don't have any saved posts yet",
                           style: TextStyle(
                             fontFamily: "VareLaRound",
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
-                        ),),
-                      ],
-                    ),);
+                        ),
+                      ),
+                    ],
+                  ),
+          );
         });
   }
 }

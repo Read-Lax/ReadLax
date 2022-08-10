@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:readlex/pages/UserProfilePage.dart';
 import 'package:slide_digital_clock/slide_digital_clock.dart';
 import 'package:adhan/adhan.dart';
 import 'package:intl/intl.dart';
@@ -96,10 +95,10 @@ class _HomePageContentState extends State<HomePageContent> {
                 hourMinuteDigitTextStyle: TextStyle(
                   fontFamily: "VareLaRound",
                   fontSize: 50,
-                  color: digitalClockColor,
+                  color: Theme.of(context).primaryColor,
                 ),
                 amPmDigitTextStyle: TextStyle(
-                  color: digitalClockColor,
+                  color: Theme.of(context).primaryColor,
                   fontFamily: "VareLaRound",
                   fontWeight: FontWeight.bold,
                   fontSize: 40,

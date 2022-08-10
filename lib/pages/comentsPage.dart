@@ -7,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:readlex/fireStoreHandeler/handeler.dart';
 
 class ComentsPage extends StatefulWidget {
   var postId;
@@ -19,6 +18,7 @@ class ComentsPage extends StatefulWidget {
 
 class _ComentsPageState extends State<ComentsPage> {
   final User? user = FirebaseAuth.instance.currentUser;
+  Report report = Report();
   // final Stream<QuerySnapshot<Map<String, dynamic>>> postComentsRef = FirebaseFirestore.instance.collection("posts").doc(postId).collection("coments").snapshots();
   TextEditingController userComent = TextEditingController();
   @override
@@ -27,6 +27,13 @@ class _ComentsPageState extends State<ComentsPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios_new_outlined),
+          color: Theme.of(context).primaryColor,
+        ),
         title: Text(
           'Coments',
           style: TextStyle(
@@ -274,7 +281,7 @@ class _ComentsPageState extends State<ComentsPage> {
                                                                       Icons
                                                                           .report_gmailerrorred_outlined),
                                                                   title: Text(
-                                                                    "report",
+                                                                    "Report",
                                                                     style:
                                                                         TextStyle(
                                                                       fontFamily:
@@ -284,6 +291,17 @@ class _ComentsPageState extends State<ComentsPage> {
                                                                               .bold,
                                                                     ),
                                                                   ),
+                                                                  onTap: () {
+                                                                    report.reportComents(
+                                                                        commentUserId,
+                                                                        currentComentUID);
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                    Fluttertoast
+                                                                        .showToast(
+                                                                            msg:
+                                                                                "Thank you for your feedback.");
+                                                                  },
                                                                 ),
                                                               ],
                                                             ),
