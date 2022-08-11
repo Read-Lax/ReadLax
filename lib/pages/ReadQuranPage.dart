@@ -253,6 +253,7 @@ class _ReadQuranState extends State<ReadQuran> {
         ),
         actions: [
           IconButton(
+              color: Theme.of(context).primaryColor,
               onPressed: () async {
                 if (isPlayingQuran) {
                   await pausePlayingQuran();
