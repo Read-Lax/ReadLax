@@ -36,6 +36,8 @@ usersProfile(userUid, context) {
 
   return Scaffold(
     appBar: AppBar(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
       leading: IconButton(
         color: Theme.of(context).primaryColor,
         icon: Icon(Icons.arrow_back_ios_new_outlined),
