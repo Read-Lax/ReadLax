@@ -207,6 +207,7 @@ class _ComentsPageState extends State<ComentsPage> {
                                             TextSpan(
                                                 text: commentText,
                                                 style: TextStyle(
+                                                  color: Theme.of(context).primaryColor,
                                                   fontFamily: "VareLaRound",
                                                 ))
                                           ]),
@@ -219,6 +220,7 @@ class _ComentsPageState extends State<ComentsPage> {
                                               style: TextStyle(
                                                 fontFamily: "VareLaRound",
                                                 fontSize: 11,
+                                                color: Theme.of(context).primaryColor,
                                               ),
                                             ),
                                           ],
