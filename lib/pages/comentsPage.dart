@@ -166,9 +166,9 @@ class _ComentsPageState extends State<ComentsPage> {
                                 currentComentData["likedBy"];
                             String? currentComentUID = currentComentData.id;
                             bool isDeleteComent = user!.uid == commentUserId;
-                            bool isRTL(String text) {
-                              return intl.Bidi.detectRtlDirectionality(text);
-                            }
+                            // bool isRTL(String text) {
+                            //   return intl.Bidi.detectRtlDirectionality(text);
+                            // }
 
                             StatelessWidget comentLikeButton =
                                 comentUsersLikes.contains(user!.uid)
@@ -199,6 +199,8 @@ class _ComentsPageState extends State<ComentsPage> {
                                             TextSpan(
                                               text: "$commentUserName ",
                                               style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
                                                 fontFamily: "VareLaRound",
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 13,
@@ -207,7 +209,8 @@ class _ComentsPageState extends State<ComentsPage> {
                                             TextSpan(
                                                 text: commentText,
                                                 style: TextStyle(
-                                                  color: Theme.of(context).primaryColor,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
                                                   fontFamily: "VareLaRound",
                                                 ))
                                           ]),
@@ -220,7 +223,8 @@ class _ComentsPageState extends State<ComentsPage> {
                                               style: TextStyle(
                                                 fontFamily: "VareLaRound",
                                                 fontSize: 11,
-                                                color: Theme.of(context).primaryColor,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
                                               ),
                                             ),
                                           ],

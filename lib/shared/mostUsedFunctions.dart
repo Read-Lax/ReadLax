@@ -31,6 +31,9 @@ User? user = FirebaseAuth.instance.currentUser;
 usersProfile(userUid, context) {
   final Stream<QuerySnapshot> userRef =
       FirebaseFirestore.instance.collection("users").snapshots();
+  bool isRTL(String text) {
+    return intl.Bidi.detectRtlDirectionality(text);
+  }
 
   var userData;
 
@@ -252,21 +255,55 @@ usersProfile(userUid, context) {
                             )
                           : Padding(
                               padding: const EdgeInsets.all(11.0),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    ifDataIsEmptyMsg,
-                                    style: TextStyle(
-                                      fontFamily: "VareLaRound",
-                                      fontWeight: FontWeight.bold,
-                                      // fontSize: 17,
-                                    ),
-                                  )
-                                ],
+                              child: ListTile(
+                                leading: Icon(
+                                  Icons.question_mark_rounded,
+                                  // size: 30,
+                                ),
+                                title: Text(
+                                  ifDataIsEmptyMsg,
+                                  style: TextStyle(
+                                    fontFamily: "VareLaRound",
+                                    fontWeight: FontWeight.bold,
+                                    // fontSize: 17,
+                                  ),
+                                ),
                               ),
+                              // child: Column(
+                              //   children: [
+                              //     Row(
+                              //       children: [
+                              //         Icon(
+                              //           Icons.question_mark_rounded,
+                              //           size: 30,
+                              //         ),
+                              //         SizedBox(
+                              //           width: 7,
+                              //         ),
+                              //         Text(
+                              //           ifDataIsEmptyMsg,
+                              //           style: TextStyle(
+                              //             fontFamily: "VareLaRound",
+                              //             fontWeight: FontWeight.bold,
+                              //             // fontSize: 17,
+                              //           ),
+                              //         ),
+                              //       ],
+                              //     )
+                              //   ],
+                              // ),
                             )),
                 ),
               ),
+              actions: [
+                ifDataIsEmptyMsg.isNotEmpty
+                    ? FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"))
+                    : Text("")
+              ],
             );
           }
 
@@ -363,6 +400,7 @@ usersProfile(userUid, context) {
             );
           }
 
+          String non = "";
           return Scaffold(
             body: SingleChildScrollView(
               child: Container(
@@ -392,7 +430,7 @@ usersProfile(userUid, context) {
                                 fontWeight: FontWeight.bold),
                           ),
                           SizedBox(
-                            width: 30,
+                            width: isFollowButtonEnabled ? 30 : 0,
                           ),
                           isFollowButtonEnabled
                               ? ElevatedButton(
@@ -416,7 +454,7 @@ usersProfile(userUid, context) {
                                     ],
                                   ),
                                 )
-                              : Text(""),
+                              : Column()
                         ],
                       ),
                       Row(
@@ -477,12 +515,21 @@ usersProfile(userUid, context) {
                           ),
                         ],
                       ),
-                      ReadMoreText(
-                        userDescription!,
-                        style: TextStyle(
-                            leadingDistribution: TextLeadingDistribution.even,
-                            fontFamily: "VareLaRound",
-                            fontWeight: FontWeight.w300),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          child: ReadMoreText(
+                            userDescription!,
+                            textDirection: isRTL(userDescription!)
+                                ? TextDirection.rtl
+                                : TextDirection.ltr,
+                            style: TextStyle(
+                                leadingDistribution:
+                                    TextLeadingDistribution.even,
+                                fontFamily: "VareLaRound",
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
                       ),
                       Divider(),
                       Text(
