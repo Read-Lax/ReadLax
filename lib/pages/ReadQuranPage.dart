@@ -148,7 +148,7 @@ class _ReadQuranPageState extends State<ReadQuranPage> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   elevation: 10,
-                  color: Colors.black54,
+                  // color: ,
                   child: Column(
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -173,8 +173,8 @@ class _ReadQuranPageState extends State<ReadQuranPage> {
                         ),
                         title: Text(
                           "حزب / Hizb" + " ${index + 1}",
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
                             fontFamily: "VareLaRound",
                             fontWeight: FontWeight.bold,
                           ),
@@ -183,7 +183,7 @@ class _ReadQuranPageState extends State<ReadQuranPage> {
                         subtitle: Text(
                           ahzabInfos[index],
                           style: TextStyle(
-                            color: Colors.green[100],
+                            color: Colors.green[300],
                             fontFamily: "VareLaRound",
                             fontWeight: FontWeight.bold,
                           ),
