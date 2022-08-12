@@ -755,7 +755,9 @@ showPost(snapshotData, context) {
                                     ),
                                     ListTile(
                                       leading: Icon(
-                                          Icons.report_gmailerrorred_outlined),
+                                        Icons.report_gmailerrorred_outlined,
+                                        size: 25,
+                                      ),
                                       title: Text(
                                         "Report",
                                         style: TextStyle(
@@ -782,6 +784,7 @@ showPost(snapshotData, context) {
                                                 leading: Icon(
                                                   Icons.delete_outline_outlined,
                                                   color: Colors.redAccent,
+                                                  size: 25,
                                                 ),
                                                 title: const Text("Delete",
                                                     style: TextStyle(
@@ -996,6 +999,7 @@ deleteAPost(postID, List postUsersThatSavedIt, String? userWhoCreatedThePost,
 */
 // upload or publish a coment
 uploadAComent(String? postUID, String? commentContent, String? userUID) async {
+  // await user!.reload();
   CollectionReference<Map<String, dynamic>> postComentRef = FirebaseFirestore
       .instance
       .collection("posts")
@@ -1007,8 +1011,8 @@ uploadAComent(String? postUID, String? commentContent, String? userUID) async {
     "comentContent": commentContent,
     "comentUserUID": userUID,
     "comentTime": DateTime.now(),
-    "userPhotoUrl": user!.photoURL,
-    "userName": user!.displayName,
+    "userPhotoUrl": FirebaseAuth.instance.currentUser!.photoURL,
+    "userName": FirebaseAuth.instance.currentUser!.displayName,
     "hour": DateTime.now().hour,
     "day": DateTime.now().day,
     "year": DateTime.now().year,
@@ -1017,7 +1021,9 @@ uploadAComent(String? postUID, String? commentContent, String? userUID) async {
   }).then((value) => commentUID = value.id);
   Fluttertoast.showToast(msg: "coment got published successfully");
   await FirebaseFirestore.instance.collection("users").doc(userUID!).update({
-    "comentedComents": FieldValue.arrayUnion([commentUID])
+    "comentedComents": FieldValue.arrayUnion([
+      {"comentUID": commentUID, "postUID": postUID}
+    ])
   });
   // Fluttertoast.showToast(msg: "coment got published successfully");
 }
@@ -1037,7 +1043,9 @@ deleteAComent(String? comentUID, String? postUID,
       .collection("users")
       .doc(userUIDwhoCreatedTheComent)
       .update({
-    "comentedComents": FieldValue.arrayRemove([comentUID])
+    "comentedComents": FieldValue.arrayRemove([
+      {"comentUID": comentUID, "postUID": postUID}
+    ])
   });
   // Fluttertoast.showToast(msg: "coment deleted successfully");
 }
