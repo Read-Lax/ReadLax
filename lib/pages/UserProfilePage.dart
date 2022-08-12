@@ -449,6 +449,19 @@ class _UserProfilePageState extends State<UserProfilePage> {
               FirebaseFirestore.instance.collection("posts").doc(postItem);
           await postRef.update({'userName': newName});
         }
+        List comentedComents = [];
+        ref.get().then((userData) async {
+          comentedComents = userData["comentedComents"];
+          print(comentedComents);
+          for (var coment in comentedComents) {
+            await FirebaseFirestore.instance
+                .collection("posts")
+                .doc(coment["postUID"])
+                .collection("coments")
+                .doc(coment["comentUID"])
+                .update({"userName": newName});
+          }
+        });
       });
     }
   }
@@ -558,6 +571,19 @@ class _UserProfilePageState extends State<UserProfilePage> {
           DocumentReference<Map<String, dynamic>> postRef =
               FirebaseFirestore.instance.collection("posts").doc(postItem);
           await postRef.update({'userProfilePicUrl': value});
+        }
+      });
+      List comentedComents = [];
+      ref.get().then((userData) async {
+        comentedComents = userData["comentedComents"];
+        print(comentedComents);
+        for (var coment in comentedComents) {
+          await FirebaseFirestore.instance
+              .collection("posts")
+              .doc(coment["postUID"])
+              .collection("coments")
+              .doc(coment["comentUID"])
+              .update({"userPhotoUrl": value});
         }
       });
     });
