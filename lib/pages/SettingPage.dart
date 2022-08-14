@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:readlex/pages/AppearanceSetting.dart';
-import 'package:readlex/pages/UserProfilePage.dart';
+import 'package:readlex/pages/changeAccountDataPage.dart';
 import 'package:readlex/pages/aboutPage.dart';
 
 class SettingsPage extends StatefulWidget {
