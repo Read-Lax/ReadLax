@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
             // theme: ThemeData(
             //   brightness: Brightness.dark,
             // ),
-            home: SplashScreen(),
+            home: ShowPage()
           );
         });
   }
@@ -60,9 +60,9 @@ class ShowPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const HomePage();
+            return SplashScreen(whatToReturn: HomePage());
           } else {
-            return const LoginPage();
+            return  LoginPage();
           }
         });
   }

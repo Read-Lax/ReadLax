@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:readlex/main.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  Widget whatToReturn;
+  SplashScreen({Key? key, required Widget this.whatToReturn}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -18,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   _navigateToTheMainPage() async {
     await Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => ShowPage()));
+          context, MaterialPageRoute(builder: (context) => widget.whatToReturn));
       // return ShowPage();
     });
   }

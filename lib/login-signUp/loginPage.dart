@@ -155,8 +155,12 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => const SignUpPage()));
+                                // Navigator.of(context).restorablePush(MaterialPageRoute(
+                                //     builder: (context) => const SignUpPage()));
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignUpPage()));
                                 setState(() {});
                               })
                       ])),
@@ -210,7 +214,7 @@ class _LoginPageState extends State<LoginPage> {
       Fluttertoast.showToast(
           msg: "Welcome back " +
               FirebaseAuth.instance.currentUser!.displayName.toString());
-      // setState(() {});
+      setState(() {});
     } on FirebaseAuthException catch (errorMsg) {
       Fluttertoast.showToast(
           msg: "${errorMsg.message}", gravity: ToastGravity.TOP);
