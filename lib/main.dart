@@ -79,9 +79,8 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+  String appVersion = "0.2-beta.6";
   User? user = FirebaseAuth.instance.currentUser;
-  // String? userName;
-  // String? userProfilePicUrl;
   final List _appBarTitle = [
     "Home",
     "Read Quran",
@@ -328,6 +327,12 @@ class HomePageState extends State<HomePage> {
                         Fluttertoast.showToast(msg: "You Have Signed Out");
                       },
                     ),
+                  ),
+                  Spacer(), // used to fill up all the free space in the Drawer
+                  Text(
+                    "Version $appVersion",
+                    style: TextStyle(
+                        fontFamily: "VareLaRound", fontWeight: FontWeight.bold),
                   )
                 ],
               ),
