@@ -1,3 +1,8 @@
+// ReadLax, read Quran and stay relaxed
+// devloped by ramsy
+// github: https://github.com/0RaMsY0/ReadLax
+// idea by the devloper's mother
+
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,7 +23,6 @@ import 'package:readlex/pages/SettingPage.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
 import 'package:readlex/splashScreen.dart';
 import 'package:readlex/provider/themeProvider.dart';
-// import 'package:readlex/pages/FavoritePostsPage.dart';
 import 'package:readlex/pages/ExplorePage.dart';
 
 Future main() async {
@@ -38,15 +42,14 @@ class MyApp extends StatelessWidget {
         builder: (context, _) {
           final themeProvider = Provider.of<ThemeProvider>(context);
           return MaterialApp(
-            title: 'Readlax',
-            themeMode: themeProvider.themeMode,
-            theme: AppTheme.lightTheme,
-            darkTheme: AppTheme.darkTheme,
-            // theme: ThemeData(
-            //   brightness: Brightness.dark,
-            // ),
-            home: ShowPage()
-          );
+              title: 'Readlax',
+              themeMode: themeProvider.themeMode,
+              theme: AppTheme.lightTheme,
+              darkTheme: AppTheme.darkTheme,
+              // theme: ThemeData(
+              //   brightness: Brightness.dark,
+              // ),
+              home: ShowPage());
         });
   }
 }
@@ -62,7 +65,7 @@ class ShowPage extends StatelessWidget {
           if (snapshot.hasData) {
             return SplashScreen(whatToReturn: HomePage());
           } else {
-            return  LoginPage();
+            return LoginPage();
           }
         });
   }
@@ -147,7 +150,7 @@ class HomePageState extends State<HomePage> {
             appBar: AppBar(
               elevation: 0,
               backgroundColor: Colors.transparent,
-              iconTheme:  Theme.of(context).primaryIconTheme,
+              iconTheme: Theme.of(context).primaryIconTheme,
               title: Text(
                 _appBarTitle[_appBarTitleIndex],
                 style: const TextStyle(
