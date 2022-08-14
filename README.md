@@ -42,6 +42,10 @@ The app is currently unavailable for IOS but it will in the future.
 
 ***
 
+# ScreenShots
+<img src="https://github.com/0RaMsY0/ReadLax/blob/main/assets/Screenshot_20220814-235005.png?raw=true" style="width: 23%;margin:16px;" />&nbsp;&nbsp;
+<img src="https://github.com/0RaMsY0/ReadLax/blob/main/assets/Screenshot_20220814-235125.png?raw=true" style="width: 23%;margin:16px;" />&nbsp;&nbsp;<img src="https://github.com/0RaMsY0/ReadLax/blob/main/assets/Screenshot_20220815-001919.png?raw=true" style="width: 23%;margin:16px;" />;<img src="https://github.com/0RaMsY0/ReadLax/blob/main/assets/Screenshot_20220814-234843.png?raw=true" style="width: 23%;margin:16px;" />&nbsp;&nbsp;<img src="https://github.com/0RaMsY0/ReadLax/blob/main/assets/Screenshot_20220814-234847.png?raw=true" style="width: 23%;margin:16px;" />&nbsp;&nbsp;<img src="https://github.com/0RaMsY0/ReadLax/blob/main/assets/Screenshot_20220814-234935.png?raw=true" style="width: 23%;margin:16px;" />&nbsp;&nbsp;<img src="https://github.com/0RaMsY0/ReadLax/blob/main/assets/Screenshot_20220814-234939.png?raw=true" style="width: 23%;margin:16px;" />&nbsp;&nbsp;<img src="https://github.com/0RaMsY0/ReadLax/blob/main/assets/Screenshot_20220814-234946.png?raw=true" style="width: 23%;margin:16px;" />&nbsp;&nbsp;<img src="https://github.com/0RaMsY0/ReadLax/blob/main/assets/Screenshot_20220814-234950.png?raw=true" style="width: 23%;margin:16px;" />&nbsp;&nbsp;
+
 # Feedback
 
 If you have any feadback or suggestions feel free to email the developer at 0ramsy0@gmail.com
