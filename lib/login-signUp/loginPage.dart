@@ -208,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: userGmail.text.trim(), password: userPassword.text.trim());
       Fluttertoast.showToast(
-          msg: "Welcome back" +
+          msg: "Welcome back " +
               FirebaseAuth.instance.currentUser!.displayName.toString());
       // setState(() {});
     } on FirebaseAuthException catch (errorMsg) {

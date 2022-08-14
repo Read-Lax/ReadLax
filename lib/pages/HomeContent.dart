@@ -14,8 +14,8 @@ class HomePageContent extends StatefulWidget {
 }
 
 class _HomePageContentState extends State<HomePageContent> {
-  double laltitude = 0.0;
-  double longtitude = 0.0;
+   double laltitude = 0.0;
+   double longtitude = 0.0;
   // get the user location to use it to get the adhan information
   Future<Position> _getUserLocation() async {
     bool serviceEnabled;
@@ -23,7 +23,7 @@ class _HomePageContentState extends State<HomePageContent> {
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      Fluttertoast.showToast(msg: 'Location services are disabled ');
+      Fluttertoast.showToast(msg: 'Location services are disabled');
     }
 
     permission = await Geolocator.checkPermission();
@@ -40,14 +40,13 @@ class _HomePageContentState extends State<HomePageContent> {
     }
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.low);
-    setState(() {
+    // setState(() {
       laltitude = position.latitude;
       longtitude = position.longitude;
-    });
+    // });
     return await Geolocator.getCurrentPosition();
   }
 
-  Color digitalClockColor = Get.isDarkMode ? Colors.white : Colors.black;
   @override
   void initState() {
     super.initState();
@@ -137,9 +136,11 @@ class _HomePageContentState extends State<HomePageContent> {
   }
 
   getAdhanTime(lat, long) {
+    // Fluttertoast.showToast(msg: lat.toString());
     final coordinates = Coordinates(lat, long);
-    final params = CalculationMethod.muslim_world_league.getParameters();
-    params.madhab = Madhab.shafi;
+    final params =
+        CalculationMethod.karachi.getParameters(); // moon_sighting_committee
+    params.madhab = Madhab.hanafi;
     final prayerTime = PrayerTimes.today(coordinates, params);
     String currentPrayerName = "";
     String upComingPrayer = "";
