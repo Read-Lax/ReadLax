@@ -53,6 +53,8 @@ dependencies:
   auto_direction: ^0.0.6
   intl: ^0.17.0
   provider: ^6.0.3
+  firebase_in_app_messaging: ^0.6.0+21
+  flutter_local_notifications: ^9.7.1
 
 dev_dependencies:
   flutter_test:

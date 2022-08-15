@@ -13,7 +13,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:readlex/pages/FavoritePostsPage.dart';
-
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // imporintg pages contents
 import 'pages/ExplorePage.dart';
 import 'pages/HomeContent.dart';
