@@ -166,9 +166,6 @@ class _ComentsPageState extends State<ComentsPage> {
                                 currentComentData["likedBy"];
                             String? currentComentUID = currentComentData.id;
                             bool isDeleteComent = user!.uid == commentUserId;
-                            // bool isRTL(String text) {
-                            //   return intl.Bidi.detectRtlDirectionality(text);
-                            // }
 
                             StatelessWidget comentLikeButton =
                                 comentUsersLikes.contains(user!.uid)

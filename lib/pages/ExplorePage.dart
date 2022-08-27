@@ -45,8 +45,7 @@ class _ExplorePageState extends State<ExplorePage> {
               itemBuilder: (BuildContext context, index) {
                 QueryDocumentSnapshot<Object?> currentDocs =
                     dataOfPosts.docs[index];
-
-                return showPost(dataOfPosts.docs[index], context);
+                return showPost(currentDocs, context);
               },
               itemCount: snapshot.data!.size,
             ),
@@ -106,9 +105,6 @@ class _ExplorePageState extends State<ExplorePage> {
                       border: UnderlineInputBorder(
                           borderRadius:
                               BorderRadius.all(Radius.circular(10.0))),
-                      // OutlineInputBorder(
-                      // borderRadius:
-                      // BorderRadius.all(Radius.circular(10.0))
                       label: Text(
                         "Share what you think...",
                         style: TextStyle(

@@ -270,29 +270,6 @@ usersProfile(userUid, context) {
                                   ),
                                 ),
                               ),
-                              // child: Column(
-                              //   children: [
-                              //     Row(
-                              //       children: [
-                              //         Icon(
-                              //           Icons.question_mark_rounded,
-                              //           size: 30,
-                              //         ),
-                              //         SizedBox(
-                              //           width: 7,
-                              //         ),
-                              //         Text(
-                              //           ifDataIsEmptyMsg,
-                              //           style: TextStyle(
-                              //             fontFamily: "VareLaRound",
-                              //             fontWeight: FontWeight.bold,
-                              //             // fontSize: 17,
-                              //           ),
-                              //         ),
-                              //       ],
-                              //     )
-                              //   ],
-                              // ),
                             )),
                 ),
               ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:slide_digital_clock/slide_digital_clock.dart';
 import 'package:adhan/adhan.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +16,7 @@ class _HomePageContentState extends State<HomePageContent> {
    double laltitude = 0.0;
    double longtitude = 0.0;
   // get the user location to use it to get the adhan information
-  Future<Position> _getUserLocation() async {
+  void _getUserLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -40,15 +39,12 @@ class _HomePageContentState extends State<HomePageContent> {
     }
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.low);
-    // setState(() {
-      laltitude = position.latitude;
-      longtitude = position.longitude;
-    // });
-    return await Geolocator.getCurrentPosition();
+    laltitude = position.latitude;
+    longtitude = position.longitude;
   }
 
   @override
-  void initState() {
+  void initState() async{
     super.initState();
     _getUserLocation();
   }

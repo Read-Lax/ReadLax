@@ -94,10 +94,6 @@ class HomePageState extends State<HomePage> {
   int _appBarTitleIndex = 0;
   final Stream<QuerySnapshot> firestoreUserData =
       FirebaseFirestore.instance.collection("users").snapshots();
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
