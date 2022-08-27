@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:readlex/pages/FavoritePostsPage.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
