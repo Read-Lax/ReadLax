@@ -9,12 +9,12 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
-      time: "7:00"
+      time: "07:00"
       timezone: Africa/Casablanca
-      open-pull-requests-limit: 3
+    open-pull-requests-limit: 3
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
-      time: "7:00"
+      time: "07:00"
       timezone: Africa/Casablanca
