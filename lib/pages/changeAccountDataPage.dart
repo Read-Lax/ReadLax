@@ -393,6 +393,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         width: 30,
                       ),
                       CupertinoButton(
+                        padding: EdgeInsets.all(7.0),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -406,10 +407,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        width: 110,
-                      ),
+                      Spacer(),
                       CupertinoButton(
+                        padding: EdgeInsets.all(15.0),
                         onPressed: () {
                           applayProfileChanges();
                           Navigator.pop(context);
