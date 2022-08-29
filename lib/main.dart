@@ -1,5 +1,5 @@
 // ReadLax, read Quran and stay relaxed
-// devloped by ramsy
+// devloped by ramsy, 0RaMsY0
 // github: https://github.com/0RaMsY0/ReadLax
 // idea by the devloper's mother
 
