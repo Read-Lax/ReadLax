@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
 
 class SavedPost {
-  savedPosrPage(usersSnapshot) {
+  savedPostsPage(usersSnapshot) {
     final Stream<QuerySnapshot> firestorePostData =
         FirebaseFirestore.instance.collection("posts").snapshots();
     return StreamBuilder<QuerySnapshot>(

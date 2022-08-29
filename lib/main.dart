@@ -10,9 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:readlex/pages/FavoritePostsPage.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // imporintg pages contents
 import 'pages/ExplorePage.dart';
 import 'pages/HomeContent.dart';
@@ -80,19 +80,66 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   String appVersion = "0.2-beta.6";
   User? user = FirebaseAuth.instance.currentUser;
+  late double longtitude;
+  late double laltitude;
   final List _appBarTitle = [
     "Home",
     "Read Quran",
     "Explore",
   ];
-  final List _scaffoldBodyContent = [
-    const HomePageContent(),
+
+  int _appBarTitleIndex = 0;
+  List _scaffoldBodyContent = [
+    HomePageContent(),
     const ReadQuranPage(),
     const ExplorePage()
   ];
-  int _appBarTitleIndex = 0;
   final Stream<QuerySnapshot> firestoreUserData =
       FirebaseFirestore.instance.collection("users").snapshots();
+
+  // check for location permession and getting the longtitude and laltitude
+  void _getUserLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      Fluttertoast.showToast(msg: 'Location services are disabled');
+    }
+
+    permission = await Geolocator.checkPermission();
+    permission = await Geolocator.requestPermission();
+
+    if (permission == LocationPermission.denied) {
+      Fluttertoast.showToast(msg: 'Location permissions are denied');
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      Fluttertoast.showToast(
+          msg:
+              'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
+    Position? latestPosition = await Geolocator.getLastKnownPosition();
+    setState(() {
+      laltitude = position.latitude;
+      longtitude = position.longitude;
+    });
+    _scaffoldBodyContent.insert(
+      0,
+      HomePageContent(
+        lat: position.latitude,
+        long: position.longitude,
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    _getUserLocation();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -271,8 +318,9 @@ class HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SavedPost().savedPosrPage(
-                                    data.docs[userIndex]["savedPost"])));
+                                builder: (context) => SavedPost()
+                                    .savedPostsPage(
+                                        data.docs[userIndex]["savedPost"])));
                       },
                     ),
                   ),

@@ -1,54 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:slide_digital_clock/slide_digital_clock.dart';
 import 'package:adhan/adhan.dart';
 import 'package:intl/intl.dart';
 
 class HomePageContent extends StatefulWidget {
-  const HomePageContent({Key? key}) : super(key: key);
+  HomePageContent({Key? key, this.lat, this.long}) : super(key: key);
+  var long;
+  var lat;
 
   @override
   State<HomePageContent> createState() => _HomePageContentState();
 }
 
 class _HomePageContentState extends State<HomePageContent> {
-   double laltitude = 0.0;
-   double longtitude = 0.0;
-  // get the user location to use it to get the adhan information
-  void _getUserLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      Fluttertoast.showToast(msg: 'Location services are disabled');
-    }
-
-    permission = await Geolocator.checkPermission();
-    permission = await Geolocator.requestPermission();
-
-    if (permission == LocationPermission.denied) {
-      Fluttertoast.showToast(msg: 'Location permissions are denied');
-    }
-
-    if (permission == LocationPermission.deniedForever) {
-      Fluttertoast.showToast(
-          msg:
-              'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low);
-    laltitude = position.latitude;
-    longtitude = position.longitude;
-  }
-
-  @override
-  void initState() async{
-    super.initState();
-    _getUserLocation();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,7 +87,7 @@ class _HomePageContentState extends State<HomePageContent> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              getAdhanTime(laltitude, longtitude),
+              getAdhanTime(widget.lat, widget.long),
             ],
           ),
         ),
@@ -132,10 +96,11 @@ class _HomePageContentState extends State<HomePageContent> {
   }
 
   getAdhanTime(lat, long) {
-    // Fluttertoast.showToast(msg: lat.toString());
+    lat = lat == null ? 0.0 : lat;
+    long = long == null ? 0.0 : long;
     final coordinates = Coordinates(lat, long);
-    final params =
-        CalculationMethod.karachi.getParameters(); // moon_sighting_committee
+    final params = CalculationMethod.muslim_world_league
+        .getParameters(); // moon_sighting_committee
     params.madhab = Madhab.hanafi;
     final prayerTime = PrayerTimes.today(coordinates, params);
     String currentPrayerName = "";
