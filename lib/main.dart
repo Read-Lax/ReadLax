@@ -78,7 +78,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  String appVersion = "0.2-beta.6";
+  String appVersion = "0.2-beta.7";
   User? user = FirebaseAuth.instance.currentUser;
   late double longtitude = 0.0;
   late double laltitude = 0.0;
