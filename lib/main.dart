@@ -80,8 +80,8 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   String appVersion = "0.2-beta.6";
   User? user = FirebaseAuth.instance.currentUser;
-  late double longtitude;
-  late double laltitude;
+  late double longtitude = 0.0;
+  late double laltitude = 0.0;
   final List _appBarTitle = [
     "Home",
     "Read Quran",
@@ -126,13 +126,13 @@ class HomePageState extends State<HomePage> {
       laltitude = position.latitude;
       longtitude = position.longitude;
     });
-    _scaffoldBodyContent.insert(
-      0,
-      HomePageContent(
-        lat: position.latitude,
-        long: position.longitude,
-      ),
-    );
+    // _scaffoldBodyContent.insert(
+    //   0,
+    //   HomePageContent(
+    //     lat: position.latitude,
+    //     long: position.longitude,
+    //   ),
+    // );
   }
 
   @override
@@ -248,7 +248,12 @@ class HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            body: scaffoldBody,
+            body: _appBarTitleIndex == 0
+                ? HomePageContent(
+                    lat: laltitude,
+                    long: longtitude,
+                  )
+                : scaffoldBody,
             drawer: Drawer(
               child: Column(
                 children: [
