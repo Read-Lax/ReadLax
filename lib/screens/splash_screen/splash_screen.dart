@@ -17,9 +17,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _navigateToTheMainPage() async {
-    await Future.delayed(Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => widget.whatToReturn));
+    await Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => widget.whatToReturn));
       // return ShowPage();
     });
   }
@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Colors.greenAccent,
@@ -50,10 +50,10 @@ class _SplashScreenState extends State<SplashScreen> {
               backgroundColor: Colors.transparent,
               radius: 70.0,
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            Text(
+            const Text(
               "Readlax",
               style: TextStyle(
                   fontFamily: "VareLaRound",

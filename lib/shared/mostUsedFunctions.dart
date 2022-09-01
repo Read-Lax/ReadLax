@@ -8,7 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:numeral/numeral.dart';
 import 'package:readmore/readmore.dart';
-import 'package:readlex/pages/comentsPage.dart';
+import 'package:readlex/screens/explore/coments/post_coments.dart';
 import 'package:intl/intl.dart' as intl;
 
 class Loading extends StatelessWidget {
@@ -43,7 +43,9 @@ usersProfile(userUid, context) {
       elevation: 0,
       leading: IconButton(
         color: Theme.of(context).primaryColor,
-        icon: Icon(Icons.arrow_back_ios_new_outlined),
+        icon: const Icon(
+          Icons.arrow_back_ios_new_outlined,
+        ),
         onPressed: () {
           Navigator.pop(context);
         },
@@ -53,12 +55,12 @@ usersProfile(userUid, context) {
         stream: userRef,
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: Loading(),
             );
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: Loading(),
             );
           }
@@ -102,7 +104,9 @@ usersProfile(userUid, context) {
           updateFollowButton() async {
             DocumentReference ref =
                 FirebaseFirestore.instance.collection("users").doc(user!.uid);
-            ref.get(GetOptions(source: Source.serverAndCache)).then((value) {
+            ref
+                .get(const GetOptions(source: Source.serverAndCache))
+                .then((value) {
               if (currentUserFollowing.contains(userUid)) {
                 followButtonText = "Unfollow";
                 followButtonIcon = Icons.person_add_disabled_outlined;
@@ -171,7 +175,7 @@ usersProfile(userUid, context) {
             }
 
             return AlertDialog(
-              contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+              contentPadding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               content: Container(
                 padding: EdgeInsets.zero,
                 width: MediaQuery.of(context).size.width * 0.45,
@@ -238,7 +242,7 @@ usersProfile(userUid, context) {
                                       minVerticalPadding: 0,
                                       title: Text(
                                         userName!,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontFamily: "VareLaRound",
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -256,13 +260,13 @@ usersProfile(userUid, context) {
                           : Padding(
                               padding: const EdgeInsets.all(11.0),
                               child: ListTile(
-                                leading: Icon(
+                                leading: const Icon(
                                   Icons.question_mark_rounded,
                                   // size: 30,
                                 ),
                                 title: Text(
                                   ifDataIsEmptyMsg,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: "VareLaRound",
                                     fontWeight: FontWeight.bold,
                                     // fontSize: 17,
@@ -278,8 +282,8 @@ usersProfile(userUid, context) {
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: Text("OK"))
-                    : Text("")
+                        child: const Text("OK"))
+                    : const Text("")
               ],
             );
           }
@@ -291,12 +295,12 @@ usersProfile(userUid, context) {
               stream: postRef,
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(
+                  return const Center(
                     child: Loading(),
                   );
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: Loading(),
                   );
                 }
@@ -393,7 +397,7 @@ usersProfile(userUid, context) {
                           radius: 50.0,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
@@ -401,7 +405,7 @@ usersProfile(userUid, context) {
                         children: [
                           Text(
                             userName!,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontFamily: "VareLaRound",
                                 fontSize: 17,
                                 fontWeight: FontWeight.bold),
@@ -420,7 +424,7 @@ usersProfile(userUid, context) {
                                     children: [
                                       Text(
                                         followButtonText!,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontFamily: "VareLaRound",
                                         ),
                                       ),
@@ -440,9 +444,9 @@ usersProfile(userUid, context) {
                           Row(
                             children: [
                               TextButton(
-                                child: Text(
+                                child: const Text(
                                   "• Followers: ",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontFamily: "VareLaRound",
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold),
@@ -456,7 +460,7 @@ usersProfile(userUid, context) {
                               ),
                               Text(
                                 Numeral(usersFollowers.length).format(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: "VareLaRound",
                                   fontSize: 17,
                                 ),
@@ -466,10 +470,10 @@ usersProfile(userUid, context) {
                           Row(
                             children: [
                               TextButton(
-                                style: ButtonStyle(),
-                                child: Text(
+                                style: const ButtonStyle(),
+                                child: const Text(
                                   "• Followings: ",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontFamily: "VareLaRound",
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold),
@@ -483,7 +487,7 @@ usersProfile(userUid, context) {
                               ),
                               Text(
                                 Numeral(usersFollwings.length).format(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: "VareLaRound",
                                   fontSize: 17,
                                 ),
@@ -500,7 +504,7 @@ usersProfile(userUid, context) {
                             textDirection: isRTL(userDescription!)
                                 ? TextDirection.rtl
                                 : TextDirection.ltr,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 leadingDistribution:
                                     TextLeadingDistribution.even,
                                 fontFamily: "VareLaRound",
@@ -508,8 +512,8 @@ usersProfile(userUid, context) {
                           ),
                         ),
                       ),
-                      Divider(),
-                      Text(
+                      const Divider(),
+                      const Text(
                         "Created Posts",
                         style: TextStyle(
                           fontFamily: "VareLaRound",
@@ -518,7 +522,7 @@ usersProfile(userUid, context) {
                           color: Colors.teal,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 7,
                       ),
                       Container(
@@ -530,14 +534,14 @@ usersProfile(userUid, context) {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 35,
                                         ),
                                         Text(
                                           userName == user!.displayName
                                               ? "You have not created any posts yet"
                                               : "$userName has not created any posts yet",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontFamily: "VareLaRound",
                                             fontWeight: FontWeight.bold,
                                             // fontSize: 17,
@@ -664,7 +668,7 @@ showPost(snapshotData, context) {
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       child: Padding(
-        padding: EdgeInsets.all(7.0),
+        padding: const EdgeInsets.all(7.0),
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -731,13 +735,13 @@ showPost(snapshotData, context) {
                                             }),
                                       ),
                                       ListTile(
-                                        leading: Icon(
+                                        leading: const Icon(
                                           Icons.report_gmailerrorred_outlined,
                                           size: 25,
                                         ),
-                                        title: Text(
+                                        title: const Text(
                                           "Report",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontFamily: "VareLaRound",
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -761,7 +765,7 @@ showPost(snapshotData, context) {
                                                                   20))),
                                               elevation: 0,
                                               child: ListTile(
-                                                  leading: Icon(
+                                                  leading: const Icon(
                                                     Icons
                                                         .delete_outline_outlined,
                                                     color: Colors.redAccent,
@@ -789,7 +793,7 @@ showPost(snapshotData, context) {
                                                     //         "Post have been saved successfully");
                                                   }),
                                             )
-                                          : Text(""),
+                                          : const Text(""),
                                     ],
                                   ),
                                 ),
@@ -808,7 +812,7 @@ showPost(snapshotData, context) {
                 ),
                 subtitle: Text(
                   "• $postTime",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 13,
                     fontFamily: "VareLaRound",
                   ),
@@ -832,8 +836,8 @@ showPost(snapshotData, context) {
               height: 7,
             ),
             Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(
                   Radius.circular(30),
                 ),
               ),
@@ -893,7 +897,7 @@ showPost(snapshotData, context) {
                     ),
                     Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Text(Numeral(postLikes!).toString(),
@@ -901,10 +905,10 @@ showPost(snapshotData, context) {
                               fontFamily: "VareLaRound",
                               fontWeight: FontWeight.bold,
                             )),
-                        SizedBox(
+                        const SizedBox(
                           width: 3,
                         ),
-                        Text(
+                        const Text(
                           "likes",
                           style: TextStyle(
                             fontFamily: "VareLaRound",
@@ -926,12 +930,12 @@ showPost(snapshotData, context) {
                                         postId: postUID,
                                       ))));
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.mode_comment_outlined,
                           // color: Colors.teal,
                           size: 37,
                         )),
-                    Text("")
+                    const Text("")
                   ],
                 ),
               ],

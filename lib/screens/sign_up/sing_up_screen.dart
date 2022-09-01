@@ -3,9 +3,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:readlex/login-signUp/loginPage.dart';
+import 'package:readlex/screens/login/login_screen.dart';
 import 'package:readlex/main.dart';
-import 'package:readlex/fireStoreHandeler/handeler.dart';
+import 'package:readlex/services/add_new_user_data.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -193,8 +193,11 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Navigator.pushReplacement(context, MaterialPageRoute(
-                                      builder: (context) => const LoginPage()));
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginPage()));
                                 })
                         ])),
                         const SizedBox(
@@ -252,7 +255,7 @@ class _SignUpPageState extends State<SignUpPage> {
           "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F13%2F2015%2F04%2F05%2Ffeatured.jpg&q=60");
       // String usrphotoUrl = user.photoURL!;
       await FirebaseAuth.instance.currentUser!.reload();
-      writeNewUserData(
+      addNewUserData(
           FirebaseAuth.instance.currentUser!.displayName!,
           FirebaseAuth.instance.currentUser!.email!,
           FirebaseAuth.instance.currentUser!.photoURL!,

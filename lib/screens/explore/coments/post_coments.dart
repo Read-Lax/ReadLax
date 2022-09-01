@@ -6,12 +6,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
-import 'package:intl/intl.dart' as intl;
 
 class ComentsPage extends StatefulWidget {
+  ComentsPage({Key? key, required String? this.postId}) : super(key: key);
   var postId;
-  ComentsPage({Key? key, required String? this.postId});
-  // var postId;
   @override
   State<ComentsPage> createState() => _ComentsPageState();
 }
@@ -19,7 +17,6 @@ class ComentsPage extends StatefulWidget {
 class _ComentsPageState extends State<ComentsPage> {
   final User? user = FirebaseAuth.instance.currentUser;
   Report report = Report();
-  // final Stream<QuerySnapshot<Map<String, dynamic>>> postComentsRef = FirebaseFirestore.instance.collection("posts").doc(postId).collection("coments").snapshots();
   TextEditingController userComent = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -31,10 +28,10 @@ class _ComentsPageState extends State<ComentsPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.arrow_back_ios_new_outlined),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined,),
           color: Theme.of(context).primaryColor,
         ),
-        title: Text(
+        title: const Text(
           'Coments',
           style: TextStyle(
             fontFamily: "VareLaRound",
@@ -54,7 +51,7 @@ class _ComentsPageState extends State<ComentsPage> {
             if (!snapshot.hasData) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Center(
                     child: SpinKitCircle(
                       color: Colors.greenAccent,
@@ -67,7 +64,7 @@ class _ComentsPageState extends State<ComentsPage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Center(
                     child: SpinKitCircle(
                       color: Colors.greenAccent,
@@ -83,20 +80,20 @@ class _ComentsPageState extends State<ComentsPage> {
                 children: [
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 7,
                       ),
                       CircleAvatar(
                         radius: 20.0,
                         backgroundImage: Image.network(user!.photoURL!).image,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 11,
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.70,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(const Radius.circular(10.0)),
                         ),
                         child: AutoDirection(
                           text: userComent.text.trim(),
@@ -106,7 +103,7 @@ class _ComentsPageState extends State<ComentsPage> {
                             maxLines: null,
                             autofocus: false,
                             keyboardType: TextInputType.multiline,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               border: InputBorder.none,
                               hintText: "Leave a coment",
                             ),
@@ -127,13 +124,13 @@ class _ComentsPageState extends State<ComentsPage> {
                                   userComent.text = "";
                                 }
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.send_rounded,
                                 color: Colors.greenAccent,
                               ))
                         ],
                       ),
-                      Divider(
+                      const Divider(
                         thickness: 3,
                       ),
                       // TextField()
@@ -147,7 +144,6 @@ class _ComentsPageState extends State<ComentsPage> {
                           itemBuilder: (context, index) {
                             final currentComentData =
                                 snapshot.requireData.docs[index];
-                            // GetUserData getUserData = GetUserData();
                             String? commentUserName =
                                 currentComentData["userName"];
                             String? commentText =
@@ -169,17 +165,17 @@ class _ComentsPageState extends State<ComentsPage> {
 
                             StatelessWidget comentLikeButton =
                                 comentUsersLikes.contains(user!.uid)
-                                    ? Icon(
+                                    ? const Icon(
                                         Icons.thumb_up_alt_rounded,
                                         color: Colors.redAccent,
                                       )
-                                    : Icon(Icons.thumb_up_alt_outlined
+                                    : const Icon(Icons.thumb_up_alt_outlined
                                         // color: Colors.redAccent,
                                         );
                             return Card(
-                              shape: RoundedRectangleBorder(
+                              shape: const RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0))),
+                                      BorderRadius.all(const Radius.circular(20.0))),
                               child: Column(
                                 children: [
                                   Column(
@@ -236,7 +232,7 @@ class _ComentsPageState extends State<ComentsPage> {
                                                           context)));
                                         },
                                         trailing: IconButton(
-                                          icon: Icon(Icons.more_vert_sharp),
+                                          icon: const Icon(Icons.more_vert_sharp),
                                           onPressed: () {
                                             showDialog(
                                                 context: context,
@@ -250,7 +246,7 @@ class _ComentsPageState extends State<ComentsPage> {
                                                                     ? 120
                                                                     : 50,
                                                             child: Column(
-                                                              children: [
+                                                              children:  [
                                                                 isDeleteComent
                                                                     ? ListTile(
                                                                         onTap:
@@ -263,14 +259,14 @@ class _ComentsPageState extends State<ComentsPage> {
                                                                               context);
                                                                         },
                                                                         leading:
-                                                                            Icon(
+                                                                            const Icon(
                                                                           Icons
                                                                               .delete_outline,
                                                                           color:
                                                                               Colors.redAccent,
                                                                         ),
                                                                         title:
-                                                                            Text(
+                                                                            const Text(
                                                                           "Delete",
                                                                           style: TextStyle(
                                                                               fontFamily: "VareLaRound",
@@ -278,15 +274,14 @@ class _ComentsPageState extends State<ComentsPage> {
                                                                               color: Colors.redAccent),
                                                                         ),
                                                                       )
-                                                                    : SizedBox(),
+                                                                    : const SizedBox(),
                                                                 ListTile(
-                                                                  leading: Icon(
+                                                                  leading: const Icon(
                                                                       Icons
                                                                           .report_gmailerrorred_outlined),
-                                                                  title: Text(
+                                                                  title: const Text(
                                                                     "Report",
-                                                                    style:
-                                                                        TextStyle(
+                                                                    style: TextStyle(
                                                                       fontFamily:
                                                                           "VareLaRound",
                                                                       fontWeight:
@@ -316,7 +311,7 @@ class _ComentsPageState extends State<ComentsPage> {
                                       // Text(commentText),
                                       Row(
                                         children: [
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 7,
                                           ),
                                           IconButton(
@@ -356,7 +351,7 @@ class _ComentsPageState extends State<ComentsPage> {
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.1,
                             ),
-                            Center(
+                            const Center(
                               child: Text(
                                 "No coments yet, be the first one to comment!",
                                 style: TextStyle(

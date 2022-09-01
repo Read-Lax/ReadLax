@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:readlex/pages/AppearanceSetting.dart';
-import 'package:readlex/pages/changeAccountDataPage.dart';
-import 'package:readlex/pages/aboutPage.dart';
+import 'package:readlex/screens/settings/appearance/appearance_setting.dart';
+import 'package:readlex/screens/settings/acounts_data/account_data.dart';
+import 'package:readlex/screens/settings/about/about_the_app.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class _SettingsPageState extends State<SettingsPage> {
       appBar: AppBar(
         leading: IconButton(
           color: Theme.of(context).primaryColor,
-          icon: Icon(Icons.arrow_back_ios_new_outlined),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -43,21 +43,21 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           Card(
             elevation: 3,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(17.0))),
             child: ListTile(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => UserProfilePage()));
+                    MaterialPageRoute(builder: (context) => const UserProfilePage()));
               },
-              leading: Icon(Icons.account_box_sharp),
-              title: Text(
+              leading: const Icon(Icons.account_box_sharp),
+              title: const Text(
                 "Account Settings",
                 style: TextStyle(
                     fontFamily: "VareLaRound", fontWeight: FontWeight.bold),
               ),
-              trailing: Icon(Icons.arrow_forward_ios_rounded),
-              subtitle: Text(
+              trailing: const Icon(Icons.arrow_forward_ios_rounded),
+              subtitle: const Text(
                 "Change username, email, profile photo...",
                 style: TextStyle(
                   fontFamily: "VareLaRound",
@@ -69,17 +69,17 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           Card(
             elevation: 3,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(17.0))),
             child: ListTile(
-              leading: Icon(Icons.tips_and_updates_outlined),
-              title: Text(
+              leading: const Icon(Icons.tips_and_updates_outlined),
+              title: const Text(
                 "Appearance",
                 style: TextStyle(
                     fontFamily: "VareLaRound", fontWeight: FontWeight.bold),
               ),
-              trailing: Icon(Icons.arrow_forward_ios_rounded),
-              subtitle: Text(
+              trailing: const Icon(Icons.arrow_forward_ios_rounded),
+              subtitle: const Text(
                 "Dark Mode...",
                 style: TextStyle(
                   fontFamily: "VareLaRound",
@@ -89,27 +89,27 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AppearancePage()));
+                    MaterialPageRoute(builder: (context) => const AppearancePage()));
               },
             ),
           ),
           Card(
             elevation: 3,
-            shape: RoundedRectangleBorder(
+            shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(17.0))),
             child: ListTile(
               onTap: () {
                 Navigator.push((context),
-                    MaterialPageRoute(builder: (context) => AboutPage()));
+                    MaterialPageRoute(builder: (context) => const AboutPage()));
               },
-              leading: Icon(Icons.more_outlined),
-              title: Text(
+              leading: const Icon(Icons.more_outlined),
+              title: const Text(
                 "About",
                 style: TextStyle(
                     fontFamily: "VareLaRound", fontWeight: FontWeight.bold),
               ),
-              trailing: Icon(Icons.arrow_forward_ios_rounded),
-              subtitle: Text(
+              trailing: const Icon(Icons.arrow_forward_ios_rounded),
+              subtitle: const Text(
                 "the story behind this app",
                 style: TextStyle(
                   fontFamily: "VareLaRound",

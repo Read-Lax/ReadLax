@@ -96,8 +96,8 @@ class _HomePageContentState extends State<HomePageContent> {
   }
 
   getAdhanTime(lat, long) {
-    lat = lat == null ? 0.0 : lat;
-    long = long == null ? 0.0 : long;
+    lat = lat ?? 0.0;
+    long = long ?? 0.0;
     final coordinates = Coordinates(lat, long);
     final params = CalculationMethod.muslim_world_league
         .getParameters(); // moon_sighting_committee
@@ -140,10 +140,10 @@ class _HomePageContentState extends State<HomePageContent> {
           "${prayerTime.currentPrayer().name}/" + prayersNamesInArabic[4];
     }
     if (prayerTime.currentPrayer().name == "isha") {
-      currentPrayerName = "isha/" + prayersNamesInArabic[5];
+      currentPrayerName = "isha/${prayersNamesInArabic[5]}";
     }
     if (prayerTime.nextPrayer().name == "fajr") {
-      currentPrayerName = "isha/" + prayersNamesInArabic[5];
+      currentPrayerName = "isha/${prayersNamesInArabic[5]}";
     }
     // current prayer time
     if (prayerTime.nextPrayer().name == "fajr") {
@@ -177,7 +177,7 @@ class _HomePageContentState extends State<HomePageContent> {
           "${prayerTime.nextPrayer().name}/" + prayersNamesInArabic[5];
     }
     if (prayerTime.currentPrayer().name == "isha") {
-      upComingPrayer = "fajr/ " + prayersNamesInArabic[0];
+      upComingPrayer = "fajr/${prayersNamesInArabic[0]}";
     }
     return Column(
       children: [

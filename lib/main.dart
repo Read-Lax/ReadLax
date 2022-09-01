@@ -12,17 +12,16 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:readlex/pages/FavoritePostsPage.dart';
+import 'package:readlex/screens/saved_posts/saved_posts.dart';
 // imporintg pages contents
-import 'pages/ExplorePage.dart';
-import 'pages/HomeContent.dart';
-import 'pages/ReadQuranPage.dart';
-import 'login-signUp/loginPage.dart';
-import 'package:readlex/pages/SettingPage.dart';
+import 'package:readlex/screens/explore/explore.dart';
+import 'package:readlex/screens/home/home.dart';
+import 'package:readlex/screens/read_quran/read_quran.dart';
+import 'screens/login/login_screen.dart';
+import 'package:readlex/screens/settings/setting.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
-import 'package:readlex/splashScreen.dart';
-import 'package:readlex/provider/themeProvider.dart';
-import 'package:readlex/pages/ExplorePage.dart';
+import 'package:readlex/screens/splash_screen/splash_screen.dart';
+import 'package:readlex/providers/theme_provider/theme_provider.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,14 +40,15 @@ class MyApp extends StatelessWidget {
         builder: (context, _) {
           final themeProvider = Provider.of<ThemeProvider>(context);
           return MaterialApp(
-              title: 'Readlax',
-              themeMode: themeProvider.themeMode,
-              theme: AppTheme.lightTheme,
-              darkTheme: AppTheme.darkTheme,
-              // theme: ThemeData(
-              //   brightness: Brightness.dark,
-              // ),
-              home: ShowPage());
+            title: 'Readlax',
+            themeMode: themeProvider.themeMode,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            // theme: ThemeData(
+            //   brightness: Brightness.dark,
+            // ),
+            home: const ShowPage(),
+          );
         });
   }
 }
@@ -62,9 +62,9 @@ class ShowPage extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return SplashScreen(whatToReturn: HomePage());
+            return SplashScreen(whatToReturn: const HomePage());
           } else {
-            return LoginPage();
+            return const LoginPage();
           }
         });
   }
@@ -121,18 +121,11 @@ class HomePageState extends State<HomePage> {
     }
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
-    Position? latestPosition = await Geolocator.getLastKnownPosition();
+    // Position? latestPosition = await Geolocator.getLastKnownPosition();
     setState(() {
       laltitude = position.latitude;
       longtitude = position.longitude;
     });
-    // _scaffoldBodyContent.insert(
-    //   0,
-    //   HomePageContent(
-    //     lat: position.latitude,
-    //     long: position.longitude,
-    //   ),
-    // );
   }
 
   @override
@@ -144,7 +137,6 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Widget scaffoldBody = _scaffoldBodyContent[_appBarTitleIndex];
-    bool stillLoading = false;
     return StreamBuilder<QuerySnapshot>(
         stream: firestoreUserData,
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -153,7 +145,7 @@ class HomePageState extends State<HomePage> {
               body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     SpinKitCircle(
                       color: Colors.greenAccent,
                     )
@@ -167,8 +159,8 @@ class HomePageState extends State<HomePage> {
               body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SpinKitCircle(
+                  children: const [
+                     SpinKitCircle(
                       color: Colors.greenAccent,
                     )
                   ],
@@ -376,10 +368,10 @@ class HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
-                  Spacer(), // used to fill up all the free space in the Drawer
+                  const Spacer(), // used to fill up all the free space in the Drawer
                   Text(
                     "Version $appVersion",
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontFamily: "VareLaRound", fontWeight: FontWeight.bold),
                   )
                 ],

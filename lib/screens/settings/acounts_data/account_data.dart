@@ -9,7 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:readlex/main.dart';
 import 'dart:io';
-import 'package:readlex/fireStoreHandeler/handeler.dart';
+import 'package:readlex/services/change_user_data.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -35,6 +35,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   final Stream<QuerySnapshot> firestoreUserData =
       FirebaseFirestore.instance.collection("users").snapshots();
+  ChangeUserData userChanges = ChangeUserData();
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -45,7 +46,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     SpinKitCircle(
                       color: Colors.greenAccent,
                     )
@@ -59,7 +60,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
               body: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     SpinKitCircle(
                       color: Colors.greenAccent,
                     )
@@ -88,7 +89,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
               backgroundColor: Colors.transparent,
               leading: IconButton(
                 color: Theme.of(context).primaryColor,
-                icon: Icon(Icons.arrow_back_ios_new_outlined),
+                icon: const Icon(
+                  Icons.arrow_back_ios_new_outlined,
+                ),
                 onPressed: () {
                   Navigator.pop(context);
                 },
@@ -393,7 +396,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         width: 30,
                       ),
                       CupertinoButton(
-                        padding: EdgeInsets.all(7.0),
+                        padding: const EdgeInsets.all(7.0),
                         onPressed: () {
                           Navigator.pop(context);
                         },
@@ -407,9 +410,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           ),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       CupertinoButton(
-                        padding: EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(15.0),
                         onPressed: () {
                           applayProfileChanges();
                           Navigator.pop(context);
@@ -439,7 +442,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
   void changeDisplayName(newName) async {
     if (currentUser!.displayName != newName) {
       await currentUser!.updateDisplayName(newName);
-      MakeInfoChangesIntoUser userChanges = MakeInfoChangesIntoUser();
       userChanges.changeUserName(newName, currentUser!.uid);
       DocumentReference<Map<String, dynamic>> ref =
           FirebaseFirestore.instance.collection("users").doc(currentUser!.uid);
@@ -470,7 +472,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
   void changeEmail(newEmail) async {
     if (currentUser!.email != newEmail) {
       await currentUser!.updateEmail(newEmail);
-      MakeInfoChangesIntoUser userChanges = MakeInfoChangesIntoUser();
       userChanges.changeUserEmail(newEmail, currentUser!.uid);
     }
   }
@@ -562,7 +563,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
     await ref.putFile(File(imagePicker!.path));
     await ref.getDownloadURL().then((value) async {
       currentUser!.updatePhotoURL(value);
-      MakeInfoChangesIntoUser userChanges = MakeInfoChangesIntoUser();
       userChanges.changeUserProfilePhoto(value, currentUser!.uid);
       DocumentReference<Map<String, dynamic>> ref =
           FirebaseFirestore.instance.collection("users").doc(currentUser!.uid);

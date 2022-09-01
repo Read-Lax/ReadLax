@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:readlex/provider/themeProvider.dart';
+import 'package:readlex/providers/theme_provider/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class AppearancePage extends StatefulWidget {
@@ -17,14 +17,14 @@ class _AppearancePageState extends State<AppearancePage> {
       appBar: AppBar(
         leading: IconButton(
           color: Theme.of(context).primaryColor,
-          icon: Icon(Icons.arrow_back_ios_new_outlined),
+          icon: const Icon(Icons.arrow_back_ios_new_outlined),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text(
+        title: const Text(
           "Appearance",
           style: TextStyle(
               color: Colors.greenAccent,
@@ -36,8 +36,8 @@ class _AppearancePageState extends State<AppearancePage> {
       body: Column(
         children: [
           ListTile(
-            leading: Icon(Icons.dark_mode_outlined),
-            title: Text(
+            leading: const Icon(Icons.dark_mode_outlined),
+            title: const Text(
               "Dark Mode",
               style: TextStyle(
                 fontFamily: "VareLaRound",

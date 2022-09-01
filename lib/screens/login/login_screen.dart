@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'singUpPage.dart';
+import '../sign_up/sing_up_screen.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
 
 class LoginPage extends StatefulWidget {
@@ -31,11 +31,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? Loading()
+        ? const Loading()
         : Scaffold(
             resizeToAvoidBottomInset: false,
             body: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
                     // Colors.green,
@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                     backgroundColor: Colors.grey.withOpacity(0.3),
                     radius: 50,
                   ),
-                  Text(
+                  const Text(
                     "Readlax",
                     style: TextStyle(
                       fontFamily: "VareLaRound",
@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: const BorderRadius.all(
                         Radius.elliptical(20, 20),
                       ),
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         colors: [
                           // Colors.green,
                           Colors.greenAccent,
@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     child: Column(mainAxisSize: MainAxisSize.min, children: [
-                      Text(
+                      const Text(
                         "Login",
                         style: TextStyle(
                           fontSize: 37,
@@ -160,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => SignUpPage()));
+                                        builder: (context) => const SignUpPage()));
                                 setState(() {});
                               })
                       ])),
@@ -212,8 +212,7 @@ class _LoginPageState extends State<LoginPage> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: userGmail.text.trim(), password: userPassword.text.trim());
       Fluttertoast.showToast(
-          msg: "Welcome back " +
-              FirebaseAuth.instance.currentUser!.displayName.toString());
+          msg: "Welcome back ${FirebaseAuth.instance.currentUser!.displayName}");
       setState(() {});
     } on FirebaseAuthException catch (errorMsg) {
       Fluttertoast.showToast(

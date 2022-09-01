@@ -25,13 +25,13 @@ class _ExplorePageState extends State<ExplorePage> {
         stream: firestoreStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
                 child: SpinKitCircle(
               color: Colors.greenAccent,
             ));
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: SpinKitCircle(
                 color: Colors.greenAccent,
               ),
@@ -64,12 +64,8 @@ class _ExplorePageState extends State<ExplorePage> {
   }
 
   createNewPost() {
-    bool isImageSelected = false;
-    String selectedPhotoUrl = "";
     String imageName = "";
-    var imagePath;
     var pickedImageToPost = File("");
-    late Widget returnImageOrText = const Text("No Image Selected");
     TextEditingController userPost = TextEditingController();
     return StreamBuilder<Object>(
         stream: null,
@@ -117,10 +113,6 @@ class _ExplorePageState extends State<ExplorePage> {
                       ),
                     ),
                   ),
-                  // Container(
-                  //     child: pickedImageToPost != null
-                  //         ? Image(image: FileImage(pickedImageToPost))
-                  //         : Text("No Image"))
                 ],
               ),
             ),
@@ -152,7 +144,6 @@ class _ExplorePageState extends State<ExplorePage> {
                                           File(imagePicker!.path);
                                       Navigator.pop(context);
                                       imageName = imagePicker.name;
-                                      imagePath = imagePicker.path;
                                     },
                                     icon:
                                         const Icon(Icons.add_a_photo_outlined)),

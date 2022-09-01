@@ -10,12 +10,12 @@ class SavedPost {
         stream: firestorePostData,
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
               child: Loading(),
             );
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: Loading(),
             );
           }
@@ -42,12 +42,12 @@ class SavedPost {
             appBar: AppBar(
               leading: IconButton(
                 color: Theme.of(context).primaryColor,
-                icon: Icon(Icons.arrow_back_ios_new_outlined),
+                icon: const Icon(Icons.arrow_back_ios_new_outlined),
                 onPressed: () {
                   Navigator.pop(context);
                 },
               ),
-              title: Text(
+              title: const Text(
                 "Saved Posts",
                 style: TextStyle(
                     fontFamily: "VareLaRound",
@@ -67,7 +67,7 @@ class SavedPost {
                   )
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: const [
                       Center(
                         child: Text(
                           "It seems like you don't have any saved posts yet",
