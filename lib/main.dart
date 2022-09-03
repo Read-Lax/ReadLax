@@ -17,11 +17,13 @@ import 'package:readlex/screens/saved_posts/saved_posts.dart';
 import 'package:readlex/screens/explore/explore.dart';
 import 'package:readlex/screens/home/home.dart';
 import 'package:readlex/screens/read_quran/read_quran.dart';
+import 'package:readlex/utils/app_permissions/storage_permission.dart';
 import 'screens/login/login_screen.dart';
 import 'package:readlex/screens/settings/setting.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
 import 'package:readlex/screens/splash_screen/splash_screen.dart';
 import 'package:readlex/providers/theme_provider/theme_provider.dart';
+import 'package:readlex/shared/global.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -78,7 +80,6 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  String appVersion = "0.2-beta.7";
   User? user = FirebaseAuth.instance.currentUser;
   late double longtitude = 0.0;
   late double laltitude = 0.0;
@@ -96,7 +97,6 @@ class HomePageState extends State<HomePage> {
   ];
   final Stream<QuerySnapshot> firestoreUserData =
       FirebaseFirestore.instance.collection("users").snapshots();
-
   // check for location permession and getting the longtitude and laltitude
   void _getUserLocation() async {
     bool serviceEnabled;
@@ -131,6 +131,7 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     _getUserLocation();
+    askForPermision();
     super.initState();
   }
 
@@ -160,7 +161,7 @@ class HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
-                     SpinKitCircle(
+                    SpinKitCircle(
                       color: Colors.greenAccent,
                     )
                   ],
@@ -370,9 +371,11 @@ class HomePageState extends State<HomePage> {
                   ),
                   const Spacer(), // used to fill up all the free space in the Drawer
                   Text(
-                    "Version $appVersion",
+                    "Version $currentAppVersion",
                     style: const TextStyle(
-                        fontFamily: "VareLaRound", fontWeight: FontWeight.bold),
+                      fontFamily: "VareLaRound",
+                      fontWeight: FontWeight.bold,
+                    ),
                   )
                 ],
               ),

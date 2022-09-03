@@ -16,7 +16,7 @@ class _HomePageContentState extends State<HomePageContent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
+      body: Column(
       children: [
         const SizedBox(
           height: 10,
