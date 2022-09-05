@@ -8,10 +8,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:readlex/Widgets/loading_indicator.dart';
 // imporintg pages contents
 import 'package:readlex/screens/explore/explore.dart';
 import 'package:readlex/screens/home/home.dart';
@@ -144,32 +144,10 @@ class HomePageState extends State<HomePage> {
           stream: firestoreUserData,
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return Scaffold(
-                body: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      SpinKitCircle(
-                        color: Colors.greenAccent,
-                      )
-                    ],
-                  ),
-                ),
-              );
+              return const LoadingCircule();
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Scaffold(
-                body: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      SpinKitCircle(
-                        color: Colors.greenAccent,
-                      )
-                    ],
-                  ),
-                ),
-              );
+              return const LoadingCircule();
             }
             final data = snapshot.requireData;
             int userIndex = 0;

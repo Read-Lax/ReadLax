@@ -9,6 +9,7 @@ import 'package:readlex/shared/global.dart';
 createNewPost() {
   String imageName = "";
   var pickedImageToPost = File("");
+  final ImagePicker picker = ImagePicker();
   TextEditingController userPost = TextEditingController();
   return StreamBuilder<Object>(
       stream: null,
@@ -74,26 +75,22 @@ createNewPost() {
                           content: Row(
                             children: [
                               IconButton(
-                                  onPressed: () async {
-                                    final imagePicker =
-                                        await ImagePicker().pickImage(
-                                      source: ImageSource.camera,
-                                      // maxHeight: 513,
-                                      // // maxWidth: 513,
-                                      // imageQuality: 100,
-                                    );
-                                    pickedImageToPost = File(imagePicker!.path);
-                                    Navigator.pop(context);
-                                    imageName = imagePicker.name;
-                                  },
-                                  icon: const Icon(Icons.add_a_photo_outlined)),
+                                onPressed: () async {
+                                  final imagePicker = await picker.pickImage(
+                                    source: ImageSource.camera,
+                                  );
+                                  pickedImageToPost = File(imagePicker!.path);
+                                  Navigator.pop(context);
+                                  imageName = imagePicker.name;
+                                },
+                                icon: const Icon(Icons.add_a_photo_outlined),
+                              ),
                               const SizedBox(
                                 width: 20,
                               ),
                               IconButton(
                                   onPressed: () async {
-                                    final imagePicker =
-                                        await ImagePicker().pickImage(
+                                    final imagePicker = await picker.pickImage(
                                       source: ImageSource.gallery,
                                     );
                                     pickedImageToPost = File(imagePicker!.path);
@@ -113,11 +110,6 @@ createNewPost() {
             ),
             IconButton(
                 onPressed: () {
-                  // if (userPost.text.trim() == null) {
-                  //   Fluttertoast.showToast(
-                  //       msg: "Text is requiered",
-                  //       timeInSecForIosWeb: 5,);
-                  // }
                   postTheInfo(
                       userPost.text.trim(), pickedImageToPost, imageName);
                   Navigator.pop(context);

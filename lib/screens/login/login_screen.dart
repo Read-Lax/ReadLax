@@ -2,8 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:readlex/Widgets/loading_indicator.dart';
 import '../sign_up/sing_up_screen.dart';
-import 'package:readlex/shared/mostUsedFunctions.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? const Loading()
+        ? const LoadingCircule()
         : Scaffold(
             resizeToAvoidBottomInset: false,
             body: Container(

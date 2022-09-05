@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:readlex/shared/mostUsedFunctions.dart';
-import 'package:readlex/utils/create_new_post.dart';
-import 'package:readlex/Widgets/posts.dart';
+import 'package:readlex/Widgets/loading_indicator.dart';
+import 'package:readlex/Widgets/post_card.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
@@ -24,17 +22,10 @@ class _ExplorePageState extends State<ExplorePage> {
         stream: firestoreStream,
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return const Center(
-                child: SpinKitCircle(
-              color: Colors.greenAccent,
-            ));
+            return const LoadingCircule();
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: SpinKitCircle(
-                color: Colors.greenAccent,
-              ),
-            );
+            return const LoadingCircule();
           }
           final dataOfPosts = snapshot.requireData;
           DocumentReference ref =

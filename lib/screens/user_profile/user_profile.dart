@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:jiffy/jiffy.dart';
 import 'package:numeral/numeral.dart';
-import 'package:readlex/Widgets/posts.dart';
+import 'package:readlex/Widgets/loading_indicator.dart';
+import 'package:readlex/Widgets/post_card.dart';
 import 'package:readlex/shared/global.dart';
-import 'package:readlex/shared/mostUsedFunctions.dart';
 import 'package:readmore/readmore.dart';
 
 usersProfile(userUid, context) {
@@ -33,22 +31,10 @@ usersProfile(userUid, context) {
         stream: userRef,
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return const Scaffold(
-              body: Center(
-                child: SpinKitCircle(
-                  color: Colors.greenAccent,
-                ),
-              ),
-            );
+            return const LoadingCircule();
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Scaffold(
-              body: Center(
-                child: SpinKitCircle(
-                  color: Colors.greenAccent,
-                ),
-              ),
-            );
+            return const LoadingCircule();
           }
           String? followButtonText = "Follow";
           IconData? followButtonIcon = Icons.person_add_alt;
@@ -102,7 +88,6 @@ usersProfile(userUid, context) {
               }
             });
           }
-
           updateFollowButton();
 
           String? userName = userData.docs[userIndex]["userName"];
@@ -119,10 +104,6 @@ usersProfile(userUid, context) {
             if (currentUserFollowing.contains(userToFollow) == true) {
               currentUserFollowing.remove(userToFollow);
               usersFollowers.remove(user!.uid);
-              print(currentUserFollowing);
-              // followButtonText = "Unfollow";
-              // followButtonIcon = Icons.person_add_disabled_outlined;
-
               await ref.update({"followers": usersFollowers});
               DocumentReference userRef =
                   FirebaseFirestore.instance.collection("users").doc(user!.uid);
@@ -166,22 +147,17 @@ usersProfile(userUid, context) {
                 padding: EdgeInsets.zero,
                 width: MediaQuery.of(context).size.width * 0.45,
                 child: SingleChildScrollView(
-                  child: Container(
+                  child: SizedBox(
                       width: 350,
                       child: data.isNotEmpty
                           ? ListView.builder(
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
-                              // physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: ((context, index) {
                                 String? photoUrl;
                                 String? userName;
-                                // String? userUid;
-                                // String? userDescription;
                                 String? thisUserUid;
                                 final userData = snapshot.requireData;
-                                String? followButtonText;
-                                IconData followButtonIcon;
                                 int indexOfTheUser = 0;
                                 int k = 0;
 
@@ -281,14 +257,10 @@ usersProfile(userUid, context) {
               stream: postRef,
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
-                  return const Center(
-                    child: Loading(),
-                  );
+                  return const LoadingCircule();
                 }
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: Loading(),
-                  );
+                  return const LoadingCircule();
                 }
                 DocumentReference ref = FirebaseFirestore.instance
                     .collection("users")
@@ -310,32 +282,9 @@ usersProfile(userUid, context) {
                       }
                       k += 1;
                     }
-                    String? postUsersPhotoURL =
-                        dataOfPosts.docs[postIndex]["userProfilePicUrl"];
-                    String? postUserDisplayName =
-                        dataOfPosts.docs[postIndex]["userName"];
-                    String? postUsersUid =
-                        dataOfPosts.docs[postIndex]["userUID"];
-                    String? postContent =
-                        dataOfPosts.docs[postIndex]["content"];
-                    String? postPhotoURL =
-                        dataOfPosts.docs[postIndex]["photoUrl"];
                     List postUsersThatLikedIt =
                         dataOfPosts.docs[postIndex]['likedBy'];
-                    int? postLikes = dataOfPosts.docs[postIndex]["likes"];
                     List savedPost = [];
-                    int postHour = dataOfPosts.docs[postIndex]['hour'];
-                    int postYear = dataOfPosts.docs[postIndex]["year"];
-                    int postMonth = dataOfPosts.docs[postIndex]["month"];
-                    int postDay = dataOfPosts.docs[postIndex]["day"];
-                    // String postTime =
-                    //     Jiffy(DateTime(postYear, postMonth, postDay)).fromNow();
-                    String postTime = Jiffy({
-                      "year": postYear,
-                      "day": postDay,
-                      "month": postMonth,
-                      "hour": postHour
-                    }).fromNow();
                     Widget postHeartWidget;
                     bool isPostAlreadySaved = false;
                     ref.get().then((value) {
@@ -366,11 +315,9 @@ usersProfile(userUid, context) {
               },
             );
           }
-
-          String non = "";
           return Scaffold(
             body: SingleChildScrollView(
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 child: SingleChildScrollView(
                   child: Column(

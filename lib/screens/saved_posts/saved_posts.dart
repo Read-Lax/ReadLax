@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:readlex/shared/mostUsedFunctions.dart';
-import 'package:readlex/Widgets/posts.dart';
+import 'package:readlex/Widgets/loading_indicator.dart';
+import 'package:readlex/Widgets/post_card.dart';
 
 class SavedPost {
   savedPostsPage(usersSnapshot) {
@@ -11,14 +11,10 @@ class SavedPost {
         stream: firestorePostData,
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return const Center(
-              child: Loading(),
-            );
+            return const LoadingCircule();
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: Loading(),
-            );
+            return const LoadingCircule();
           }
           final dataOfPosts = snapshot.requireData;
           List savedPost = usersSnapshot;

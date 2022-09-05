@@ -2,15 +2,18 @@ import 'package:auto_direction/auto_direction.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:readlex/Widgets/loading_indicator.dart';
+import 'package:readlex/screens/explore/functions/publish_coment.dart';
 import 'package:readlex/screens/user_profile/user_profile.dart';
+import 'package:readlex/screens/explore/functions/delete_coment.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
 
+
 class ComentsPage extends StatefulWidget {
-  ComentsPage({Key? key, required String? this.postId}) : super(key: key);
-  var postId;
+  ComentsPage({Key? key, required this.postId}) : super(key: key);
+  String? postId;
   @override
   State<ComentsPage> createState() => _ComentsPageState();
 }
@@ -50,30 +53,10 @@ class _ComentsPageState extends State<ComentsPage> {
               .snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Center(
-                    child: SpinKitCircle(
-                      color: Colors.greenAccent,
-                      size: 50.0,
-                    ),
-                  ),
-                ],
-              );
+              return const LoadingCircule();
             }
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Center(
-                    child: SpinKitCircle(
-                      color: Colors.greenAccent,
-                      size: 50.0,
-                    ),
-                  ),
-                ],
-              );
+              return const LoadingCircule();
             }
             return SingleChildScrollView(
               child: Column(
@@ -94,7 +77,7 @@ class _ComentsPageState extends State<ComentsPage> {
                       Container(
                         width: MediaQuery.of(context).size.width * 0.70,
                         decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(const Radius.circular(10.0)),
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
                         ),
                         child: AutoDirection(
                           text: userComent.text.trim(),
@@ -176,7 +159,7 @@ class _ComentsPageState extends State<ComentsPage> {
                             return Card(
                               shape: const RoundedRectangleBorder(
                                   borderRadius:
-                                      BorderRadius.all(const Radius.circular(20.0))),
+                                      BorderRadius.all(Radius.circular(20.0))),
                               child: Column(
                                 children: [
                                   Column(
@@ -239,7 +222,7 @@ class _ComentsPageState extends State<ComentsPage> {
                                                 context: context,
                                                 builder:
                                                     (context) => AlertDialog(
-                                                          content: Container(
+                                                          content: SizedBox(
                                                             width:
                                                                 double.infinity,
                                                             height:

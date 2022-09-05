@@ -4,9 +4,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:readlex/Widgets/loading_indicator.dart';
 import 'package:readlex/main.dart';
 import 'dart:io';
 import 'package:readlex/services/change_user_data.dart';
@@ -42,32 +42,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
         stream: firestoreUserData,
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Scaffold(
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    SpinKitCircle(
-                      color: Colors.greenAccent,
-                    )
-                  ],
-                ),
-              ),
-            );
+            return const LoadingCircule();
           }
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    SpinKitCircle(
-                      color: Colors.greenAccent,
-                    )
-                  ],
-                ),
-              ),
-            );
+            return const LoadingCircule();
           }
           final data = snapshot.requireData;
           int userIndex = 0;

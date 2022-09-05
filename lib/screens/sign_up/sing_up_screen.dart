@@ -1,12 +1,11 @@
-// import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:readlex/Widgets/loading_indicator.dart';
 import 'package:readlex/screens/login/login_screen.dart';
 import 'package:readlex/main.dart';
 import 'package:readlex/services/add_new_user_data.dart';
-import 'package:readlex/shared/mostUsedFunctions.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -35,13 +34,13 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? const Loading()
+        ? const LoadingCircule()
         : Scaffold(
             resizeToAvoidBottomInset: true,
             body: SingleChildScrollView(
               // physics: NeverScrollableScrollPhysics(),
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     gradient: LinearGradient(
                   colors: [
                     // Colors.green,
@@ -54,7 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 7,
                     ),
                     CircleAvatar(
@@ -62,7 +61,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       backgroundColor: Colors.grey.withOpacity(0.3),
                       radius: 50,
                     ),
-                    Text(
+                    const Text(
                       "Readlax",
                       style: TextStyle(
                         fontFamily: "VareLaRound",
@@ -80,7 +79,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         borderRadius: const BorderRadius.all(
                           Radius.elliptical(20, 20),
                         ),
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           colors: [
                             // Colors.green,
                             Colors.greenAccent,
@@ -91,7 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       ),
                       child: Column(mainAxisSize: MainAxisSize.min, children: [
-                        Text(
+                        const Text(
                           "Sign Up",
                           style: TextStyle(
                             fontSize: 37,
@@ -248,7 +247,6 @@ class _SignUpPageState extends State<SignUpPage> {
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: userGmail.text.trim(), password: userPassword.text.trim());
-      User? user = FirebaseAuth.instance.currentUser;
       await FirebaseAuth.instance.currentUser!
           .updateDisplayName(userName.text.trim());
       await FirebaseAuth.instance.currentUser!.updatePhotoURL(
