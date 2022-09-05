@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
+import 'package:readlex/Widgets/posts.dart';
 
 class SavedPost {
   savedPostsPage(usersSnapshot) {

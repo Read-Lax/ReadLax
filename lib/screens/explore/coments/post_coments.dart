@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:readlex/screens/user_profile/user_profile.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
 
 class ComentsPage extends StatefulWidget {

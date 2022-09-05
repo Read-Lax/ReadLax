@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
 import 'package:readlex/utils/create_new_post.dart';
+import 'package:readlex/Widgets/posts.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);

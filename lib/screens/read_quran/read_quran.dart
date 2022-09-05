@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:quiver/iterables.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -248,6 +249,7 @@ class _ReadQuranState extends State<ReadQuran> {
             color: Theme.of(context).primaryColor,
           ),
           onPressed: () {
+            audioPlayer.stop();
             Navigator.pop(context);
           },
         ),
@@ -287,10 +289,28 @@ class _ReadQuranState extends State<ReadQuran> {
       ),
       body: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
-          return Image.network(
-            imagesToDesplayUrls[index],
-            fit: BoxFit.cover,
+          return ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+            child: CachedNetworkImage(
+              imageUrl: imagesToDesplayUrls[index],
+              progressIndicatorBuilder: (context, url, downloadProgress) {
+                return SizedBox(
+                  height: 200,
+                  width: double.infinity,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      value: downloadProgress.progress,
+                      color: Colors.greenAccent,
+                    ),
+                  ),
+                );
+              },
+            ),
           );
+          // return Image.network(
+          //   imagesToDesplayUrls[index],
+          //   fit: BoxFit.cover,
+          // );
         },
         scrollDirection: Axis.vertical,
         itemCount: imagesToDesplayUrls.length,

@@ -12,19 +12,20 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:readlex/screens/saved_posts/saved_posts.dart';
 // imporintg pages contents
 import 'package:readlex/screens/explore/explore.dart';
 import 'package:readlex/screens/home/home.dart';
 import 'package:readlex/screens/read_quran/read_quran.dart';
+import 'package:readlex/screens/user_profile/user_profile.dart';
 import 'package:readlex/utils/app_permissions/storage_permission.dart';
 import 'screens/login/login_screen.dart';
 import 'package:readlex/screens/settings/setting.dart';
-import 'package:readlex/shared/mostUsedFunctions.dart';
 import 'package:readlex/screens/splash_screen/splash_screen.dart';
 import 'package:readlex/providers/theme_provider/theme_provider.dart';
 import 'package:readlex/shared/global.dart';
 import 'package:readlex/utils/create_new_post.dart';
+import 'package:readlex/screens/saved_posts/saved_posts.dart';
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
