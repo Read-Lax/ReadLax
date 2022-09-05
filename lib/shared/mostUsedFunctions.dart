@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -741,7 +742,7 @@ showPost(snapshotData, context) {
                                         ),
                                         title: const Text(
                                           "Report",
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontFamily: "VareLaRound",
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -818,52 +819,39 @@ showPost(snapshotData, context) {
                   ),
                 )),
             const Divider(),
-            Container(
-              child: Directionality(
-                textDirection:
-                    isRTL(postContent!) ? TextDirection.rtl : TextDirection.ltr,
-                child: ReadMoreText(
-                  postContent,
-                  textDirection: TextDirection.rtl,
-                  style: const TextStyle(
-                      fontSize: 17,
-                      fontFamily: "VareLaRound",
-                      fontWeight: FontWeight.w200),
-                ),
+            Directionality(
+              textDirection:
+                  isRTL(postContent!) ? TextDirection.rtl : TextDirection.ltr,
+              child: ReadMoreText(
+                postContent,
+                textDirection: TextDirection.rtl,
+                style: const TextStyle(
+                    fontSize: 17,
+                    fontFamily: "VareLaRound",
+                    fontWeight: FontWeight.w200),
               ),
             ),
             const SizedBox(
               height: 7,
             ),
-            Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(30),
-                ),
+            ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(20.0),
               ),
-              child: Image.network(
-                postPhotoURL!,
-                fit: BoxFit.cover,
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent? loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                          : null,
+              child: CachedNetworkImage(
+                imageUrl: postPhotoURL!,
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Column(
+                  children: [
+                    CircularProgressIndicator(
+                      value: downloadProgress.progress,
+                      color: Colors.greenAccent,
                     ),
-                  );
-                },
+                  ],
+                ),
               ),
             ),
             const Divider(),
-            // const SizedBox(
-            //   height: 5,
-            // ),
             Row(
               children: [
                 Column(
@@ -897,9 +885,6 @@ showPost(snapshotData, context) {
                     ),
                     Row(
                       children: [
-                        const SizedBox(
-                          width: 5,
-                        ),
                         Text(Numeral(postLikes!).toString(),
                             style: const TextStyle(
                               fontFamily: "VareLaRound",

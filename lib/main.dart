@@ -24,7 +24,7 @@ import 'package:readlex/shared/mostUsedFunctions.dart';
 import 'package:readlex/screens/splash_screen/splash_screen.dart';
 import 'package:readlex/providers/theme_provider/theme_provider.dart';
 import 'package:readlex/shared/global.dart';
-
+import 'package:readlex/utils/create_new_post.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -90,7 +90,7 @@ class HomePageState extends State<HomePage> {
   ];
 
   int _appBarTitleIndex = 0;
-  List _scaffoldBodyContent = [
+  final List _scaffoldBodyContent = [
     HomePageContent(),
     const ReadQuranPage(),
     const ExplorePage()
@@ -138,249 +138,269 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     Widget scaffoldBody = _scaffoldBodyContent[_appBarTitleIndex];
-    return StreamBuilder<QuerySnapshot>(
-        stream: firestoreUserData,
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return Scaffold(
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    SpinKitCircle(
-                      color: Colors.greenAccent,
-                    )
-                  ],
+    return Stack(fit: StackFit.expand, children: [
+      StreamBuilder<QuerySnapshot>(
+          stream: firestoreUserData,
+          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return Scaffold(
+                body: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      SpinKitCircle(
+                        color: Colors.greenAccent,
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    SpinKitCircle(
-                      color: Colors.greenAccent,
-                    )
-                  ],
-                ),
-              ),
-            );
-          }
-          final data = snapshot.requireData;
-          int userIndex = 0;
-          int k = 0;
-          for (var i in data.docs) {
-            if (user!.uid == data.docs[k].reference.id) {
-              userIndex = k;
+              );
             }
-            k += 1;
-          }
-          String? userName = data.docs[userIndex]["userName"];
-          String? userProfileUrl = data.docs[userIndex]["photoUrl"];
-          return Scaffold(
-            appBar: AppBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              iconTheme: Theme.of(context).primaryIconTheme,
-              title: Text(
-                _appBarTitle[_appBarTitleIndex],
-                style: const TextStyle(
-                  color: Colors.greenAccent,
-                  fontFamily: "VareLaRound",
-                  letterSpacing: 2,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Scaffold(
+                body: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      SpinKitCircle(
+                        color: Colors.greenAccent,
+                      )
+                    ],
+                  ),
+                ),
+              );
+            }
+            final data = snapshot.requireData;
+            int userIndex = 0;
+            int k = 0;
+            for (var i in data.docs) {
+              if (user!.uid == data.docs[k].reference.id) {
+                userIndex = k;
+              }
+              k += 1;
+            }
+            String? userName = data.docs[userIndex]["userName"];
+            String? userProfileUrl = data.docs[userIndex]["photoUrl"];
+            return Scaffold(
+              appBar: AppBar(
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                iconTheme: Theme.of(context).primaryIconTheme,
+                title: Text(
+                  _appBarTitle[_appBarTitleIndex],
+                  style: const TextStyle(
+                    color: Colors.greenAccent,
+                    fontFamily: "VareLaRound",
+                    letterSpacing: 2,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                actions: [
+                  _appBarTitleIndex == 2
+                      ? IconButton(
+                          splashRadius: 17.0,
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (_) => createNewPost());
+                          },
+                          icon: Icon(
+                            Icons.add,
+                            size: 30.0,
+                            color: Theme.of(context).primaryColor,
+                          ))
+                      : const SizedBox(),
+                ],
+              ),
+              bottomNavigationBar: NavigationBarTheme(
+                data: NavigationBarThemeData(
+                  // indicatorColor: Colors.teal,
+                  labelTextStyle: MaterialStateProperty.all(const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "VareLaRound",
+                    fontSize: 13,
+                  )),
+                ),
+                child: NavigationBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  animationDuration: const Duration(seconds: 1),
+                  labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+                  height: 53.3,
+                  selectedIndex: _appBarTitleIndex,
+                  onDestinationSelected: (int index) {
+                    setState(() {
+                      _appBarTitleIndex = index;
+                    });
+                  },
+                  destinations: const [
+                    NavigationDestination(
+                      icon: Icon(
+                        Icons.home_filled,
+                        color: Colors.greenAccent,
+                      ),
+                      label: "Home",
+                      tooltip: "Home",
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.chrome_reader_mode_rounded,
+                          color: Colors.greenAccent),
+                      label: "Read Quran",
+                      tooltip: "Read Quran",
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.explore_outlined,
+                          color: Colors.greenAccent),
+                      label: "Explore",
+                      tooltip: "Explore",
+                    )
+                  ],
                 ),
               ),
-            ),
-            bottomNavigationBar: NavigationBarTheme(
-              data: NavigationBarThemeData(
-                // indicatorColor: Colors.teal,
-                labelTextStyle: MaterialStateProperty.all(const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "VareLaRound",
-                  fontSize: 13,
-                )),
-              ),
-              child: NavigationBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                animationDuration: const Duration(seconds: 1),
-                labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-                height: 53.3,
-                selectedIndex: _appBarTitleIndex,
-                onDestinationSelected: (int index) {
-                  setState(() {
-                    _appBarTitleIndex = index;
-                  });
-                },
-                destinations: const [
-                  NavigationDestination(
-                    icon: Icon(
-                      Icons.home_filled,
-                      color: Colors.greenAccent,
-                    ),
-                    label: "Home",
-                    tooltip: "Home",
-                  ),
-                  NavigationDestination(
-                    icon: Icon(Icons.chrome_reader_mode_rounded,
-                        color: Colors.greenAccent),
-                    label: "Read Quran",
-                    tooltip: "Read Quran",
-                  ),
-                  NavigationDestination(
-                    icon:
-                        Icon(Icons.explore_outlined, color: Colors.greenAccent),
-                    label: "Explore",
-                    tooltip: "Explore",
-                  )
-                ],
-              ),
-            ),
-            body: _appBarTitleIndex == 0
-                ? HomePageContent(
-                    lat: laltitude,
-                    long: longtitude,
-                  )
-                : scaffoldBody,
-            drawer: Drawer(
-              child: Column(
-                children: [
-                  DrawerHeader(
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          radius: 50.0,
-                          backgroundImage: NetworkImage(userProfileUrl!),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          userName!,
-                          // currentUserData.getUserName(user!.uid),
-                          style: const TextStyle(
-                            fontFamily: "VareLaRound",
-                            fontSize: 20,
-                            // color: Colors.black
+              body: _appBarTitleIndex == 0
+                  ? HomePageContent(
+                      lat: laltitude,
+                      long: longtitude,
+                    )
+                  : scaffoldBody,
+              drawer: Drawer(
+                child: Column(
+                  children: [
+                    DrawerHeader(
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 50.0,
+                            backgroundImage: NetworkImage(userProfileUrl!),
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            userName!,
+                            // currentUserData.getUserName(user!.uid),
+                            style: const TextStyle(
+                              fontFamily: "VareLaRound",
+                              fontSize: 20,
+                              // color: Colors.black
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Card(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      elevation: 0,
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.person_outline_outlined,
+                          size: 25,
                         ),
-                      ],
-                    ),
-                  ),
-                  Card(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    elevation: 0,
-                    child: ListTile(
-                      leading: const Icon(
-                        Icons.person_outline_outlined,
-                        size: 25,
+                        title: const Text("Profile",
+                            style: TextStyle(
+                              fontFamily: "VareLaRound",
+                              fontWeight: FontWeight.bold,
+                              // color: Colors.black
+                            )),
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      usersProfile(user!.uid, context)));
+                        },
                       ),
-                      title: const Text("Profile",
-                          style: TextStyle(
-                            fontFamily: "VareLaRound",
-                            fontWeight: FontWeight.bold,
-                            // color: Colors.black
-                          )),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    usersProfile(user!.uid, context)));
-                      },
                     ),
-                  ),
-                  Card(
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: ListTile(
-                      leading: const Icon(
-                        Icons.add_to_photos_outlined,
-                        size: 25,
+                    Card(
+                      elevation: 0,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.add_to_photos_outlined,
+                          size: 25,
+                        ),
+                        title: const Text("Saved Posts",
+                            style: TextStyle(
+                              fontFamily: "VareLaRound",
+                              fontWeight: FontWeight.bold,
+                              // color: Colors.black
+                            )),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SavedPost()
+                                      .savedPostsPage(
+                                          data.docs[userIndex]["savedPost"])));
+                        },
                       ),
-                      title: const Text("Saved Posts",
-                          style: TextStyle(
-                            fontFamily: "VareLaRound",
-                            fontWeight: FontWeight.bold,
-                            // color: Colors.black
-                          )),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SavedPost()
-                                    .savedPostsPage(
-                                        data.docs[userIndex]["savedPost"])));
-                      },
                     ),
-                  ),
-                  Card(
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: ListTile(
-                      leading: const Icon(
-                        Icons.settings,
-                        size: 25,
+                    Card(
+                      elevation: 0,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.settings,
+                          size: 25,
+                        ),
+                        title: const Text("Settings",
+                            style: TextStyle(
+                              fontFamily: "VareLaRound",
+                              fontWeight: FontWeight.bold,
+                              // color: Colors.black,
+                            )),
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SettingsPage()));
+                        },
                       ),
-                      title: const Text("Settings",
-                          style: TextStyle(
-                            fontFamily: "VareLaRound",
-                            fontWeight: FontWeight.bold,
-                            // color: Colors.black,
-                          )),
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SettingsPage()));
-                      },
                     ),
-                  ),
-                  Card(
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: ListTile(
-                      leading: const Icon(
-                        Icons.logout_outlined,
-                        size: 25,
+                    Card(
+                      elevation: 0,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.logout_outlined,
+                          size: 25,
+                        ),
+                        title: const Text("Sign Out",
+                            style: TextStyle(
+                              fontFamily: "VareLaRound",
+                              fontWeight: FontWeight.bold,
+                              // color: Colors.black,
+                            )),
+                        onTap: () async {
+                          // signing out the user
+                          Navigator.pop(context);
+                          await FirebaseAuth.instance.signOut();
+                          Fluttertoast.showToast(msg: "You Have Signed Out");
+                        },
                       ),
-                      title: const Text("Sign Out",
-                          style: TextStyle(
-                            fontFamily: "VareLaRound",
-                            fontWeight: FontWeight.bold,
-                            // color: Colors.black,
-                          )),
-                      onTap: () async {
-                        // signing out the user
-                        Navigator.pop(context);
-                        await FirebaseAuth.instance.signOut();
-                        Fluttertoast.showToast(msg: "You Have Signed Out");
-                      },
                     ),
-                  ),
-                  const Spacer(), // used to fill up all the free space in the Drawer
-                  Text(
-                    "Version $currentAppVersion",
-                    style: const TextStyle(
-                      fontFamily: "VareLaRound",
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
-                ],
+                    const Spacer(), // used to fill up all the free space in the Drawer
+                    Text(
+                      "Version $currentAppVersion",
+                      style: const TextStyle(
+                        fontFamily: "VareLaRound",
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          );
-        });
+            );
+          }),
+      // isThereANewUpdate() == false ? showNewUpdateDialoge() : const SizedBox(),
+      // const ShowNewUpdateAlert(),
+    ]);
   }
 }
