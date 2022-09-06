@@ -16,6 +16,11 @@
     <img src="https://img.shields.io/github/license/0RaMsY0/ReadLax?color=violet&style=plastic">
   </a>
 </p>
+<p align="center">
+  <a>
+    <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white">
+   </a>  
+</p>
 
 # What is Readlax?
 
