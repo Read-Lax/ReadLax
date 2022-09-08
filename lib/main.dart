@@ -1,7 +1,7 @@
 // ReadLax, read Quran and stay relaxed
 // devloped by ramsy, 0RaMsY0
 // github: https://github.com/0RaMsY0/ReadLax
-// idea by the devloper's mother
+// app idea by the devloper(ramsy)'s mother
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
