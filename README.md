@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/0RaMsY0/Readlax/blob/main/assets/app_logo.png" alt="ReadLax">
+  <img src="https://github.com/Read-Lax/ReadLax/blob/main/assets/app_logo.png" alt="ReadLax">
 </p>
 <h1 align="center">ReadLax</h1>
 <p align="center">
