@@ -7,13 +7,13 @@
     <img src="https://img.shields.io/badge/status-devlopment-red">
   </a>
   <a>
-    <img src="https://img.shields.io/github/forks/0RaMsY0/ReadLax?color=orange&style=plastic">
+    <img src="https://img.shields.io/github/forks/Read-Lax/ReadLax?color=orange&style=plastic">
   </a>
   <a>
-    <img src="https://img.shields.io/github/stars/0RaMsY0/ReadLax?color=green?style=plastic">
+    <img src="https://img.shields.io/github/stars/Read-Lax/ReadLax?color=green?style=plastic">
   </a>
   <a>
-    <img src="https://img.shields.io/github/license/0RaMsY0/ReadLax?color=violet&style=plastic">
+    <img src="https://img.shields.io/github/license/Read-Lax/ReadLax?color=violet&style=plastic">
   </a>
 </p>
 <p align="center">
