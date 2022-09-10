@@ -18,8 +18,8 @@ deleteAPost(postID, List postUsersThatSavedIt, String? userWhoCreatedThePost,
         FirebaseFirestore.instance.collection("users").doc(users);
 
     List userSavedPost = [];
-    userRef.get().then((value) async {
-      userSavedPost = value["savedPost"];
+    userRef.get().then((data) async {
+      userSavedPost = data["savedPost"];
       userSavedPost.remove(postID);
       postUsersThatSavedIt.remove(users);
       await userRef.update({"savedPost": userSavedPost});
@@ -29,7 +29,7 @@ deleteAPost(postID, List postUsersThatSavedIt, String? userWhoCreatedThePost,
   List currentUserCreaterPost = [];
   DocumentReference currentUserRef =
       FirebaseFirestore.instance.collection("users").doc(user!.uid);
-  await currentUserRef.get().then((data) async {
+  currentUserRef.get().then((data) async {
     currentUserCreaterPost = data["createdPost"];
     currentUserCreaterPost.remove(postID);
     await currentUserRef
