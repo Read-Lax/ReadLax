@@ -58,6 +58,7 @@ class _ComentsPageState extends State<ComentsPage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const LoadingCircule();
             }
+            final data = snapshot.requireData;
             return SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -120,7 +121,7 @@ class _ComentsPageState extends State<ComentsPage> {
                       // TextField()
                     ],
                   ),
-                  snapshot.data!.docs.isNotEmpty
+                  data.docs.isNotEmpty
                       ? ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -222,7 +223,7 @@ class _ComentsPageState extends State<ComentsPage> {
                                                 context: context,
                                                 builder:
                                                     (context) => AlertDialog(
-                                                          content: SizedBox(
+                                                          content: Container(
                                                             width:
                                                                 double.infinity,
                                                             height:
