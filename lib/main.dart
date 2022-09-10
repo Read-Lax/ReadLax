@@ -1,6 +1,6 @@
 // ReadLax, read Quran and stay relaxed
 // devloped by ramsy, 0RaMsY0
-// github: https://github.com/0RaMsY0/ReadLax
+// github: https://github.com/Read-Lax/ReadLax
 // app idea by the devloper(ramsy)'s mother
 
 import 'dart:async';
