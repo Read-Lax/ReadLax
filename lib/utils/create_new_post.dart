@@ -3,13 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:readlex/shared/global.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 createNewPost() {
-  String imageName = "";
-  var pickedImageToPost = File("");
-  final ImagePicker picker = ImagePicker();
+  String? imageName = "";
+  late File? pickedImageToPost;
   TextEditingController userPost = TextEditingController();
   return StreamBuilder<Object>(
       stream: null,
@@ -61,47 +60,17 @@ createNewPost() {
           ),
           actions: [
             IconButton(
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (_) => AlertDialog(
-                          title: const Text(
-                            "Select:",
-                            style: TextStyle(
-                              fontFamily: "VareLaRound",
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          content: Row(
-                            children: [
-                              IconButton(
-                                onPressed: () async {
-                                  final imagePicker = await picker.pickImage(
-                                    source: ImageSource.camera,
-                                  );
-                                  pickedImageToPost = File(imagePicker!.path);
-                                  Navigator.pop(context);
-                                  imageName = imagePicker.name;
-                                },
-                                icon: const Icon(Icons.add_a_photo_outlined),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              IconButton(
-                                  onPressed: () async {
-                                    final imagePicker = await picker.pickImage(
-                                      source: ImageSource.gallery,
-                                    );
-                                    pickedImageToPost = File(imagePicker!.path);
-                                    imageName = imagePicker.name;
-                                    Navigator.pop(context);
-                                  },
-                                  icon:
-                                      const Icon(Icons.photo_library_rounded)),
-                            ],
-                          ),
+              onPressed: () async {
+                final List<AssetEntity>? userPicke =
+                    await AssetPicker.pickAssets(context,
+                        pickerConfig: const AssetPickerConfig(
+                          maxAssets: 1,
+                          requestType: RequestType.all,
                         ));
+                try {
+                  pickedImageToPost = await userPicke!.first.file;
+                  imageName = userPicke.first.title;
+                } catch (error) {}
               },
               icon: Icon(
                 Icons.add_photo_alternate_outlined,
@@ -111,7 +80,7 @@ createNewPost() {
             IconButton(
                 onPressed: () {
                   postTheInfo(
-                      userPost.text.trim(), pickedImageToPost, imageName);
+                      userPost.text.trim(), pickedImageToPost, imageName!);
                   Navigator.pop(context);
                 },
                 icon: const Icon(
