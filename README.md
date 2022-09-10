@@ -46,7 +46,7 @@ with Readlax you can creat khatma and let your friends contribute to it so you c
 <h2>Android ✅ </h2>
 
 
-You can install the latest pre-release apk for Android from [here](https://github.com/0RaMsY0/ReadLax/releases)
+You can install the latest pre-release apk for Android from [here](https://github.com/Read-Lax/ReadLax/releases)
 
 <h2>IOS ❌</h3>
 
@@ -54,7 +54,7 @@ The app is currently unavailable for IOS but it will in the future.
 
 # Contributing
 
-All contributing are walcome, check out [CODE_OF_CONDUCT,md](CODE_OF_CONDUCT.md) for some hint to get started.
+All contributing are walcome, check out [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for some hint to get started.
 
 # ScreenShots
 <img src="https://github.com/Read-Lax/ReadLax/blob/main/assets/Screenshot_20220814-235005.png?raw=true" style="width: 23%;margin:16px;" />&nbsp;&nbsp;
