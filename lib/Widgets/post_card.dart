@@ -147,12 +147,9 @@ showPost(snapshotData, context) {
                                                 // color: Colors.black
                                               )),
                                           onTap: () {
-                                            addPostToFavorite(snapshotData.id,
+                                            savePost(snapshotData.id,
                                                 postUsersThatSavedIt);
                                             Navigator.pop(context);
-                                            // Fluttertoast.showToast(
-                                            //     msg:
-                                            //         "Post have been saved successfully");
                                           }),
                                     ),
                                     ListTile(

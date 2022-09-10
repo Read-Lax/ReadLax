@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:readlex/shared/global.dart';
 
-addPostToFavorite(postId, List postUsersThatSaveThePost) async {
+savePost(postId, List postUsersThatSaveThePost) async {
   DocumentSnapshot ref =
       await FirebaseFirestore.instance.collection("users").doc(user!.uid).get();
   List savedPost = [];
