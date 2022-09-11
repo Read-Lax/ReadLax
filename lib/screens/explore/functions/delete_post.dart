@@ -26,14 +26,17 @@ deleteAPost(postID, List postUsersThatSavedIt, String? userWhoCreatedThePost,
     });
   }
   // removing the post from the created Posts
-  List currentUserCreaterPost = [];
-  DocumentReference currentUserRef =
-      FirebaseFirestore.instance.collection("users").doc(user!.uid);
-  currentUserRef.get().then((data) async {
-    currentUserCreaterPost = data["createdPost"];
-    currentUserCreaterPost.remove(postID);
-    await currentUserRef
-        .update({"createdPost": FieldValue.arrayUnion(currentUserCreaterPost)});
+  var currentUserCreatedPost;
+  FirebaseFirestore.instance
+      .collection("users")
+      .doc(user!.uid)
+      .get()
+      .then((data) async {
+    currentUserCreatedPost = data["createdPost"];
+    currentUserCreatedPost.remove(postID);
+    await FirebaseFirestore.instance.collection("users").doc(user!.uid).update({
+      "createdPost": currentUserCreatedPost,
+    });
   });
   // removing the post from the posts collection
   await ref.delete();

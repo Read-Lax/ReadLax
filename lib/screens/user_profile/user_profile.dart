@@ -147,7 +147,7 @@ usersProfile(userUid, context) {
                 padding: EdgeInsets.zero,
                 width: MediaQuery.of(context).size.width * 0.45,
                 child: SingleChildScrollView(
-                  child: SizedBox(
+                  child: Container(
                       width: 350,
                       child: data.isNotEmpty
                           ? ListView.builder(
