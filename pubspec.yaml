@@ -44,8 +44,6 @@ dependencies:
   firebase_storage: ^10.3.8
   quiver: ^3.1.0
   audioplayers: ^1.0.1
-  image_picker: ^0.8.5+3
-  image_picker_android: ^0.8.5+1
   flutter_spinkit: ^5.1.0
   readmore: ^2.2.0
   numeral: ^2.0.1

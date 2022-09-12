@@ -13,7 +13,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:readlex/Widgets/loading_indicator.dart';
-// importing pages contents
+// importing screens
 import 'package:readlex/screens/explore/explore.dart';
 import 'package:readlex/screens/home/home.dart';
 import 'package:readlex/screens/read_quran/read_quran.dart';
