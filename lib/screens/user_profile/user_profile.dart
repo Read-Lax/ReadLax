@@ -190,8 +190,6 @@ usersProfile(userUid, context) {
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Container(
-                                        // width: 400,
-                                        // height: 90,
                                         child: ListTile(
                                       onTap: () {
                                         Navigator.push(

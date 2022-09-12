@@ -10,6 +10,7 @@ import 'package:readlex/Widgets/loading_indicator.dart';
 import 'package:readlex/main.dart';
 import 'dart:io';
 import 'package:readlex/services/change_user_data.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -145,13 +146,20 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                 child: IconButton(
                                   icon: const Icon(Icons.edit_outlined),
                                   color: Colors.white,
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (_) =>
-                                          uploadUserProfilePicture(),
-                                      barrierDismissible: true,
-                                    );
+                                  onPressed: () async {
+                                    final List<AssetEntity>? userPicke =
+                                        await AssetPicker.pickAssets(context,
+                                            pickerConfig:
+                                                const AssetPickerConfig(
+                                              maxAssets: 1,
+                                              requestType: RequestType.image,
+                                            ));
+                                    try {
+                                      File? imageFile =
+                                          await userPicke!.first.file;
+                                      uploadProfilePic(imageFile);
+                                      // ignore: empty_catches
+                                    } catch (error) {}
                                   },
                                 ),
                               ),
@@ -477,68 +485,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
     }
   }
 
-  uploadUserProfilePicture() {
-    late ImageSource imageSource = ImageSource.gallery;
-    return AlertDialog(
-      title: const Text(
-        "Chose from where to pick the image",
-        style: TextStyle(
-          fontFamily: "VareLaRound",
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      actions: [
-        ListTile(
-          leading: const Icon(Icons.camera_alt_outlined),
-          title: const Text(
-            "Take a photo",
-            style: TextStyle(
-              fontFamily: "VareLaRound",
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          onTap: () {
-            setState(() {
-              imageSource = ImageSource.camera;
-              uploadProfilePic(ImageSource.camera);
-              Navigator.pop(context);
-            });
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.photo),
-          title: const Text(
-            "Choose from gallery",
-            style: TextStyle(
-              fontFamily: "VareLaRound",
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          onTap: () {
-            setState(() {
-              imageSource = ImageSource.gallery;
-              uploadProfilePic(imageSource);
-              Navigator.pop(context);
-            });
-          },
-        ),
-      ],
-    );
-  }
-
-  uploadProfilePic(ImageSource imageSource) async {
-    final imagePicker = await ImagePicker().pickImage(
-      source: imageSource,
-      maxHeight: 513,
-      maxWidth: 513,
-      imageQuality: 75,
-    );
+  uploadProfilePic(ImagePath) async {
     Reference ref = FirebaseStorage.instance
         .ref("users")
         .child(currentUser!.uid)
         .child("profilepic.png");
-    await ref.putFile(File(imagePicker!.path));
+    await ref.putFile(ImagePath);
     await ref.getDownloadURL().then((value) async {
       currentUser!.updatePhotoURL(value);
       userChanges.changeUserProfilePhoto(value, currentUser!.uid);
