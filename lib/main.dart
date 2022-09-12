@@ -24,7 +24,7 @@ import 'package:readlex/screens/settings/setting.dart';
 import 'package:readlex/screens/splash_screen/splash_screen.dart';
 import 'package:readlex/providers/theme_provider/theme_provider.dart';
 import 'package:readlex/shared/global.dart';
-import 'package:readlex/utils/create_new_post.dart';
+import 'package:readlex/screens/create_new_post/create_new_post.dart';
 import 'package:readlex/screens/saved_posts/saved_posts.dart';
 
 Future main() async {
@@ -181,9 +181,13 @@ class HomePageState extends State<HomePage> {
                       ? IconButton(
                           splashRadius: 17.0,
                           onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (_) => createNewPost());
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) =>
+                                        const CreateNewPost()))); // showDialog(
+                            //     context: context,
+                            //     builder: (_) => createNewPost());
                           },
                           icon: Icon(
                             Icons.add,
