@@ -261,11 +261,9 @@ class HomePageState extends State<HomePage> {
                           ),
                           Text(
                             userName!,
-                            // currentUserData.getUserName(user!.uid),
                             style: const TextStyle(
                               fontFamily: "VareLaRound",
                               fontSize: 20,
-                              // color: Colors.black
                             ),
                           ),
                         ],
@@ -312,6 +310,7 @@ class HomePageState extends State<HomePage> {
                               // color: Colors.black
                             )),
                         onTap: () {
+                          Navigator.pop(context);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
