@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart' as intl;
 // app version
-String currentAppVersion = "0.2.8"; // version may be 0.3.9 if i added the Download Quran feature.
+String currentAppVersion = "0.3.9"; // version may be 0.3.9 if i added the Download Quran feature.
 
 // access user data in firebase
 User? user = FirebaseAuth.instance.currentUser;
