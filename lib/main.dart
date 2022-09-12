@@ -182,10 +182,11 @@ class HomePageState extends State<HomePage> {
                           splashRadius: 17.0,
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: ((context) =>
-                                        const CreateNewPost()))); // showDialog(
+                              context,
+                              MaterialPageRoute(
+                                builder: ((context) => const CreateNewPost()),
+                              ),
+                            ); // showDialog(
                             //     context: context,
                             //     builder: (_) => createNewPost());
                           },

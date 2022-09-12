@@ -93,7 +93,10 @@ class _CreateNewPostState extends State<CreateNewPost> {
                             decoration: BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.grey.withOpacity(0.15),
+                                  color: Theme.of(context).primaryColor ==
+                                          Colors.white
+                                      ? Colors.grey.withOpacity(0.12)
+                                      : Colors.white.withOpacity(0.20),
                                   blurRadius: 8,
                                   spreadRadius: 6,
                                   offset: const Offset(0, 0),
