@@ -8,7 +8,7 @@ import 'package:readlex/Widgets/loading_indicator.dart';
 import 'package:readlex/screens/explore/functions/publish_coment.dart';
 import 'package:readlex/screens/user_profile/user_profile.dart';
 import 'package:readlex/screens/explore/functions/delete_coment.dart';
-import 'package:readlex/shared/mostUsedFunctions.dart';
+import 'package:readlex/shared/report_content.dart';
 
 class ComentsPage extends StatefulWidget {
   ComentsPage({Key? key, required this.postId}) : super(key: key);

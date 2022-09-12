@@ -9,7 +9,7 @@ import 'package:readlex/screens/explore/functions/delete_post.dart';
 import 'package:readlex/screens/explore/functions/save_post.dart';
 import 'package:readlex/screens/user_profile/user_profile.dart';
 import 'package:readlex/shared/global.dart';
-import 'package:readlex/shared/mostUsedFunctions.dart';
+import 'package:readlex/shared/report_content.dart';
 import 'package:readmore/readmore.dart';
 import 'package:intl/intl.dart' as intl;
 
