@@ -507,7 +507,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
       List comentedComents = [];
       ref.get().then((userData) async {
         comentedComents = userData["comentedComents"];
-        print(comentedComents);
         for (var coment in comentedComents) {
           await FirebaseFirestore.instance
               .collection("posts")
