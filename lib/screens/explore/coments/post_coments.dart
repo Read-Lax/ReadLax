@@ -10,7 +10,6 @@ import 'package:readlex/screens/user_profile/user_profile.dart';
 import 'package:readlex/screens/explore/functions/delete_coment.dart';
 import 'package:readlex/shared/mostUsedFunctions.dart';
 
-
 class ComentsPage extends StatefulWidget {
   ComentsPage({Key? key, required this.postId}) : super(key: key);
   String? postId;
@@ -32,7 +31,9 @@ class _ComentsPageState extends State<ComentsPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.arrow_back_ios_new_outlined,),
+          icon: const Icon(
+            Icons.arrow_back_ios_new_outlined,
+          ),
           color: Theme.of(context).primaryColor,
         ),
         title: const Text(
@@ -217,79 +218,84 @@ class _ComentsPageState extends State<ComentsPage> {
                                                           context)));
                                         },
                                         trailing: IconButton(
-                                          icon: const Icon(Icons.more_vert_sharp),
+                                          icon:
+                                              const Icon(Icons.more_vert_sharp),
                                           onPressed: () {
                                             showDialog(
                                                 context: context,
-                                                builder:
-                                                    (context) => AlertDialog(
-                                                          content: Container(
-                                                            width:
-                                                                double.infinity,
-                                                            height:
-                                                                isDeleteComent
-                                                                    ? 120
-                                                                    : 50,
-                                                            child: Column(
-                                                              children:  [
-                                                                isDeleteComent
-                                                                    ? ListTile(
-                                                                        onTap:
-                                                                            () {
-                                                                          deleteAComent(
-                                                                              currentComentUID,
-                                                                              widget.postId,
-                                                                              commentUserId);
-                                                                          Navigator.pop(
-                                                                              context);
-                                                                        },
-                                                                        leading:
-                                                                            const Icon(
-                                                                          Icons
-                                                                              .delete_outline,
-                                                                          color:
-                                                                              Colors.redAccent,
-                                                                        ),
-                                                                        title:
-                                                                            const Text(
-                                                                          "Delete",
-                                                                          style: TextStyle(
-                                                                              fontFamily: "VareLaRound",
-                                                                              fontWeight: FontWeight.bold,
-                                                                              color: Colors.redAccent),
-                                                                        ),
-                                                                      )
-                                                                    : const SizedBox(),
-                                                                ListTile(
-                                                                  leading: const Icon(
+                                                builder: (context) =>
+                                                    AlertDialog(
+                                                      content: Container(
+                                                        width: double.infinity,
+                                                        height: isDeleteComent
+                                                            ? 120
+                                                            : 50,
+                                                        child: Column(
+                                                          children: [
+                                                            isDeleteComent
+                                                                ? ListTile(
+                                                                    onTap: () {
+                                                                      deleteAComent(
+                                                                          currentComentUID,
+                                                                          widget
+                                                                              .postId,
+                                                                          commentUserId);
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    leading:
+                                                                        const Icon(
                                                                       Icons
-                                                                          .report_gmailerrorred_outlined),
-                                                                  title: const Text(
-                                                                    "Report",
-                                                                    style: TextStyle(
-                                                                      fontFamily:
-                                                                          "VareLaRound",
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
+                                                                          .delete_outline,
+                                                                      color: Colors
+                                                                          .redAccent,
                                                                     ),
+                                                                    title:
+                                                                        const Text(
+                                                                      "Delete",
+                                                                      style: TextStyle(
+                                                                          fontFamily:
+                                                                              "VareLaRound",
+                                                                          fontWeight: FontWeight
+                                                                              .bold,
+                                                                          color:
+                                                                              Colors.redAccent),
+                                                                    ),
+                                                                  )
+                                                                : const SizedBox(
+                                                                    height: 1,
                                                                   ),
-                                                                  onTap: () {
-                                                                    report.reportComents(
-                                                                        commentUserId,
-                                                                        currentComentUID);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                    Fluttertoast
-                                                                        .showToast(
-                                                                            msg:
-                                                                                "Thank you for your feedback.");
-                                                                  },
+                                                            ListTile(
+                                                              leading: const Icon(
+                                                                  Icons
+                                                                      .report_gmailerrorred_outlined),
+                                                              title: const Text(
+                                                                "Report",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      "VareLaRound",
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
                                                                 ),
-                                                              ],
+                                                              ),
+                                                              onTap: () {
+                                                                report.reportComents(
+                                                                    commentUserId,
+                                                                    currentComentUID);
+                                                                Navigator.pop(
+                                                                    context);
+                                                                Fluttertoast
+                                                                    .showToast(
+                                                                        msg:
+                                                                            "Thank you for your feedback.");
+                                                              },
                                                             ),
-                                                          ),
-                                                        ));
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ));
                                           },
                                         ),
                                       ),

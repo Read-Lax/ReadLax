@@ -65,7 +65,7 @@ createNewPost() {
                     await AssetPicker.pickAssets(context,
                         pickerConfig: const AssetPickerConfig(
                           maxAssets: 1,
-                          requestType: RequestType.all,
+                          requestType: RequestType.image,
                         ));
                 try {
                   pickedImageToPost = await userPicke!.first.file;
@@ -112,8 +112,6 @@ postTheInfo(String text, var photoData, String imageName) async {
     "userUID": user!.uid,
     "content": text,
     "photoUrl": photoUrl,
-    // "date": DateTime(
-    // DateTime.now().year, DateTime.now().month, DateTime.now().day),
     "year": DateTime.now().year,
     "month": DateTime.now().month,
     "day": DateTime.now().day,
@@ -122,7 +120,8 @@ postTheInfo(String text, var photoData, String imageName) async {
     "likes": 0,
     "likedBy": [],
     "savedBy": [],
-    "imageName": imageName
+    "imageName": imageName,
+    "usersWhoComented": []
   });
   DocumentReference<Map<String, dynamic>> userRef =
       FirebaseFirestore.instance.collection("users").doc(user!.uid);

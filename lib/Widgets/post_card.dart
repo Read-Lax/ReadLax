@@ -23,6 +23,7 @@ showPost(snapshotData, context) {
   String? postImageNameInTheStorage = snapshotData["imageName"];
   List postUsersThatLikedIt = snapshotData["likedBy"];
   List postUsersThatSavedIt = snapshotData["savedBy"];
+  List userWhoComented = snapshotData["usersWhoComented"];
   int? postLikes = snapshotData["likes"];
   List savedPost = [];
   int postHour = snapshotData['hour'];
@@ -198,6 +199,7 @@ showPost(snapshotData, context) {
                                                   deleteAPost(
                                                     postUID,
                                                     postUsersThatSavedIt,
+                                                    userWhoComented,
                                                     postUsersUid,
                                                     postImageNameInTheStorage,
                                                   );

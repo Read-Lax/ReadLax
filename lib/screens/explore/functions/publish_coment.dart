@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:readlex/shared/global.dart';
 
 uploadAComent(String? postUID, String? commentContent, String? userUID) async {
   // await user!.reload();
@@ -30,5 +31,4 @@ uploadAComent(String? postUID, String? commentContent, String? userUID) async {
       {"comentUID": commentUID, "postUID": postUID}
     ])
   });
-  // Fluttertoast.showToast(msg: "coment got published successfully");
 }

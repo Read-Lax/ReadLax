@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:readlex/screens/explore/functions/delete_coment.dart';
 import 'package:readlex/shared/global.dart';
 
-deleteAPost(postID, List postUsersThatSavedIt, String? userWhoCreatedThePost,
-    String? postImageName) async {
+deleteAPost(postID, List postUsersThatSavedIt, List usersWhoComented,
+    String? userWhoCreatedThePost, String? postImageName) async {
   DocumentReference ref =
       FirebaseFirestore.instance.collection("posts").doc(postID);
 
@@ -38,6 +39,19 @@ deleteAPost(postID, List postUsersThatSavedIt, String? userWhoCreatedThePost,
       "createdPost": currentUserCreatedPost,
     });
   });
+  // remove coments
+  QuerySnapshot comentsInPostIds = await FirebaseFirestore.instance
+      .collection("posts")
+      .doc(postID)
+      .collection("coments")
+      .get();
+  List allData = comentsInPostIds.docs
+      .map((doc) => {"comentId": doc.id, "comentData": doc.data()})
+      .toList();
+  for (var element in allData) {
+    deleteAComent(element["comentId"].toString(), postID,
+        element["comentData"]!["comentUserUID"].toString());
+  }
   // removing the post from the posts collection
   await ref.delete();
   // deleting the post image from the storage

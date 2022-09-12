@@ -317,7 +317,7 @@ usersProfile(userUid, context) {
           }
           return Scaffold(
             body: SingleChildScrollView(
-              child: SizedBox(
+              child: Container(
                 width: double.infinity,
                 child: SingleChildScrollView(
                   child: Column(
