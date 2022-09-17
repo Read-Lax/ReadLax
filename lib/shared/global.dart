@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart' as intl;
 
 // app version
-String currentAppVersion = "0.3.8";
+String currentAppVersion = "0.4.9";
 
 // access user data in firebase
 User? user = FirebaseAuth.instance.currentUser;
