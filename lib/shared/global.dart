@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:external_path/external_path.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart' as intl;
 
