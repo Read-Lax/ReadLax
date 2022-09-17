@@ -13,6 +13,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:readlex/Widgets/loading_indicator.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 // importing screens
 import 'package:readlex/screens/explore/explore.dart';
 import 'package:readlex/screens/home/home.dart';
@@ -30,13 +32,19 @@ import 'package:readlex/screens/saved_posts/saved_posts.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Hive.initFlutter();
+  // record crashes and repost into firebase crashlytics
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  WidgetsFlutterBinding.ensureInitialized();
+  // hive db
+  var hizbDataDB = Hive.openBox("hizbData");
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -48,9 +56,6 @@ class MyApp extends StatelessWidget {
             themeMode: themeProvider.themeMode,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
-            // theme: ThemeData(
-            //   brightness: Brightness.dark,
-            // ),
             home: const ShowPage(),
           );
         });

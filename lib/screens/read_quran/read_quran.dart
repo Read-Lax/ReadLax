@@ -1,7 +1,13 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:quiver/iterables.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:readlex/screens/read_quran/functions/check_for_hizb.dart';
+import 'package:readlex/screens/read_quran/widgets/delete_installed_hizb.dart';
 import 'package:readlex/shared/global.dart';
 
 class ReadQuranPage extends StatefulWidget {
@@ -14,12 +20,102 @@ class ReadQuranPage extends StatefulWidget {
 class _ReadQuranPageState extends State<ReadQuranPage> {
   int numberOfCards = 60;
   bool isPlayingQuran = false;
+  final _hizbDataRef = Hive.box("hizbData");
+
+  writeData(hizbIndex, data) async {
+    await _hizbDataRef.put(hizbIndex, data);
+  }
+
+  readData(hizbIndex) {
+    return _hizbDataRef.get(hizbIndex);
+  }
+
+  deleteData(hizbIndex) {
+    _hizbDataRef.delete(hizbIndex);
+  }
+
+  isHizbInstalled(hizbIndex) {
+    if (_hizbDataRef.containsKey(hizbIndex) == false) {
+      return false;
+    } else {
+      Map hizbData = _hizbDataRef.get(hizbIndex);
+      for (var imagePath in hizbData["images"]) {
+        if (File(imagePath).existsSync() == false) {
+          deleteData(hizbIndex);
+          return false;
+        } else {
+          return true;
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    late bool isItDownloading =
+        false; // check if user pressed download icon to install Quran
     return Scaffold(
       body: SingleChildScrollView(
         child: ListView.builder(
           itemBuilder: (BuildContext context, int index) {
+            bool isTheHizbInstalled = isHizbInstalled(index);
+            var hizbAudioUrl =
+                "https://firebasestorage.googleapis.com/v0/b/readlex-app-5d379.appspot.com/o/audioQuran%2F${index + 1}.mp3?alt=media";
+            Widget hizbCardTrailing = IconButton(
+                onPressed: () async {
+                  if (isTheHizbInstalled == false) {
+                    List ahzabToUse = [];
+                    List imageUrls = [];
+                    WidgetsBinding.instance
+                        .addPostFrameCallback((_) => setState(() {
+                              isItDownloading = true;
+                            }));
+                    var downloadedImagesData = {"images": [], "audio": ""};
+                    for (var i
+                        in range(ahzabData[index][0], ahzabData[index][1])) {
+                      ahzabToUse.add(i);
+                    }
+                    for (int imageName in ahzabToUse) {
+                      imageUrls.add(
+                          "https://firebasestorage.googleapis.com/v0/b/readlex-app-5d379.appspot.com/o/quran%2F$imageName.png?alt=media");
+                    }
+                    List installedImagesPaths = [];
+                    for (var url in imageUrls) {
+                      var imagePath = await download_image(url);
+                      installedImagesPaths.add(imagePath);
+                    }
+                    final currentInstalledHizbAudioPath = await download_audio(
+                        hizbAudioUrl, index.toString()); // hizb audio's path
+                    downloadedImagesData["images"] = installedImagesPaths;
+                    downloadedImagesData["audio"] =
+                        currentInstalledHizbAudioPath;
+                    writeData(index,
+                        downloadedImagesData); // writing data into the database
+                    WidgetsBinding.instance
+                        .addPostFrameCallback((_) => setState(() {
+                              isItDownloading = false;
+                            }));
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: ((context) => UninsallingHizbAlert(
+                              hizbIndex: index,
+                              hizbDataRef: _hizbDataRef,
+                            )));
+                  }
+                },
+                // check for the hizb if it installed if yes display the download done icon
+                icon: isTheHizbInstalled == true
+                    ? const Icon(
+                        Icons.download_done_rounded,
+                        size: 30,
+                        color: Colors.greenAccent,
+                      )
+                    : const Icon(
+                        Icons.download_outlined,
+                        color: Colors.greenAccent,
+                        size: 30,
+                      ));
             return Padding(
               padding: const EdgeInsets.all(10.0),
               child: Card(
@@ -38,6 +134,9 @@ class _ReadQuranPageState extends State<ReadQuranPage> {
                               builder: (context) => ReadQuran(
                                 ahzabData[index],
                                 index + 1,
+                                isTheHizbInstalled,
+                                _hizbDataRef,
+                                // readData(index)
                               ),
                             ),
                           );
@@ -46,11 +145,11 @@ class _ReadQuranPageState extends State<ReadQuranPage> {
                           index.isOdd
                               ? Icons.chrome_reader_mode_outlined
                               : Icons.chrome_reader_mode_rounded,
-                          color: Colors.brown[200],
+                          color: Theme.of(context).primaryColor,
                           size: 35,
                         ),
                         title: Text(
-                          "حزب / Hizb" + " ${index + 1}",
+                          hizbTitle(index),
                           style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontFamily: "VareLaRound",
@@ -67,6 +166,12 @@ class _ReadQuranPageState extends State<ReadQuranPage> {
                           ),
                           textAlign: TextAlign.right,
                         ),
+                        trailing: isItDownloading
+                            ? const CircularProgressIndicator(
+                                value: 2.0,
+                                color: Colors.greenAccent,
+                              )
+                            : hizbCardTrailing,
                       )
                     ],
                   )),
@@ -82,9 +187,14 @@ class _ReadQuranPageState extends State<ReadQuranPage> {
 }
 
 class ReadQuran extends StatefulWidget {
-  ReadQuran(this.ahzabData, this.hizbIndex);
+  ReadQuran(
+      this.ahzabData, this.hizbIndex, this.isHizbInstalled, this.hizbDataRef,
+      {super.key});
   List ahzabData;
   int hizbIndex;
+  bool isHizbInstalled;
+  var hizbDataRef;
+  // List dbHizbData;
 
   @override
   State<ReadQuran> createState() => _ReadQuranState();
@@ -117,6 +227,11 @@ class _ReadQuranState extends State<ReadQuran> {
 
   @override
   Widget build(BuildContext context) {
+    // loading current hizb data from database (if it exists)
+    Map currentHizbData = widget.isHizbInstalled
+        ? widget.hizbDataRef.get(widget.hizbIndex - 1)
+        : {};
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -167,26 +282,24 @@ class _ReadQuranState extends State<ReadQuran> {
         itemBuilder: (BuildContext context, int index) {
           return ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(20.0)),
-            child: CachedNetworkImage(
-              imageUrl: imagesToDesplayUrls[index],
-              progressIndicatorBuilder: (context, url, downloadProgress) {
-                return SizedBox(
-                  height: 200,
-                  width: double.infinity,
-                  child: Center(
-                    child: CircularProgressIndicator(
-                      value: downloadProgress.progress,
-                      color: Colors.greenAccent,
-                    ),
+            child: widget.isHizbInstalled
+                ? Image.file(File(currentHizbData["images"][index]))
+                : CachedNetworkImage(
+                    imageUrl: imagesToDesplayUrls[index],
+                    progressIndicatorBuilder: (context, url, downloadProgress) {
+                      return SizedBox(
+                        height: 200,
+                        width: double.infinity,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            value: downloadProgress.progress,
+                            color: Colors.greenAccent,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           );
-          // return Image.network(
-          //   imagesToDesplayUrls[index],
-          //   fit: BoxFit.cover,
-          // );
         },
         scrollDirection: Axis.vertical,
         itemCount: imagesToDesplayUrls.length,
@@ -195,11 +308,12 @@ class _ReadQuranState extends State<ReadQuran> {
   }
 
   playQuran(index) async {
-    // UrlSource source = audioPlayer.setSourceUrl(url) as UrlSource;
+    final currentHizbData = widget.hizbDataRef.get(index - 1);
     var url =
         "https://firebasestorage.googleapis.com/v0/b/readlex-app-5d379.appspot.com/o/audioQuran%2F$index.mp3?alt=media";
     // Source u = Source(url);
-    await audioPlayer.play(UrlSource(url));
+    await audioPlayer.play(
+        UrlSource(widget.isHizbInstalled ? currentHizbData["audio"] : url));
     setState(() {
       isPlayingQuran = true;
     });
