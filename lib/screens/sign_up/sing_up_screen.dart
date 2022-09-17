@@ -36,10 +36,8 @@ class _SignUpPageState extends State<SignUpPage> {
     return isLoading
         ? const LoadingCircule()
         : Scaffold(
-            resizeToAvoidBottomInset: true,
-            body: SingleChildScrollView(
-              // physics: NeverScrollableScrollPhysics(),
-              child: Container(
+            // resizeToAvoidBottomInset: true,
+            body:  Container(
                 decoration: const BoxDecoration(
                     gradient: LinearGradient(
                   colors: [
@@ -53,22 +51,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 7,
-                    ),
-                    CircleAvatar(
-                      backgroundImage: Image.asset("assets/app_logo.png").image,
-                      backgroundColor: Colors.grey.withOpacity(0.3),
-                      radius: 50,
-                    ),
-                    const Text(
-                      "Readlax",
-                      style: TextStyle(
-                        fontFamily: "VareLaRound",
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                      ),
-                    ),
                     Container(
                       margin: const EdgeInsets.all(30),
                       padding: const EdgeInsets.all(40),
@@ -103,7 +85,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         // gmail text feild
                         TextField(
                           // obscureText: true,
-                          autofocus: true,
+                          // autofocus: true,
                           controller: userName,
                           // cursorColor: Colors.black,
                           decoration: const InputDecoration(
@@ -239,7 +221,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   ],
                 ),
               ),
-            ),
           );
   }
 

@@ -49,19 +49,6 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    backgroundImage: Image.asset("assets/app_logo.png").image,
-                    backgroundColor: Colors.grey.withOpacity(0.3),
-                    radius: 50,
-                  ),
-                  const Text(
-                    "Readlax",
-                    style: TextStyle(
-                      fontFamily: "VareLaRound",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30,
-                    ),
-                  ),
                   Container(
                     margin: const EdgeInsets.all(30),
                     padding: const EdgeInsets.all(40),
@@ -160,7 +147,8 @@ class _LoginPageState extends State<LoginPage> {
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const SignUpPage()));
+                                        builder: (context) =>
+                                            const SignUpPage()));
                                 setState(() {});
                               })
                       ])),
@@ -212,8 +200,8 @@ class _LoginPageState extends State<LoginPage> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: userGmail.text.trim(), password: userPassword.text.trim());
       Fluttertoast.showToast(
-          msg: "Welcome back ${FirebaseAuth.instance.currentUser!.displayName}");
-      setState(() {});
+          msg:
+              "Welcome back ${FirebaseAuth.instance.currentUser!.displayName}");
     } on FirebaseAuthException catch (errorMsg) {
       Fluttertoast.showToast(
           msg: "${errorMsg.message}", gravity: ToastGravity.TOP);
