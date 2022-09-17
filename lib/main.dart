@@ -38,7 +38,7 @@ Future main() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   WidgetsFlutterBinding.ensureInitialized();
   // hive db
-  var hizbDataDB = Hive.openBox("hizbData");
+  var hizbDataDB = await Hive.openBox("hizbData");
   runApp(const MyApp());
 }
 
@@ -283,6 +283,7 @@ class HomePageState extends State<HomePage> {
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       elevation: 0,
+                      color: Colors.transparent,
                       child: ListTile(
                         leading: const Icon(
                           Icons.person_outline_outlined,
@@ -308,6 +309,7 @@ class HomePageState extends State<HomePage> {
                       elevation: 0,
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20))),
+                      color: Colors.transparent,
                       child: ListTile(
                         leading: const Icon(
                           Icons.add_to_photos_outlined,
@@ -334,6 +336,7 @@ class HomePageState extends State<HomePage> {
                       elevation: 0,
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20))),
+                      color: Colors.transparent,
                       child: ListTile(
                         leading: const Icon(
                           Icons.settings,
@@ -358,6 +361,7 @@ class HomePageState extends State<HomePage> {
                       elevation: 0,
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20))),
+                      color: Colors.transparent,
                       child: ListTile(
                         leading: const Icon(
                           Icons.logout_outlined,
