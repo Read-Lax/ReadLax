@@ -38,7 +38,8 @@ Future main() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   WidgetsFlutterBinding.ensureInitialized();
   // hive db
-  var hizbDataDB = await Hive.openBox("hizbData");
+  await Hive.openBox("hizbData");
+  await Hive.openBox("backgroundProcess");
   runApp(const MyApp());
 }
 

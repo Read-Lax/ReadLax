@@ -19,3 +19,11 @@ class LoadingCircule extends StatelessWidget {
     ));
   }
 }
+
+// simple loading with no background
+Widget simpleLoading() {
+  return const SpinKitCircle(
+    color: Colors.greenAccent,
+    size: 10.0,
+  );
+}
