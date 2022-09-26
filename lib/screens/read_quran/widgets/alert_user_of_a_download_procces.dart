@@ -30,10 +30,12 @@ class _AlertOfAnOtherDownloadProccessState
       ),
       actions: [
         CupertinoButton(
-            child: const Text(
+            child:  Text(
               "Ok",
               style: TextStyle(
-                  fontFamily: "VareLaRound", fontWeight: FontWeight.bold),
+                  fontFamily: "VareLaRound",
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green[200]),
             ),
             onPressed: () {
               Navigator.pop(context);
