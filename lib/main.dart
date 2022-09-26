@@ -395,8 +395,6 @@ class HomePageState extends State<HomePage> {
               ),
             );
           }),
-      // isThereANewUpdate() == false ? showNewUpdateDialoge() : const SizedBox(),
-      // const ShowNewUpdateAlert(),
     ]);
   }
 }
