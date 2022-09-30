@@ -10,10 +10,12 @@ download_image(String imageUrl) async {
 }
 
 // ignore: non_constant_identifier_names
-download_audio(String hizbAudioUrl, String hizbIndex) async {
+download_audio(String hizbAudioUrl, String hizbIndex, backgroundProcessDBRef) async {
   var audioId = await ImageDownloader.downloadImage(hizbAudioUrl,
       destination:
           AndroidDestinationType.directoryDownloads);
   var audioPath = await ImageDownloader.findPath(audioId!);
+  backgroundProcessDBRef.put("hizbIndexThatIsGettingInstalling", "");
+  backgroundProcessDBRef.put("isItDownloading", false);
   return audioPath.toString();
 }

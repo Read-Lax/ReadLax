@@ -15,7 +15,8 @@ import 'package:provider/provider.dart';
 import 'package:readlex/Widgets/loading_indicator.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-// importing screens
+import 'package:flutter_background/flutter_background.dart';
+// screens
 import 'package:readlex/screens/explore/explore.dart';
 import 'package:readlex/screens/home/home.dart';
 import 'package:readlex/screens/read_quran/read_quran.dart';
@@ -36,7 +37,6 @@ Future main() async {
   // record crashes and repost into firebase crashlytics
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-  WidgetsFlutterBinding.ensureInitialized();
   // hive db
   await Hive.openBox("hizbData");
   await Hive.openBox("backgroundProcess");
@@ -136,11 +136,24 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  @override
-  void initState() {
+  // background proccess permission
+  askForBackgroundProccesPermission() async {
+    bool backgroundHasPermission = await FlutterBackground.hasPermissions;
+  }
+
+  allPermissions() async {
     _getUserLocation();
     askForPermision();
+    askForBackgroundProccesPermission();
+  }
+
+  @override
+  void initState() {
+    // _getUserLocation();
+    // askForPermision();
+    // askForBackgroundProccesPermission();
     super.initState();
+    allPermissions();
   }
 
   @override
@@ -384,10 +397,10 @@ class HomePageState extends State<HomePage> {
                     ),
                     const Spacer(), // used to fill up all the free space in the Drawer
                     Text(
-                      "Version $currentAppVersion",
+                      "v$currentAppVersion",
                       style: const TextStyle(
                         fontFamily: "VareLaRound",
-                        fontWeight: FontWeight.bold,
+                        // fontWeight: FontWeight.bold,
                       ),
                     )
                   ],

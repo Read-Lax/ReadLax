@@ -1,13 +1,15 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_background/flutter_background.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:quiver/iterables.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:readlex/screens/read_quran/functions/check_for_hizb.dart';
+import 'package:readlex/screens/read_quran/functions/download_hizb_data.dart';
 import 'package:readlex/screens/read_quran/widgets/alert_user_of_a_download_procces.dart';
 import 'package:readlex/screens/read_quran/widgets/delete_installed_hizb.dart';
 import 'package:readlex/shared/global.dart';
+import 'package:readlex/shared/hizb_background_config.dart';
 
 class ReadQuranPage extends StatefulWidget {
   const ReadQuranPage({Key? key}) : super(key: key);
@@ -139,6 +141,11 @@ class _ReadQuranPageState extends State<ReadQuranPage> {
                                     if (isTheHizbInstalled == false) {
                                       List ahzabToUse = [];
                                       List imageUrls = [];
+                                      FlutterBackgroundAndroidConfig
+                                          backgroundDownloadConfig =
+                                          backgroundConfig(index + 1);
+                                      await FlutterBackground.initialize(
+                                          androidConfig: backgroundDownloadConfig);
                                       _backgroundProcess.put(
                                           "hizbIndexThatIsGettingInstalling",
                                           index.toString());
@@ -154,7 +161,8 @@ class _ReadQuranPageState extends State<ReadQuranPage> {
                                                         _backgroundProcess.get(
                                                             "hizbIndexThatIsGettingInstalling");
                                                   }));
-
+                                      FlutterBackground
+                                          .enableBackgroundExecution();
                                       var downloadedImagesData = {
                                         "images": [],
                                         "audio": ""
@@ -176,8 +184,8 @@ class _ReadQuranPageState extends State<ReadQuranPage> {
                                       final currentInstalledHizbAudioPath =
                                           await download_audio(
                                               hizbAudioUrl,
-                                              index
-                                                  .toString()); // hizb audio's path
+                                              index.toString(),
+                                              _backgroundProcess); // hizb audio's path
                                       downloadedImagesData["images"] =
                                           installedImagesPaths;
                                       downloadedImagesData["audio"] =
@@ -190,14 +198,18 @@ class _ReadQuranPageState extends State<ReadQuranPage> {
                                           "");
                                       _backgroundProcess.put(
                                           "isItDownloading", false);
-                                      setState(() {
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback(
+                                              (_) => setState(() {
                                                     isItDownloading =
                                                         _backgroundProcess.get(
                                                             "isItDownloading");
                                                     hizbIndexThatIsGettingInstalling =
                                                         _backgroundProcess.get(
                                                             "hizbIndexThatIsGettingInstalling");
-                                                  });
+                                                  }));
+                                      FlutterBackground
+                                          .disableBackgroundExecution();
                                     } else {
                                       showDialog(
                                           context: context,
