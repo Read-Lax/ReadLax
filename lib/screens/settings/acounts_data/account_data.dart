@@ -5,11 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:readlex/Widgets/loading_indicator.dart';
 import 'package:readlex/main.dart';
+import 'package:readlex/providers/theme_provider/theme_provider.dart';
 import 'dart:io';
 import 'package:readlex/services/change_user_data.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+import 'package:readlex/providers/theme_provider/theme_provider.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -88,215 +91,210 @@ class _UserProfilePageState extends State<UserProfilePage> {
             body: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   // const SizedBox(
                   //   height: 40,
                   // ),
-                  Card(
-                    color: Colors.transparent,
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(9.0),
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          const Text(
-                            "Profile Picture",
-                            textDirection: TextDirection.ltr,
-                            style: TextStyle(
-                              fontFamily: "VareLaRound",
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Stack(children: [
-                            Container(
-                              width: 100,
-                              height: 100,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    width: 3,
-                                    color: Colors.greenAccent,
-                                  ),
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                        userImage!,
-                                      ))),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: const BoxDecoration(
-                                    color: Colors.greenAccent,
-                                    shape: BoxShape.circle),
-                                child: IconButton(
-                                  icon: const Icon(Icons.edit_outlined),
-                                  color: Colors.white,
-                                  onPressed: () async {
-                                    final List<AssetEntity>? userPicke =
-                                        await AssetPicker.pickAssets(context,
-                                            pickerConfig:
-                                                const AssetPickerConfig(
-                                              maxAssets: 1,
-                                              requestType: RequestType.image,
-                                            ));
-                                    try {
-                                      File? imageFile =
-                                          await userPicke!.first.file;
-                                      uploadProfilePic(imageFile);
-                                      // ignore: empty_catches
-                                    } catch (error) {}
-                                  },
-                                ),
-                              ),
-                            )
-                          ]),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                        ],
+                  const SizedBox(
+                    height: 7,
+                  ),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 7,
                       ),
+                      Text(
+                        " • Profile Picture",
+                        // textDirection: TextDirection.ltr,
+                        style: TextStyle(
+                            fontFamily: "VareLaRound",
+                            fontSize: 20,
+                            // fontWeight: FontWeight.bold,
+                            color:
+                                Provider.of<ThemeProvider>(context).isDarkMode
+                                    ? Colors.white60
+                                    : Colors.black54),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 7,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(9.0),
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 3,
+                        ),
+                        Stack(children: [
+                          Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 2,
+                                  color: Colors.greenAccent,
+                                ),
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                      userImage!,
+                                    ))),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: const BoxDecoration(
+                                  color: Colors.black45,
+                                  shape: BoxShape.circle),
+                              child: IconButton(
+                                icon: const Icon(Icons.edit_outlined),
+                                color: Colors.white,
+                                onPressed: () async {
+                                  final List<AssetEntity>? userPicke =
+                                      await AssetPicker.pickAssets(context,
+                                          pickerConfig: const AssetPickerConfig(
+                                            maxAssets: 1,
+                                            requestType: RequestType.image,
+                                          ));
+                                  try {
+                                    File? imageFile =
+                                        await userPicke!.first.file;
+                                    uploadProfilePic(imageFile);
+                                    // ignore: empty_catches
+                                  } catch (error) {}
+                                },
+                              ),
+                            ),
+                          )
+                        ]),
+                        const SizedBox(
+                          height: 3,
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(
                     height: 5,
                   ),
-                  const Divider(),
-                  Card(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        textDirection: TextDirection.ltr,
-                        children: [
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          const Text(
-                            "Main Account's Info",
-                            textDirection: TextDirection.ltr,
-                            style: TextStyle(
-                              fontFamily: "VareLaRound",
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          TextField(
-                            dragStartBehavior: DragStartBehavior.start,
-                            // obscureText: true,
-                            autofocus: true,
-                            controller: newUserName,
-                            // cursorColor: Colors.black,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.black,
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0))),
-                              label: Text(
-                                "Display name",
-                                style: TextStyle(
-                                  fontFamily: "VareLaRound",
-                                  fontWeight: FontWeight.bold,
-                                  // color: Colors.black45,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 7,
-                          ),
-                          TextField(
-                            // obscureText: true,
-                            autofocus: true,
-                            controller: newUserEmail,
-                            // cursorColor: Colors.black,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.black,
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0))),
-                              label: Text(
-                                "Email",
-                                style: TextStyle(
-                                    fontFamily: "VareLaRound",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15
-                                    // color: Colors.black45,
-                                    ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 7,
-                          ),
-                          TextField(
-                            // obscureText: true,
-                            autofocus: true,
-                            maxLines: null,
-                            controller: userDescription,
-                            // cursorColor: Colors.black,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.black,
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0))),
-                              label: Text(
-                                "your description",
-                                style: TextStyle(
-                                    fontFamily: "VareLaRound",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15
-                                    // color: Colors.black45,
-                                    ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 7,
-                          ),
-                          TextField(
-                            // obscureText: true,
-                            autofocus: true,
-                            controller: newUserPhoneNumber,
-                            // cursorColor: Colors.black,
-                            decoration: const InputDecoration(
-                              fillColor: Colors.black,
-                              border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0))),
-                              label: Text(
-                                "Phone Number",
-                                style: TextStyle(
-                                    fontFamily: "VareLaRound",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15
-                                    // color: Colors.black45,
-                                    ),
-                              ),
-                            ),
-                          ),
-                        ],
+                  // const Divider(),
+                  Row(
+                    children: [
+                      Text(
+                        " • Account's Info",
+                        style: TextStyle(
+                          fontFamily: "VareLaRound",
+                          fontSize: 20,
+                          color: Provider.of<ThemeProvider>(context).isDarkMode
+                              ? Colors.white60
+                              : Colors.black54,
+                        ),
                       ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          height: 3,
+                        ),
+                        TextField(
+                          dragStartBehavior: DragStartBehavior.start,
+                          autofocus: false,
+                          controller: newUserName,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            label: Text(
+                              "Display name",
+                              style: TextStyle(
+                                fontFamily: "VareLaRound",
+                                fontWeight: FontWeight.bold,
+                                color: Colors.greenAccent,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 17,
+                        ),
+                        TextField(
+                          controller: newUserEmail,
+                          decoration: const InputDecoration(
+                            fillColor: Colors.black,
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            label: Text(
+                              "Email",
+                              style: TextStyle(
+                                fontFamily: "VareLaRound",
+                                fontWeight: FontWeight.bold,
+                                color: Colors.greenAccent,
+                                // color: Colors.black45,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 17,
+                        ),
+                        TextField(
+                          maxLines: null,
+                          maxLength: 1500,
+                          controller: userDescription,
+                          decoration: const InputDecoration(
+                            fillColor: Colors.black,
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20.0))),
+                            label: Text(
+                              "bio",
+                              style: TextStyle(
+                                fontFamily: "VareLaRound",
+                                fontWeight: FontWeight.bold,
+                                color: Colors.greenAccent,
+                              ),
+                            ),
+                          ),
+                        ),
+                        // const SizedBox(
+                        //   height: 7,
+                        // ),
+                        // TextField(
+                        //   controller: newUserPhoneNumber,
+                        //   decoration: const InputDecoration(
+                        //     fillColor: Colors.black,
+                        //     border: OutlineInputBorder(
+                        //         borderRadius:
+                        //             BorderRadius.all(Radius.circular(20.0))),
+                        //     label: Text(
+                        //       "Phone Number",
+                        //       style: TextStyle(
+                        //         fontFamily: "VareLaRound",
+                        //         fontWeight: FontWeight.bold,
+                        //         color: Colors.greenAccent,
+                        //         // color: Colors.black45,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                      ],
                     ),
                   ),
-                  const Divider(),
+                  // const Divider(),
                   // Padding(
                   //   padding: const EdgeInsets.all(8.0),
                   //   child: Card(
@@ -376,42 +374,52 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   //   ),
                   // ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const SizedBox(
                         width: 30,
                       ),
-                      CupertinoButton(
-                        padding: const EdgeInsets.all(7.0),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        color: Colors.blue[50],
-                        child: const Text(
-                          "Cancel",
-                          style: TextStyle(
-                            fontFamily: "VareLaRound",
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      CupertinoButton(
-                        padding: const EdgeInsets.all(15.0),
-                        onPressed: () {
-                          applayProfileChanges();
-                          Navigator.pop(context);
-                        },
-                        color: Colors.blue[50],
-                        child: const Text(
-                          "Save",
-                          style: TextStyle(
-                            fontFamily: "VareLaRound",
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.greenAccent),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20.0))))),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            "Cancel",
+                            style: TextStyle(
+                              fontFamily: "VareLaRound",
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          )),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.greenAccent),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(20.0))))),
+                          onPressed: () {
+                            applayProfileChanges();
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            "Save",
+                            style: TextStyle(
+                              fontFamily: "VareLaRound",
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          )),
                       const SizedBox(
                         width: 30,
                       ),

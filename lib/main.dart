@@ -40,6 +40,7 @@ Future main() async {
   // hive db
   await Hive.openBox("hizbData");
   await Hive.openBox("backgroundProcess");
+  // await Hive.openBox("settings");
   runApp(const MyApp());
 }
 
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
         builder: (context, _) {
           final themeProvider = Provider.of<ThemeProvider>(context);
           return MaterialApp(
-            title: 'Readlax',
+            title: 'ReadLax',
             themeMode: themeProvider.themeMode,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,

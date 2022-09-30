@@ -88,6 +88,7 @@ usersProfile(userUid, context) {
               }
             });
           }
+
           updateFollowButton();
 
           String? userName = userData.docs[userIndex]["userName"];
@@ -313,6 +314,7 @@ usersProfile(userUid, context) {
               },
             );
           }
+
           return Scaffold(
             body: SingleChildScrollView(
               child: Container(
@@ -345,25 +347,29 @@ usersProfile(userUid, context) {
                             width: isFollowButtonEnabled ? 30 : 0,
                           ),
                           isFollowButtonEnabled
-                              ? ElevatedButton(
-                                  autofocus: true,
-                                  clipBehavior: Clip.antiAlias,
+                              ? ElevatedButton.icon(
                                   onPressed: () {
                                     follow(userData.docs[userIndex].id);
                                   },
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        followButtonText!,
-                                        style: const TextStyle(
-                                          fontFamily: "VareLaRound",
-                                        ),
+                                  icon: Icon(followButtonIcon),
+                                  label: Text(
+                                    followButtonText!,
+                                    style: const TextStyle(
+                                      fontFamily: "VareLaRound",
+                                    ),
+                                  ),
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Colors.greenAccent),
+                                    shape: MaterialStateProperty.all<
+                                        RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                        side: const BorderSide(
+                                            color: Colors.transparent),
                                       ),
-                                      const SizedBox(
-                                        width: 3,
-                                      ),
-                                      Icon(followButtonIcon),
-                                    ],
+                                    ),
                                   ),
                                 )
                               : Column()
