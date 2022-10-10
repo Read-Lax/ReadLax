@@ -14,7 +14,7 @@ packages:
       name: _flutterfire_internals
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.2"
   adhan:
     dependency: "direct main"
     description:
@@ -224,21 +224,21 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.5.0"
+    version: "3.5.1"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.7.6"
+    version: "5.7.7"
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.9"
+    version: "2.8.10"
   code_builder:
     dependency: transitive
     description:
