@@ -62,4 +62,4 @@ All contributing are walcome, check out [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 
 # Feedback
 
-If you have any feadback or suggestions feel free to email the developer at 0ramsy0@gmail.com
+If you have any feadback or suggestions feel free to to post it in the [discussions](https://github.com/Read-Lax/ReadLax/discussions)
