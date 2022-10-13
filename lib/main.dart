@@ -142,19 +142,13 @@ class HomePageState extends State<HomePage> {
     bool backgroundHasPermission = await FlutterBackground.hasPermissions;
   }
 
-  allPermissions() async {
+  @override
+  void initState() {
+    // permissions
     _getUserLocation();
     askForPermision();
     askForBackgroundProccesPermission();
-  }
-
-  @override
-  void initState() {
-    // _getUserLocation();
-    // askForPermision();
-    // askForBackgroundProccesPermission();
     super.initState();
-    allPermissions();
   }
 
   @override
