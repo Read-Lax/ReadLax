@@ -1,0 +1,10 @@
+<h1 align="center"> TODO list for the 1.5.0 update </h1>
+## The possible changes that may get implemented (inxa2alah)
+- [Improve the UI]()
+- [Core change]()
+- [improve the code]()
+- [implement the push-notification feature]()
+- [Handle exceptions (Network issues, Loading... etc)]()
+- [Improve the Explore page  (show the followings posts first)]()
+- [Add an API]()
+- [Add an auto updater for the app]()
