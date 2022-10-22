@@ -3,6 +3,7 @@
 - [Improve the UI]()
 - [Core change]()
 - [improve the code]()
+- [Improve the download quran feature]()
 - [implement the push-notification feature]()
 - [Handle exceptions (Network issues, Loading... etc)]()
 - [Improve the Explore page  (show the followings posts first)]()
