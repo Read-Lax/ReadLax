@@ -50,4 +50,4 @@ app.*.map.json
 debug.keystore
 
 # Ignore obsidian settings folder
-.obsidian/ 
+.obsidian/

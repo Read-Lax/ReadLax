@@ -7,27 +7,29 @@ import 'package:readlex/Widgets/post_card.dart';
 import 'package:readlex/shared/global.dart';
 import 'package:readmore/readmore.dart';
 
-usersProfile(userUid, context) {
+usersProfile(userUID, context) {
+  String userUid = userUID ??  user!.uid; 
   final Stream<QuerySnapshot> userRef =
       FirebaseFirestore.instance.collection("users").snapshots();
 
   var userData;
 
-  return Scaffold(
-    appBar: AppBar(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      leading: IconButton(
-        color: Theme.of(context).primaryColor,
-        icon: const Icon(
-          Icons.arrow_back_ios_new_outlined,
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-    ),
-    body: StreamBuilder<QuerySnapshot>(
+  return Container(
+    //appBar: AppBar(
+      //backgroundColor: Colors.transparent,
+      //elevation: 0,
+      //leading: IconButton(
+        //color: Theme.of(context).primaryColor,
+        //icon: const Icon(
+         // Icons.arrow_back_ios_new_outlined,
+        //),
+        //onPressed: () {
+          //Navigator.pop(context);
+        //},
+      //),
+    //),
+    //body: 
+    child: StreamBuilder<QuerySnapshot>(
         stream: userRef,
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {

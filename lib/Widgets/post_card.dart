@@ -78,7 +78,7 @@ showPost(snapshotData, context) {
   if (isDeleteButtonEnabled) {
     alertDialogHeight = 190;
   } else {
-    alertDialogHeight = 70;
+    alertDialogHeight = 100;
   }
   bool isRTL(String text) {
     return intl.Bidi.detectRtlDirectionality(text);

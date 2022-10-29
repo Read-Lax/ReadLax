@@ -4,7 +4,6 @@
 // app idea by the devloper(ramsy)'s mother
 
 import 'dart:async';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +15,7 @@ import 'package:readlex/Widgets/loading_indicator.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_background/flutter_background.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 // screens
 import 'package:readlex/screens/explore/explore.dart';
 import 'package:readlex/screens/home/home.dart';
@@ -90,19 +90,22 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   User? user = FirebaseAuth.instance.currentUser;
+  String userId = "";
   late double longtitude = 0.0;
   late double laltitude = 0.0;
   final List _appBarTitle = [
     "Home",
     "Read Quran",
     "Explore",
+    "user Name",
   ];
 
   int _appBarTitleIndex = 0;
   final List _scaffoldBodyContent = [
     HomePageContent(),
     const ReadQuranPage(),
-    const ExplorePage()
+    const ExplorePage(),
+    //usersProfile(null, ext)
   ];
   final Stream<QuerySnapshot> firestoreUserData =
       FirebaseFirestore.instance.collection("users").snapshots();
@@ -148,13 +151,18 @@ class HomePageState extends State<HomePage> {
     _getUserLocation();
     askForPermision();
     askForBackgroundProccesPermission();
+    _scaffoldBodyContent.add(
+      usersProfile(null, context),
+    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     Widget scaffoldBody = _scaffoldBodyContent[_appBarTitleIndex];
-    return Stack(fit: StackFit.expand, children: [
+    return Stack(
+      fit: StackFit.expand, 
+      children: [
       StreamBuilder<QuerySnapshot>(
           stream: firestoreUserData,
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -200,208 +208,66 @@ class HomePageState extends State<HomePage> {
                               MaterialPageRoute(
                                 builder: ((context) => const CreateNewPost()),
                               ),
-                            ); // showDialog(
-                            //     context: context,
-                            //     builder: (_) => createNewPost());
-                          },
+                            );                          },
                           icon: Icon(
                             Icons.add,
                             size: 30.0,
                             color: Theme.of(context).primaryColor,
                           ))
                       : const SizedBox(),
+                  _appBarTitleIndex == 3 
+                      ? Row(
+                        children: [
+                        IconButton(
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => SavedPost().savedPostsPage(data.docs[userIndex]["savedPost"])));
+                        }, 
+                          icon: Icon( 
+                            Icons.add_to_photos_rounded
+                        ),),
+                        IconButton(
+                          onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
+                        }, 
+                          icon: Icon(
+                              Icons.settings
+                      )),
+                    ],
+                  ) : SizedBox(),
                 ],
               ),
-              bottomNavigationBar: NavigationBarTheme(
-                data: NavigationBarThemeData(
-                  // indicatorColor: Colors.teal,
-                  labelTextStyle: MaterialStateProperty.all(const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "VareLaRound",
-                    fontSize: 13,
-                  )),
-                ),
-                child: NavigationBar(
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  animationDuration: const Duration(seconds: 1),
-                  labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-                  height: 53.3,
-                  selectedIndex: _appBarTitleIndex,
-                  onDestinationSelected: (int index) {
-                    setState(() {
-                      _appBarTitleIndex = index;
-                    });
-                  },
-                  destinations: const [
-                    NavigationDestination(
-                      icon: Icon(
-                        Icons.home_filled,
-                        color: Colors.greenAccent,
-                      ),
-                      label: "Home",
-                      tooltip: "Home",
+              bottomNavigationBar : SalomonBottomBar(
+                currentIndex: _appBarTitleIndex,
+                onTap: (newValue) => setState(() => _appBarTitleIndex = newValue),
+                items: [
+                    SalomonBottomBarItem(
+                      icon: Icon(Icons.home),
+                      title: Text("Home"),
+                      selectedColor: Colors.greenAccent,
                     ),
-                    NavigationDestination(
-                      icon: Icon(Icons.chrome_reader_mode_rounded,
-                          color: Colors.greenAccent),
-                      label: "Read Quran",
-                      tooltip: "Read Quran",
+                    SalomonBottomBarItem(
+                      icon: Icon(Icons.chrome_reader_mode_rounded),
+                      title: Text("Read Quran"),
+                      selectedColor: Colors.greenAccent,
                     ),
-                    NavigationDestination(
-                      icon: Icon(Icons.explore_outlined,
-                          color: Colors.greenAccent),
-                      label: "Explore",
-                      tooltip: "Explore",
-                    )
-                  ],
-                ),
-              ),
+                     SalomonBottomBarItem(
+                      icon: Icon(Icons.search),
+                      title: Text("Explore"),
+                      selectedColor: Colors.greenAccent,
+                    ),
+                    SalomonBottomBarItem(
+                      icon: Icon(Icons.account_circle),
+                      title: Text("Profile"),
+                      selectedColor: Colors.greenAccent,
+                    ),
+                ]),  
               body: _appBarTitleIndex == 0
                   ? HomePageContent(
                       lat: laltitude,
                       long: longtitude,
                     )
                   : scaffoldBody,
-              drawer: Drawer(
-                child: Column(
-                  children: [
-                    DrawerHeader(
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            radius: 50.0,
-                            backgroundImage: CachedNetworkImageProvider(
-                              userProfileUrl!,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            userName!,
-                            style: const TextStyle(
-                              fontFamily: "VareLaRound",
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      elevation: 0,
-                      color: Colors.transparent,
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.person_outline_outlined,
-                          size: 25,
-                        ),
-                        title: const Text("Profile",
-                            style: TextStyle(
-                              fontFamily: "VareLaRound",
-                              fontWeight: FontWeight.bold,
-                              // color: Colors.black
-                            )),
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      usersProfile(user!.uid, context)));
-                        },
-                      ),
-                    ),
-                    Card(
-                      elevation: 0,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      color: Colors.transparent,
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.add_to_photos_outlined,
-                          size: 25,
-                        ),
-                        title: const Text("Saved Posts",
-                            style: TextStyle(
-                              fontFamily: "VareLaRound",
-                              fontWeight: FontWeight.bold,
-                              // color: Colors.black
-                            )),
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SavedPost()
-                                      .savedPostsPage(
-                                          data.docs[userIndex]["savedPost"])));
-                        },
-                      ),
-                    ),
-                    Card(
-                      elevation: 0,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      color: Colors.transparent,
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.settings,
-                          size: 25,
-                        ),
-                        title: const Text("Settings",
-                            style: TextStyle(
-                              fontFamily: "VareLaRound",
-                              fontWeight: FontWeight.bold,
-                              // color: Colors.black,
-                            )),
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SettingsPage()));
-                        },
-                      ),
-                    ),
-                    Card(
-                      elevation: 0,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      color: Colors.transparent,
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.logout_outlined,
-                          size: 25,
-                        ),
-                        title: const Text("Sign Out",
-                            style: TextStyle(
-                              fontFamily: "VareLaRound",
-                              fontWeight: FontWeight.bold,
-                              // color: Colors.black,
-                            )),
-                        onTap: () async {
-                          // signing out the user
-                          Navigator.pop(context);
-                          await FirebaseAuth.instance.signOut();
-                          Fluttertoast.showToast(msg: "You Have Signed Out");
-                        },
-                      ),
-                    ),
-                    const Spacer(), // used to fill up all the free space in the Drawer
-                    Text(
-                      "v$currentAppVersion",
-                      style: const TextStyle(
-                        fontFamily: "VareLaRound",
-                        // fontWeight: FontWeight.bold,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            );
+                );
           }),
     ]);
   }
