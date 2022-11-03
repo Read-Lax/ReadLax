@@ -97,7 +97,7 @@ class HomePageState extends State<HomePage> {
     "Home",
     "Read Quran",
     "Explore",
-    "user Name",
+    "",
   ];
 
   int _appBarTitleIndex = 0;
