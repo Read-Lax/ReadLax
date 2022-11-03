@@ -14,7 +14,6 @@ import 'package:provider/provider.dart';
 import 'package:readlex/Widgets/loading_indicator.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:flutter_background/flutter_background.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 // screens
 import 'package:readlex/screens/explore/explore.dart';
@@ -140,17 +139,11 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  // background proccess permission
-  askForBackgroundProccesPermission() async {
-    bool backgroundHasPermission = await FlutterBackground.hasPermissions;
-  }
-
   @override
   void initState() {
     // permissions
     _getUserLocation();
     askForPermision();
-    askForBackgroundProccesPermission();
     _scaffoldBodyContent.add(
       usersProfile(null, context),
     );
