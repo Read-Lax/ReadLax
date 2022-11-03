@@ -50,18 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
               backgroundColor: Colors.transparent,
               radius: 70.0,
             ),
-            const SizedBox(
-              height: 30,
-            ),
-            const Text(
-              "Readlax",
-              style: TextStyle(
-                  fontFamily: "VareLaRound",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 47,
-                  color: Colors.greenAccent),
-            )
-          ],
+           ],
         ),
       ),
     );
