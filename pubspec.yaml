@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   cloud_firestore: ^4.0.4
   firebase_auth: ^4.1.0
-  firebase_core: ^2.1.0
+  firebase_core: ^2.2.0
   fluttertoast: ^8.1.1
   adhan: ^2.0.0-nullsafety.2
   geolocator: ^9.0.2
