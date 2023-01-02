@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:numeral/numeral.dart';
+import 'package:readlex/Widgets/profile_page.dart';
 import 'package:readlex/screens/explore/coments/post_coments.dart';
 import 'package:readlex/screens/explore/functions/delete_post.dart';
 import 'package:readlex/screens/explore/functions/save_post.dart';
@@ -100,7 +101,7 @@ showPost(snapshotData, context) {
                     context,
                     MaterialPageRoute(
                         builder: ((context) =>
-                            usersProfile(postUsersUid!, context))));
+                            ProfilePage(userUID: postUsersUid!))));
               },
               leading: CircleAvatar(
                 backgroundImage: Image.network(postUsersPhotoURL!).image,

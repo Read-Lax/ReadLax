@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,7 +11,6 @@ import 'package:readlex/providers/theme_provider/theme_provider.dart';
 import 'dart:io';
 import 'package:readlex/services/change_user_data.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
-import 'package:readlex/providers/theme_provider/theme_provider.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);

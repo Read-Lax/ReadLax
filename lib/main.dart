@@ -25,7 +25,6 @@ import 'screens/login/login_screen.dart';
 import 'package:readlex/screens/settings/setting.dart';
 import 'package:readlex/screens/splash_screen/splash_screen.dart';
 import 'package:readlex/providers/theme_provider/theme_provider.dart';
-import 'package:readlex/shared/global.dart';
 import 'package:readlex/screens/create_new_post/create_new_post.dart';
 import 'package:readlex/screens/saved_posts/saved_posts.dart';
 
@@ -215,18 +214,18 @@ class HomePageState extends State<HomePage> {
                           onPressed: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context) => SavedPost().savedPostsPage(data.docs[userIndex]["savedPost"])));
                         }, 
-                          icon: Icon( 
+                          icon: const Icon( 
                             Icons.add_to_photos_rounded
                         ),),
                         IconButton(
                           onPressed: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
                         }, 
-                          icon: Icon(
+                          icon: const Icon(
                               Icons.settings
                       )),
                     ],
-                  ) : SizedBox(),
+                  ) : const SizedBox(),
                 ],
               ),
               bottomNavigationBar : SalomonBottomBar(
@@ -234,23 +233,23 @@ class HomePageState extends State<HomePage> {
                 onTap: (newValue) => setState(() => _appBarTitleIndex = newValue),
                 items: [
                     SalomonBottomBarItem(
-                      icon: Icon(Icons.home),
-                      title: Text("Home"),
+                      icon: const Icon(Icons.home),
+                      title: const Text("Home"),
                       selectedColor: Colors.greenAccent,
                     ),
                     SalomonBottomBarItem(
-                      icon: Icon(Icons.chrome_reader_mode_rounded),
-                      title: Text("Read Quran"),
+                      icon: const Icon(Icons.chrome_reader_mode_rounded),
+                      title: const Text("Read Quran"),
                       selectedColor: Colors.greenAccent,
                     ),
                      SalomonBottomBarItem(
-                      icon: Icon(Icons.search),
-                      title: Text("Explore"),
+                      icon: const Icon(Icons.search),
+                      title: const Text("Explore"),
                       selectedColor: Colors.greenAccent,
                     ),
                     SalomonBottomBarItem(
-                      icon: Icon(Icons.account_circle),
-                      title: Text("Profile"),
+                      icon: const Icon(Icons.account_circle),
+                      title: const Text("Profile"),
                       selectedColor: Colors.greenAccent,
                     ),
                 ]),  
