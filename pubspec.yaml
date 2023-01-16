@@ -43,7 +43,7 @@ dependencies:
   slide_digital_clock: ^1.0.2
   firebase_storage: ^11.0.10
   quiver: ^3.2.1
-  audioplayers: ^1.2.0
+  audioplayers: ^2.0.0
   flutter_spinkit: ^5.1.0
   readmore: ^2.2.0
   numeral: ^2.0.1
