@@ -1,6 +1,7 @@
-<h1 align="center"> TODO list for the 1.5.0 update </h1>
 
-# The possible changes that may get implemented (inxa2alah)
+<h2 align="center"> TODO list for the 1.5.0 update </h2>
+
+## Upcoming changes list:
 
 - Improve the UI
 - Core change
