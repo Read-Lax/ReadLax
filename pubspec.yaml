@@ -40,7 +40,7 @@ dependencies:
   fluttertoast: ^8.1.2
   adhan: ^2.0.0-nullsafety.2
   geolocator: ^9.0.2
-  slide_digital_clock: ^1.0.2
+  slide_digital_clock: ^1.0.3
   firebase_storage: ^11.0.10
   quiver: ^3.2.1
   audioplayers: ^2.0.0
