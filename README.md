@@ -46,7 +46,8 @@ with Readlax you can creat khatma and let your friends contribute to it so you c
 <h2>Android ✅ </h2>
 
 
-You can install the latest pre-release apk for Android from [here](https://github.com/Read-Lax/ReadLax/releases)
+Not availble due some bugs and preformance issue, we will be publish a new build v1.0.0 when we are done fixing 
+them :) .
 
 <h2>IOS ❌</h3>
 
