@@ -55,7 +55,7 @@ dependencies:
   cached_network_image: ^3.2.3
   wechat_assets_picker: ^8.4.0
   image_downloader: 
-  firebase_crashlytics: ^3.0.11
+  firebase_crashlytics: ^3.1.1
   hive_flutter: ^1.1.0
   hive: ^2.2.3
   salomon_bottom_bar: ^3.3.1
