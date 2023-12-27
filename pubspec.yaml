@@ -41,7 +41,7 @@ dependencies:
   adhan: ^2.0.0-nullsafety.2
   geolocator: ^10.1.0
   slide_digital_clock: ^1.0.3
-  firebase_storage: ^11.2.6
+  firebase_storage: ^11.5.6
   quiver: ^3.2.1
   audioplayers: ^3.0.1
   flutter_spinkit: ^5.2.0
