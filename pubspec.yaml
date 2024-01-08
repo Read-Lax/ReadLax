@@ -51,7 +51,7 @@ dependencies:
   auto_direction: ^0.0.6
   intl: ^0.17.0
   provider: ^6.1.1
-  permission_handler: ^10.2.0
+  permission_handler: ^11.0.1
   cached_network_image: ^3.2.3
   wechat_assets_picker: ^8.4.3
   image_downloader: 
