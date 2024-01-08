@@ -37,7 +37,7 @@ dependencies:
   cloud_firestore: ^4.9.3
   firebase_auth: ^4.6.0
   firebase_core: ^2.2.0
-  fluttertoast: ^8.2.1
+  fluttertoast: ^8.2.4
   adhan: ^2.0.0-nullsafety.2
   geolocator: ^10.1.0
   slide_digital_clock: ^1.0.3
