@@ -50,7 +50,7 @@ dependencies:
   jiffy: ^6.2.1
   auto_direction: ^0.0.6
   intl: ^0.18.1
-  provider: ^6.1.1
+  provider: ^6.1.2
   permission_handler: ^11.0.1
   cached_network_image: ^3.2.3
   wechat_assets_picker: ^8.4.3
